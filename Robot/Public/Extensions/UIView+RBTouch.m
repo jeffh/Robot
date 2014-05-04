@@ -1,5 +1,5 @@
 #import "UIView+RBTouch.h"
-#import "RBFinger.h"
+#import "RBTouch.h"
 
 
 @implementation UIView (RBTouch)
@@ -11,7 +11,7 @@
 
 - (void)tapAtPoint:(CGPoint)point
 {
-    [RBFinger tapPoint:point inView:self];
+    [RBTouch tapAtPoint:point inView:self];
 }
 
 @end

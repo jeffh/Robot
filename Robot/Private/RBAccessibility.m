@@ -25,9 +25,9 @@
     UIViewController *controller = [self objectSatisfyingPredicate:[NSPredicate predicateWithFormat:@"self isKindOfClass: %@", [UINavigationController class]]
                                                           inObject:[self.window rootViewController]
                                                  recursiveSelector:@selector(childViewControllers)];
-    if (!controller) {
-        [NSException raise:NSInvalidArgumentException format:@"Could not find view controller with navigation controller"];
-    }
+    [self raiseException:NSInvalidArgumentException
+                  reason:@"Could not find view controller with navigation controller"
+           ifObjectIsNil:controller];
     return (UINavigationController *)controller;
 }
 
@@ -43,7 +43,7 @@
                                           inObject:self.window
                                  recursiveSelector:@selector(subviews)];
     [self raiseException:NSInvalidArgumentException
-                  string:[NSString stringWithFormat:@"Could not find view with accessibility label: %@", accessibilityIdentifier]
+                  reason:[NSString stringWithFormat:@"Could not find view with accessibility label: %@", accessibilityIdentifier]
            ifObjectIsNil:view];
     return view;
 }

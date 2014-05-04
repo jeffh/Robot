@@ -63,7 +63,7 @@
 {
     Class keyboardTouchClass = NSClassFromString(@"UIKeyboardSyntheticTouch");
     if (![keyboardTouchClass instancesRespondToSelector:@selector(_setLocationInWindow:resetPrevious:)]) {
-        IMP setLocationAndReset = imp_implementationWithBlock(^(id self, CGPoint point, BOOL reset){ });
+        IMP setLocationAndReset = imp_implementationWithBlock(^(id that, CGPoint point, BOOL reset){ });
         Method m = class_getClassMethod(self, @selector(_setLocationInWindow:resetPrevious:));
         class_addMethod(keyboardTouchClass, @selector(_setLocationInWindow:resetPrevious:), setLocationAndReset, method_getTypeEncoding(m));
     }

@@ -14,21 +14,21 @@
 
 - (void)tapLeftBarButton
 {
-    return [self tapLeftBarButtonIndex:0];
+    return [self tapLeftBarButtonAtIndex:0];
 }
 
 - (void)tapRightBarButton
 {
-    return [self tapRightBarButtonIndex:0];
+    return [self tapRightBarButtonAtIndex:0];
 }
 
-- (void)tapLeftBarButtonIndex:(NSInteger)index
+- (void)tapLeftBarButtonAtIndex:(NSInteger)index
 {
     UIView *subview = [self _currentLeftViews][index];
     [subview tap];
 }
 
-- (void)tapRightBarButtonIndex:(NSInteger)index
+- (void)tapRightBarButtonAtIndex:(NSInteger)index
 {
     UIView *subview = [self _currentRightViews][index];
     [subview tap];
