@@ -9,7 +9,7 @@
 
 /*! Taps on a point of a view.
  *
- *  @param point The point relative to the view to tap on.
+ *  @param point The point relative to the view's parent view to tap on.
  */
 - (void)tapAtPoint:(CGPoint)point;
 

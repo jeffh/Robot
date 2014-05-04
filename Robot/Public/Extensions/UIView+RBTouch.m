@@ -11,7 +11,7 @@
 
 - (void)tapAtPoint:(CGPoint)point
 {
-    [RBTouch tapAtPoint:point inView:self];
+    [RBTouch tapAtPoint:point inView:self.superview];
 }
 
 @end

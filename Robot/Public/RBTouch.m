@@ -40,7 +40,7 @@
 
 + (instancetype)touchAtPoint:(CGPoint)point inView:(UIView *)view phase:(UITouchPhase)phase
 {
-    CGPoint windowPoint = [view.window convertPoint:point fromView:view.superview];
+    CGPoint windowPoint = [view.window convertPoint:point fromView:view];
     return [self touchAtPoint:windowPoint inWindow:view.window phase:phase];
 }
 
