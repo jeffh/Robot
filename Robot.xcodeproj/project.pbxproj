@@ -8,14 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		1F45D7631915E581005271F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
-		1F45D7681915E581005271F1 /* Robot.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F45D7671915E581005271F1 /* Robot.h */; };
-		1F45D76A1915E581005271F1 /* Robot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7691915E581005271F1 /* Robot.m */; };
 		1F45D7711915E581005271F1 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7701915E581005271F1 /* XCTest.framework */; };
 		1F45D7721915E581005271F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
 		1F45D7741915E581005271F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7731915E581005271F1 /* UIKit.framework */; };
 		1F45D7771915E581005271F1 /* libRobot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D75F1915E581005271F1 /* libRobot.a */; };
-		1F45D77D1915E581005271F1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F45D77B1915E581005271F1 /* InfoPlist.strings */; };
-		1F45D77F1915E581005271F1 /* RobotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D77E1915E581005271F1 /* RobotTests.m */; };
+		1F45D7961915E5B9005271F1 /* RBKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D78B1915E5B9005271F1 /* RBKeyboard.m */; };
+		1F45D7971915E5B9005271F1 /* RBTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D78D1915E5B9005271F1 /* RBTimer.m */; };
+		1F45D7991915E5B9005271F1 /* RBAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7911915E5B9005271F1 /* RBAccessibility.m */; };
+		1F45D79A1915E5B9005271F1 /* RBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7931915E5B9005271F1 /* RBAnimation.m */; };
+		1F45D7A01915E5CB005271F1 /* RBDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D79F1915E5CB005271F1 /* RBDriver.m */; };
+		1F45D7A619160EDE005271F1 /* UIView+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A519160EDE005271F1 /* UIView+RBTouch.m */; };
+		1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */; };
+		1F45D7AC19160F7F005271F1 /* RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AB19160F7F005271F1 /* RBTouch.m */; };
+		1F45D7AF19161063005271F1 /* RBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AE19161063005271F1 /* RBConstants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +40,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				1F45D7681915E581005271F1 /* Robot.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,14 +49,28 @@
 		1F45D75F1915E581005271F1 /* libRobot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRobot.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F45D7621915E581005271F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F45D7661915E581005271F1 /* Robot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Robot-Prefix.pch"; sourceTree = "<group>"; };
-		1F45D7671915E581005271F1 /* Robot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Robot.h; sourceTree = "<group>"; };
-		1F45D7691915E581005271F1 /* Robot.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Robot.m; sourceTree = "<group>"; };
 		1F45D76F1915E581005271F1 /* RobotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RobotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F45D7701915E581005271F1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		1F45D7731915E581005271F1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		1F45D77A1915E581005271F1 /* RobotTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RobotTests-Info.plist"; sourceTree = "<group>"; };
-		1F45D77C1915E581005271F1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1F45D77E1915E581005271F1 /* RobotTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RobotTests.m; sourceTree = "<group>"; };
+		1F45D78A1915E5B9005271F1 /* RBKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKeyboard.h; sourceTree = "<group>"; };
+		1F45D78B1915E5B9005271F1 /* RBKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKeyboard.m; sourceTree = "<group>"; };
+		1F45D78C1915E5B9005271F1 /* RBTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTimer.h; sourceTree = "<group>"; };
+		1F45D78D1915E5B9005271F1 /* RBTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimer.m; sourceTree = "<group>"; };
+		1F45D7901915E5B9005271F1 /* RBAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAccessibility.h; sourceTree = "<group>"; };
+		1F45D7911915E5B9005271F1 /* RBAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAccessibility.m; sourceTree = "<group>"; };
+		1F45D7921915E5B9005271F1 /* RBAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAnimation.h; sourceTree = "<group>"; };
+		1F45D7931915E5B9005271F1 /* RBAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAnimation.m; sourceTree = "<group>"; };
+		1F45D79E1915E5CB005271F1 /* RBDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDriver.h; sourceTree = "<group>"; };
+		1F45D79F1915E5CB005271F1 /* RBDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDriver.m; sourceTree = "<group>"; };
+		1F45D7A419160EDE005271F1 /* UIView+RBTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RBTouch.h"; sourceTree = "<group>"; };
+		1F45D7A519160EDE005271F1 /* UIView+RBTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RBTouch.m"; sourceTree = "<group>"; };
+		1F45D7A719160F19005271F1 /* UINavigationBar+RBTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+RBTouch.h"; sourceTree = "<group>"; };
+		1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+RBTouch.m"; sourceTree = "<group>"; };
+		1F45D7AA19160F7F005271F1 /* RBTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTouch.h; sourceTree = "<group>"; };
+		1F45D7AB19160F7F005271F1 /* RBTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTouch.m; sourceTree = "<group>"; };
+		1F45D7AD19161063005271F1 /* RBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBConstants.h; sourceTree = "<group>"; };
+		1F45D7AE19161063005271F1 /* RBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBConstants.m; sourceTree = "<group>"; };
+		1F45D7B019161092005271F1 /* Robot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Robot.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				1F45D7641915E581005271F1 /* Robot */,
-				1F45D7781915E581005271F1 /* RobotTests */,
 				1F45D7611915E581005271F1 /* Frameworks */,
 				1F45D7601915E581005271F1 /* Products */,
 			);
@@ -110,8 +127,8 @@
 		1F45D7641915E581005271F1 /* Robot */ = {
 			isa = PBXGroup;
 			children = (
-				1F45D7671915E581005271F1 /* Robot.h */,
-				1F45D7691915E581005271F1 /* Robot.m */,
+				1F45D7891915E59B005271F1 /* Public */,
+				1F45D7881915E598005271F1 /* Private */,
 				1F45D7651915E581005271F1 /* Supporting Files */,
 			);
 			path = Robot;
@@ -125,22 +142,45 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		1F45D7781915E581005271F1 /* RobotTests */ = {
+		1F45D7881915E598005271F1 /* Private */ = {
 			isa = PBXGroup;
 			children = (
-				1F45D77E1915E581005271F1 /* RobotTests.m */,
-				1F45D7791915E581005271F1 /* Supporting Files */,
+				1F45D7901915E5B9005271F1 /* RBAccessibility.h */,
+				1F45D7911915E5B9005271F1 /* RBAccessibility.m */,
+				1F45D7921915E5B9005271F1 /* RBAnimation.h */,
+				1F45D7931915E5B9005271F1 /* RBAnimation.m */,
+				1F45D78A1915E5B9005271F1 /* RBKeyboard.h */,
+				1F45D78B1915E5B9005271F1 /* RBKeyboard.m */,
+				1F45D78C1915E5B9005271F1 /* RBTimer.h */,
+				1F45D78D1915E5B9005271F1 /* RBTimer.m */,
 			);
-			path = RobotTests;
+			path = Private;
 			sourceTree = "<group>";
 		};
-		1F45D7791915E581005271F1 /* Supporting Files */ = {
+		1F45D7891915E59B005271F1 /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				1F45D77A1915E581005271F1 /* RobotTests-Info.plist */,
-				1F45D77B1915E581005271F1 /* InfoPlist.strings */,
+				1F45D7A219160E4B005271F1 /* Extensions */,
+				1F45D7AD19161063005271F1 /* RBConstants.h */,
+				1F45D7AE19161063005271F1 /* RBConstants.m */,
+				1F45D79E1915E5CB005271F1 /* RBDriver.h */,
+				1F45D79F1915E5CB005271F1 /* RBDriver.m */,
+				1F45D7AA19160F7F005271F1 /* RBTouch.h */,
+				1F45D7AB19160F7F005271F1 /* RBTouch.m */,
+				1F45D7B019161092005271F1 /* Robot.h */,
 			);
-			name = "Supporting Files";
+			path = Public;
+			sourceTree = "<group>";
+		};
+		1F45D7A219160E4B005271F1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1F45D7A719160F19005271F1 /* UINavigationBar+RBTouch.h */,
+				1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */,
+				1F45D7A419160EDE005271F1 /* UIView+RBTouch.h */,
+				1F45D7A519160EDE005271F1 /* UIView+RBTouch.m */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,7 +253,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F45D77D1915E581005271F1 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,7 +263,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F45D76A1915E581005271F1 /* Robot.m in Sources */,
+				1F45D7991915E5B9005271F1 /* RBAccessibility.m in Sources */,
+				1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */,
+				1F45D7A01915E5CB005271F1 /* RBDriver.m in Sources */,
+				1F45D7961915E5B9005271F1 /* RBKeyboard.m in Sources */,
+				1F45D7AF19161063005271F1 /* RBConstants.m in Sources */,
+				1F45D7971915E5B9005271F1 /* RBTimer.m in Sources */,
+				1F45D7AC19160F7F005271F1 /* RBTouch.m in Sources */,
+				1F45D7A619160EDE005271F1 /* UIView+RBTouch.m in Sources */,
+				1F45D79A1915E5B9005271F1 /* RBAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,7 +279,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F45D77F1915E581005271F1 /* RobotTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,17 +291,6 @@
 			targetProxy = 1F45D7751915E581005271F1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		1F45D77B1915E581005271F1 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1F45D77C1915E581005271F1 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1F45D7801915E581005271F1 /* Debug */ = {
