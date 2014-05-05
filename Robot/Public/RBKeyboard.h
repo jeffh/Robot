@@ -15,6 +15,11 @@
 - (void)typeKey:(NSString *)keyCharacter instantly:(BOOL)instantly;
 - (void)typeKeys:(NSArray *)keys instantly:(BOOL)instantly;
 
+// instantly = YES
+- (void)typeString:(NSString *)string;
+- (void)typeKey:(NSString *)keyCharacter;
+- (void)typeKeys:(NSArray *)keys;
+
 @end
 
 /*! A constant that represents the shift key.

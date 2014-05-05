@@ -1,4 +1,5 @@
 #import "RBTouch.h"
+#import "RBTimer.h"
 
 
 @interface UITouch (PrivateAPIs)
