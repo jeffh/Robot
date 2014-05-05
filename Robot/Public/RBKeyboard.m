@@ -120,6 +120,21 @@
     }
 }
 
+- (void)typeString:(NSString *)string
+{
+    [self typeString:string instantly:YES];
+}
+
+- (void)typeKey:(NSString *)key
+{
+    [self typeKey:key instantly:YES];
+}
+
+- (void)typeKeys:(NSArray *)keys
+{
+    [self typeKeys:keys instantly:YES];
+}
+
 - (void)dismiss
 {
     if ([[self allKeyStrings] containsObject:RBKeyDismiss]) {

@@ -12,15 +12,14 @@
 		1F45D7721915E581005271F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
 		1F45D7741915E581005271F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7731915E581005271F1 /* UIKit.framework */; };
 		1F45D7771915E581005271F1 /* libRobot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D75F1915E581005271F1 /* libRobot.a */; };
-		1F45D7961915E5B9005271F1 /* RBKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D78B1915E5B9005271F1 /* RBKeyboard.m */; };
-		1F45D7971915E5B9005271F1 /* RBTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D78D1915E5B9005271F1 /* RBTimer.m */; };
-		1F45D7991915E5B9005271F1 /* RBAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7911915E5B9005271F1 /* RBAccessibility.m */; };
-		1F45D79A1915E5B9005271F1 /* RBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7931915E5B9005271F1 /* RBAnimation.m */; };
-		1F45D7A01915E5CB005271F1 /* RBDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D79F1915E5CB005271F1 /* RBDriver.m */; };
 		1F45D7A619160EDE005271F1 /* UIView+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A519160EDE005271F1 /* UIView+RBTouch.m */; };
 		1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */; };
 		1F45D7AC19160F7F005271F1 /* RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AB19160F7F005271F1 /* RBTouch.m */; };
 		1F45D7AF19161063005271F1 /* RBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AE19161063005271F1 /* RBConstants.m */; };
+		1F45D7C5191647F2005271F1 /* RBAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7BE191647F2005271F1 /* RBAccessibility.m */; };
+		1F45D7C6191647F2005271F1 /* RBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C0191647F2005271F1 /* RBAnimation.m */; };
+		1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C2191647F2005271F1 /* RBKeyboard.m */; };
+		1F45D7C8191647F2005271F1 /* RBTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C4191647F2005271F1 /* RBTimer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,16 +51,6 @@
 		1F45D76F1915E581005271F1 /* RobotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RobotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F45D7701915E581005271F1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		1F45D7731915E581005271F1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		1F45D78A1915E5B9005271F1 /* RBKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKeyboard.h; sourceTree = "<group>"; };
-		1F45D78B1915E5B9005271F1 /* RBKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKeyboard.m; sourceTree = "<group>"; };
-		1F45D78C1915E5B9005271F1 /* RBTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTimer.h; sourceTree = "<group>"; };
-		1F45D78D1915E5B9005271F1 /* RBTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimer.m; sourceTree = "<group>"; };
-		1F45D7901915E5B9005271F1 /* RBAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAccessibility.h; sourceTree = "<group>"; };
-		1F45D7911915E5B9005271F1 /* RBAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAccessibility.m; sourceTree = "<group>"; };
-		1F45D7921915E5B9005271F1 /* RBAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAnimation.h; sourceTree = "<group>"; };
-		1F45D7931915E5B9005271F1 /* RBAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAnimation.m; sourceTree = "<group>"; };
-		1F45D79E1915E5CB005271F1 /* RBDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDriver.h; sourceTree = "<group>"; };
-		1F45D79F1915E5CB005271F1 /* RBDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDriver.m; sourceTree = "<group>"; };
 		1F45D7A419160EDE005271F1 /* UIView+RBTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RBTouch.h"; sourceTree = "<group>"; };
 		1F45D7A519160EDE005271F1 /* UIView+RBTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RBTouch.m"; sourceTree = "<group>"; };
 		1F45D7A719160F19005271F1 /* UINavigationBar+RBTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+RBTouch.h"; sourceTree = "<group>"; };
@@ -71,6 +60,14 @@
 		1F45D7AD19161063005271F1 /* RBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBConstants.h; sourceTree = "<group>"; };
 		1F45D7AE19161063005271F1 /* RBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBConstants.m; sourceTree = "<group>"; };
 		1F45D7B019161092005271F1 /* Robot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Robot.h; sourceTree = "<group>"; };
+		1F45D7BD191647F2005271F1 /* RBAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAccessibility.h; sourceTree = "<group>"; };
+		1F45D7BE191647F2005271F1 /* RBAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAccessibility.m; sourceTree = "<group>"; };
+		1F45D7BF191647F2005271F1 /* RBAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAnimation.h; sourceTree = "<group>"; };
+		1F45D7C0191647F2005271F1 /* RBAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAnimation.m; sourceTree = "<group>"; };
+		1F45D7C1191647F2005271F1 /* RBKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKeyboard.h; sourceTree = "<group>"; };
+		1F45D7C2191647F2005271F1 /* RBKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKeyboard.m; sourceTree = "<group>"; };
+		1F45D7C3191647F2005271F1 /* RBTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTimer.h; sourceTree = "<group>"; };
+		1F45D7C4191647F2005271F1 /* RBTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +125,6 @@
 			isa = PBXGroup;
 			children = (
 				1F45D7891915E59B005271F1 /* Public */,
-				1F45D7881915E598005271F1 /* Private */,
 				1F45D7651915E581005271F1 /* Supporting Files */,
 			);
 			path = Robot;
@@ -142,29 +138,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		1F45D7881915E598005271F1 /* Private */ = {
-			isa = PBXGroup;
-			children = (
-				1F45D7901915E5B9005271F1 /* RBAccessibility.h */,
-				1F45D7911915E5B9005271F1 /* RBAccessibility.m */,
-				1F45D7921915E5B9005271F1 /* RBAnimation.h */,
-				1F45D7931915E5B9005271F1 /* RBAnimation.m */,
-				1F45D78A1915E5B9005271F1 /* RBKeyboard.h */,
-				1F45D78B1915E5B9005271F1 /* RBKeyboard.m */,
-				1F45D78C1915E5B9005271F1 /* RBTimer.h */,
-				1F45D78D1915E5B9005271F1 /* RBTimer.m */,
-			);
-			path = Private;
-			sourceTree = "<group>";
-		};
 		1F45D7891915E59B005271F1 /* Public */ = {
 			isa = PBXGroup;
 			children = (
 				1F45D7A219160E4B005271F1 /* Extensions */,
+				1F45D7BD191647F2005271F1 /* RBAccessibility.h */,
+				1F45D7BE191647F2005271F1 /* RBAccessibility.m */,
+				1F45D7BF191647F2005271F1 /* RBAnimation.h */,
+				1F45D7C0191647F2005271F1 /* RBAnimation.m */,
 				1F45D7AD19161063005271F1 /* RBConstants.h */,
 				1F45D7AE19161063005271F1 /* RBConstants.m */,
-				1F45D79E1915E5CB005271F1 /* RBDriver.h */,
-				1F45D79F1915E5CB005271F1 /* RBDriver.m */,
+				1F45D7C1191647F2005271F1 /* RBKeyboard.h */,
+				1F45D7C2191647F2005271F1 /* RBKeyboard.m */,
+				1F45D7C3191647F2005271F1 /* RBTimer.h */,
+				1F45D7C4191647F2005271F1 /* RBTimer.m */,
 				1F45D7AA19160F7F005271F1 /* RBTouch.h */,
 				1F45D7AB19160F7F005271F1 /* RBTouch.m */,
 				1F45D7B019161092005271F1 /* Robot.h */,
@@ -263,15 +250,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F45D7991915E5B9005271F1 /* RBAccessibility.m in Sources */,
+				1F45D7C6191647F2005271F1 /* RBAnimation.m in Sources */,
+				1F45D7C8191647F2005271F1 /* RBTimer.m in Sources */,
 				1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */,
-				1F45D7A01915E5CB005271F1 /* RBDriver.m in Sources */,
-				1F45D7961915E5B9005271F1 /* RBKeyboard.m in Sources */,
 				1F45D7AF19161063005271F1 /* RBConstants.m in Sources */,
-				1F45D7971915E5B9005271F1 /* RBTimer.m in Sources */,
 				1F45D7AC19160F7F005271F1 /* RBTouch.m in Sources */,
+				1F45D7C5191647F2005271F1 /* RBAccessibility.m in Sources */,
 				1F45D7A619160EDE005271F1 /* UIView+RBTouch.m in Sources */,
-				1F45D79A1915E5B9005271F1 /* RBAnimation.m in Sources */,
+				1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +432,7 @@
 				1F45D7841915E581005271F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1F45D7851915E581005271F1 /* Build configuration list for PBXNativeTarget "RobotTests" */ = {
 			isa = XCConfigurationList;
@@ -454,6 +441,7 @@
 				1F45D7871915E581005271F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
