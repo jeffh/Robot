@@ -1,9 +1,9 @@
 #import "RBConstants.h"
 
 
-const NSString *RBKeyShift = @"Shift";
-const NSString *RBKeyMore = @"More";
-const NSString *RBKeyInternational = @"International";
-const NSString *RBKeyDismiss = @"Dismiss";
-const NSString *RBKeyDictation = @"Dictation";
-const NSString *RBKeyDelete = @"Delete";
+NSString * const RBKeyShift = @"Shift";
+NSString * const RBKeyMore = @"More";
+NSString * const RBKeyInternational = @"International";
+NSString * const RBKeyDismiss = @"Dismiss";
+NSString * const RBKeyDictation = @"Dictation";
+NSString * const RBKeyDelete = @"Delete";

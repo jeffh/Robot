@@ -1,18 +1,25 @@
 #import "RBAccessibility.h"
 #import <objc/message.h>
-#import "RBTimer.h"
-
+#import "RBAnimation.h"
 
 @interface UIView (PrivateAPIs)
 
 - (void)layoutBelowIfNeeded;
+- (NSString *)recursiveDescription;
 
 @end
 
 @interface _UIAlertManager : NSObject
 
-+ (UIAlertView *)visibleAlert;
++ (UIAlertView *)topMostAlert;
++ (void)removeFromStack:(id)arg1;
++ (void)hideAlertsForTermination;
 
+@end
+
+@interface UIAlertView (PrivateAPIs)
++ (UIWindow *)_alertWindow;
+- (void)_removeAlertWindowOrShowAnOldAlert;
 @end
 
 
@@ -35,67 +42,28 @@
     return RBAccessbility__;
 }
 
-- (instancetype)initAndRaiseExceptionsIfCannotFindObjects:(BOOL)shouldRaiseExceptions
++ (void)beforeEach
 {
-    self = [super init];
-    self.shouldRaiseExceptions = shouldRaiseExceptions;
-    return self;
-}
-
-- (instancetype)init
-{
-    return [self initAndRaiseExceptionsIfCannotFindObjects:YES];
-}
-
-- (UINavigationController *)findNavigationControllerInViewController:(UIViewController *)rootViewController
-{
-    NSArray *controllers = [self objectsSatisfyingPredicate:[NSPredicate predicateWithFormat:@"self isKindOfClass: %@", [UINavigationController class]]
-                                                   inObject:rootViewController
-                                          recursiveSelector:@selector(childViewControllers)];
-    [self raiseException:NSInvalidArgumentException
-                  reason:@"Could not find view controller with navigation controller"
-               ifNoMatch:controllers.count];
-    return (UINavigationController *)[controllers firstObject];
-}
-
-- (UINavigationBar *)findNavigationBarInViewController:(UIViewController *)rootViewController
-{
-    return [[self findNavigationControllerInViewController:rootViewController] navigationBar];
-}
-
-- (NSArray *)subviewsInView:(UIView *)view withIdentifier:(NSString *)accessibilityIdentifier
-{
-    return [self subviewsInView:view satisfyingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier = %@", accessibilityIdentifier]];
-}
-
-- (NSArray *)subviewsInView:(UIView *)view withLabel:(NSString *)accessibilityLabel
-{
-    return [self subviewsInView:view satisfyingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel = %@", accessibilityLabel]];
-}
-
-- (NSArray *)subviewsInView:(UIView *)view satisfyingPredicateFormat:(NSString *)format, ...
-{
-    va_list args;
-    va_start(args, format);
-    NSArray *views = [self subviewsInView:view satisfyingPredicateFormat:format arguments:args];
-    va_end(args);
-    return views;
-}
-
-- (NSArray *)subviewsInView:(UIView *)view satisfyingPredicateFormat:(NSString *)format arguments:(va_list)arguments
-{
-    return [self viewsWithPredicate:[NSPredicate predicateWithFormat:format arguments:arguments] inView:view];
+    [NSClassFromString(@"_UIAlertManager") hideAlertsForTermination];
+    [[self sharedInstance] cleanup];
 }
 
 - (NSArray *)subviewsInView:(UIView *)view satisfyingPredicate:(NSPredicate *)predicate
 {
-    NSArray *views = [self objectsSatisfyingPredicate:predicate
-                                             inObject:view
-                                    recursiveSelector:@selector(subviews)];
-    [self raiseException:NSInvalidArgumentException
-                  reason:[NSString stringWithFormat:@"Could not find views with predicate: %@", predicate]
-               ifNoMatch:views.count];
-    return views;
+    [view layoutIfNeeded];
+    [view layoutBelowIfNeeded];
+    return [self objectsSatisfyingPredicate:predicate
+                                   inObject:view
+                          recursiveSelector:@selector(subviews)];
+}
+
+- (NSArray *)subviewsOfViews:(NSArray *)views satisfyingPredicate:(NSPredicate *)predicate
+{
+    NSMutableArray *matchedViews = [NSMutableArray array];
+    for (UIWindow *view in views) {
+        [matchedViews addObjectsFromArray:[self subviewsInView:view satisfyingPredicate:predicate]];
+    }
+    return matchedViews;
 }
 
 - (void)layoutView:(UIView *)view
@@ -103,29 +71,29 @@
     [view layoutBelowIfNeeded];
 }
 
-- (UIAlertView *)visibleAlertView
+- (BOOL)isAlertViewShowing
 {
-    return [NSClassFromString(@"_UIAlertManager") visibleAlert];
+    return [[UIApplication sharedApplication].keyWindow isKindOfClass:NSClassFromString(@"_UIModalItemHostingWindow")];
+}
+
+- (void)cleanup
+{
+    id _UIAlertManager = (id)NSClassFromString(@"_UIAlertManager");
+    UIAlertView *alertView;
+    while ((alertView = [_UIAlertManager topMostAlert])) {
+        alertView.delegate = nil; // should we be doing this or warning users?
+        [_UIAlertManager removeFromStack:alertView];
+    }
+    [[_UIAlertManager topMostAlert] _removeAlertWindowOrShowAnOldAlert];
 }
 
 #pragma mark - Private
 
-- (void)raiseException:(NSString *)exceptionName reason:(NSString *)reason ifNoMatch:(BOOL)hasMatch
-{
-    if (self.shouldRaiseExceptions && !hasMatch) {
-        @throw [NSException exceptionWithName:exceptionName reason:reason userInfo:nil];
-    }
-}
-
 - (NSArray *)viewsWithPredicate:(NSPredicate *)predicate inView:(UIView *)view
 {
-    NSArray *views = [self objectsSatisfyingPredicate:predicate
-                                             inObject:view
-                                    recursiveSelector:@selector(subviews)];
-    [self raiseException:NSInvalidArgumentException
-                  reason:[NSString stringWithFormat:@"Could not find views with predicate: %@", predicate]
-               ifNoMatch:views.count];
-    return views;
+    return [self objectsSatisfyingPredicate:predicate
+                                   inObject:view
+                          recursiveSelector:@selector(subviews)];
 }
 
 - (id)objectsSatisfyingPredicate:(NSPredicate *)predicate inObject:(id)object recursiveSelector:(SEL)selector

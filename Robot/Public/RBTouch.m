@@ -1,5 +1,6 @@
 #import "RBTouch.h"
-#import "RBTimer.h"
+#import "RBKeyboard.h"
+#import "RBAnimation.h"
 
 
 @interface UITouch (PrivateAPIs)
@@ -15,16 +16,30 @@
 
 @end
 
+@interface UIInternalEvent : UIEvent
 
-@interface UITouchesEvent : UIEvent
+- (void)_setTimestamp:(NSTimeInterval)timestamp;
+
+@end
+
+@interface UITouchesEvent : UIInternalEvent
 
 - (void)_addTouch:(UITouch *)touch forDelayedDelivery:(BOOL)delayDelivery;
+- (void)_clearTouches;
+- (void)_invalidateGestureRecognizerForWindowCache;
 
 @end
 
 @interface UIApplication (PrivateAPIs)
 
 - (id)_touchesEvent;
+
+@end
+
+@interface UIWindow (PrivateAPIs)
+
+- (void)_sendTouchesForEvent:(UIEvent *)event;
+- (void)_createSystemGestureGateGestureRecognizerIfNeeded;
 
 @end
 
@@ -39,20 +54,37 @@
     return touch;
 }
 
-+ (instancetype)touchAtPoint:(CGPoint)point inView:(UIView *)view phase:(UITouchPhase)phase
++ (instancetype)touchOnView:(UIView *)view atPoint:(CGPoint)point phase:(UITouchPhase)phase
 {
-    CGPoint windowPoint = [view.window convertPoint:point fromView:view];
+    NSAssert(view.superview, @"Touched view does not have a superview. Needs to be under a visible UIWindow");
+    NSAssert(view.window, @"Touch events require views to be under a visible UIWindow");
+    CGPoint windowPoint = [view.window convertPoint:point fromView:view.superview];
+    NSAssert([view.window hitTest:windowPoint withEvent:nil],
+             @"Attempted to touch an untouchable view at screen point %@:\n"
+             @"\t%@\n"
+             @"\n"
+             @"But instead got:\n"
+             @"\t%@\n"
+             @"\n"
+             @"This can occur because:\n"
+             @" - The view you're trying to touch is hidden\n"
+             @" - The view you're trying to touch is not accepting touches (userInteraction disabled; disabled control, etc.)\n"
+             @" - The UIWindow this view resides in is not the key window and visible; call [window makeKeyAndVisible]\n",
+             NSStringFromCGPoint(windowPoint), view, [view.window hitTest:point withEvent:nil]);
     return [self touchAtPoint:windowPoint inWindow:view.window phase:phase];
 }
 
-+ (void)tapAtPoint:(CGPoint)point inView:(UIView *)view
++ (void)tapOnView:(UIView *)view atPoint:(CGPoint)point
 {
-    RBTouch *touch = [self touchAtPoint:point inView:view phase:UITouchPhaseBegan];
+    RBTouch *touch = [self touchOnView:view atPoint:(CGPoint)point phase:UITouchPhaseBegan];
     [touch updatePhase:UITouchPhaseEnded];
     [touch sendEvent];
 }
 
-- (id)initWithWindowPoint:(CGPoint)windowPoint phase:(UITouchPhase)phase inView:(UIView *)view {
+- (id)initWithWindowPoint:(CGPoint)windowPoint phase:(UITouchPhase)phase inView:(UIView *)view
+{
+    NSAssert(view, @"A view is required to touch");
+    NSAssert(view.window, @"Touch events require views to be under a visible UIWindow");
     self = [super init];
     if (self) {
         [self setPhase:phase];
@@ -83,6 +115,7 @@
 - (void)sendEvent
 {
     UITouchesEvent *event = [[UIApplication sharedApplication] _touchesEvent];
+    [event _setTimestamp:CFAbsoluteTimeGetCurrent()];
     if (![[event allTouches] containsObject:self]) {
         [event _addTouch:self forDelayedDelivery:NO];
     }

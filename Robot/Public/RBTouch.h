@@ -12,8 +12,8 @@
 @interface RBTouch : UITouch
 
 + (instancetype)touchAtPoint:(CGPoint)point inWindow:(UIWindow *)window phase:(UITouchPhase)phase;
-+ (instancetype)touchAtPoint:(CGPoint)point inView:(UIView *)view phase:(UITouchPhase)phase;
-+ (void)tapAtPoint:(CGPoint)point inView:(UIView *)view;
++ (instancetype)touchOnView:(UIView *)view atPoint:(CGPoint)point phase:(UITouchPhase)phase;
++ (void)tapOnView:(UIView *)view atPoint:(CGPoint)point;
 
 /*! Creates a UITouch-compatible object that can be updated, unlike the read-only parent class.
  *

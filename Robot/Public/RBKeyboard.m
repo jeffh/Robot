@@ -1,5 +1,4 @@
 #import "RBKeyboard.h"
-#import "RBTimer.h"
 #import <objc/runtime.h>
 
 
@@ -13,9 +12,14 @@
 + (BOOL)isOnScreen;
 + (BOOL)splitKeyboardEnabled;
 
+- (id)initWithDefaultSize;
+
 - (id)_typeCharacter:(id)arg1 withError:(CGPoint)arg2 shouldTypeVariants:(BOOL)arg3 baseKeyForVariants:(BOOL)arg4;
 - (BOOL)typingEnabled;
 - (BOOL)canDismiss;
+- (void)deactivate;
+- (BOOL)isActive;
+- (void)activate;
 
 @end
 
@@ -36,6 +40,7 @@
 - (void)setSplitProgress:(double)progress;
 
 @property(readonly) UIKeyboardTaskQueue * taskQueue;
+@property(nonatomic) id geometryDelegate;
 
 @end
 
@@ -48,13 +53,6 @@
 
 @end
 /////////////////////////// END Private APIs /////////////////////////
-
-
-@interface RBKeyboard ()
-
-@property (nonatomic) RBTimer *timer;
-
-@end
 
 
 @implementation RBKeyboard
@@ -74,72 +72,45 @@
     static RBKeyboard *RBKeyboard__;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        RBKeyboard__ = [[RBKeyboard alloc] initWithTimer:[RBTimer defaultTimer]];
+        RBKeyboard__ = [[RBKeyboard alloc] init];
     });
     return RBKeyboard__;
 }
 
-- (instancetype)initWithTimer:(RBTimer *)timer
-{
-    self = [super init];
-    self.timer = timer;
-    return self;
-}
-
-- (void)waitForKeyboardToBeOnScreen
-{
-    [self.timer waitOrFailForName:@"keyboard to be on screen"
-                   forAtMostTime:1
-                           block:^BOOL{ return [self isOnScreen]; }];
-}
-
-- (void)typeString:(NSString *)string instantly:(BOOL)instantly
-{
-    NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type.");
-    for (NSInteger i=0; i<string.length; i++) {
-        NSString *character = [string substringWithRange:NSMakeRange(i, 1)];
-        [self typeCharacter:character instantly:instantly];
-    }
-}
-
-- (void)typeKey:(NSString *)key instantly:(BOOL)instantly
-{
-    NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type.");
-    [self typeCharacter:key instantly:instantly];
-}
-
-- (void)typeKeys:(NSArray *)keys instantly:(BOOL)instantly
-{
-    NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type.");
-    for (NSString *key in keys) {
-        if ([self isKnownSpecialKey:key]) {
-            [self typeCharacter:key instantly:instantly];
-        } else {
-            [self typeString:key instantly:instantly];
-        }
-    }
-}
-
 - (void)typeString:(NSString *)string
 {
-    [self typeString:string instantly:YES];
+    NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type. Did you forget to add the views into a UIWindow?");
+    for (NSInteger i=0; i<string.length; i++) {
+        NSString *character = [string substringWithRange:NSMakeRange(i, 1)];
+        [self typeCharacter:character];
+    }
 }
 
 - (void)typeKey:(NSString *)key
 {
-    [self typeKey:key instantly:YES];
+    NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type. Did you forget to add the views into a UIWindow?");
+    [self typeCharacter:key];
 }
 
 - (void)typeKeys:(NSArray *)keys
 {
-    [self typeKeys:keys instantly:YES];
+    NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type. Did you forget to add the views into a UIWindow?");
+    for (NSString *key in keys) {
+        if ([self isKnownSpecialKey:key]) {
+            [self typeCharacter:key];
+        } else {
+            [self typeString:key];
+        }
+    }
 }
 
-- (void)dismiss
+- (BOOL)dismiss
 {
-    if ([[self allKeyStrings] containsObject:RBKeyDismiss]) {
-        [[self activeKeyboardImpl] dismissKeyboard];
+    BOOL dismissed = NO;
+    if ((dismissed = [[self allKeyStrings] containsObject:RBKeyDismiss])) {
+        [self typeKey:RBKeyDismiss];
     }
+    return dismissed;
 }
 
 #pragma mark - Private
@@ -159,15 +130,10 @@
     return [[self activeKeyboard] typingEnabled];
 }
 
-- (void)typeCharacter:(NSString *)character instantly:(BOOL)instantly
+- (void)typeCharacter:(NSString *)character
 {
     [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
-    // The keyboard performs operations asynchronously, so race conditions can occur if doing stuff too quickly
-    if (instantly) {
-        [[[self activeKeyboardImpl] taskQueue] waitUntilAllTasksAreFinished];
-    } else {
-        [self.timer waitForTime:0.17];
-    }
+    [[[self activeKeyboardImpl] taskQueue] waitUntilAllTasksAreFinished];
 }
 
 - (BOOL)isKnownSpecialKey:(NSString *)key
