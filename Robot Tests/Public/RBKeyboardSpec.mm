@@ -3,17 +3,6 @@
 #import "UIView+RBTouch.h"
 #import "RBAnimation.h"
 
-@interface NSInvocation (Debug)
-- (NSString *)selectorString;
-@end
-
-@implementation NSInvocation (Debug)
-
-- (NSString *)selectorString {
-    return NSStringFromSelector(self.selector);
-}
-
-@end
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -53,7 +42,7 @@ describe(@"RBKeyboard", ^{
 
     describe(@"typing in a text field", ^{
         beforeEach(^{
-            [controller.textField tap];
+            tapOn(controller.textField);
         });
 
         it(@"should tell the delegate", ^{
@@ -85,31 +74,14 @@ describe(@"RBKeyboard", ^{
     });
 
     describe(@"dismissing a keyboard", ^{
-        __block BOOL result;
-
         beforeEach(^{
-            [controller.textField tap];
-            result = [[RBKeyboard mainKeyboard] dismiss];
+            tapOn(controller.textField);
+            [[RBKeyboard mainKeyboard] dismiss];
         });
 
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-            it(@"should return NO to indicate the keyboard was not dismissed", ^{
-                result should be_falsy;
-            });
-
-            it(@"should not dismiss", ^{
-                [[RBKeyboard mainKeyboard] typeString:@"LOL"];
-                controller.textField.text should equal(@"LOL");
-            });
-        } else {
-            it(@"should return YES to indicate the keyboard was dismissed", ^{
-                result should be_truthy;
-            });
-
-            it(@"should tell the delegate", ^{
-                textDelegate should have_received(@selector(textFieldDidEndEditing:));
-            });
-        }
+        it(@"should tell the delegate", ^{
+            textDelegate should have_received(@selector(textFieldDidEndEditing:));
+        });
     });
 });
 

@@ -9,7 +9,7 @@
     [UIView setAnimationsEnabled:NO];
     {
         // this UIView transaction will finish after all animation completion callbacks fire
-        [UIView beginAnimations:@"com.jeffhui.robot.animationless" context:0];
+        [UIView beginAnimations:@"net.jeffhui.robot.animationless" context:0];
         {
             [UIView setAnimationDelegate:self];
             [UIView setAnimationDidStopSelector:@selector(cycleRunLoop)];
@@ -34,8 +34,6 @@
 + (void)cycleRunLoop
 {
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate date]];
-//    [[NSRunLoop mainRunLoop] runMode:NSRunLoopCommonModes beforeDate:[NSDate date]];
-//    [[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate date]];
 }
 
 @end

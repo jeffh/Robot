@@ -133,13 +133,11 @@
     }
 }
 
-- (BOOL)dismiss
+- (void)dismiss
 {
-    BOOL dismissed = NO;
-    if ((dismissed = [[self allKeyStrings] containsObject:RBKeyDismiss])) {
-        [self typeKey:RBKeyDismiss];
-    }
-    return dismissed;
+    [RBAnimation disableAnimationsInBlock:^{
+        [[self activeKeyboardImpl] dismissKeyboard];
+    }];
 }
 
 #pragma mark - Private

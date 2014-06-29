@@ -10,8 +10,7 @@
 - (void)typeString:(NSString *)string;
 - (void)typeKey:(NSString *)keyCharacter;
 - (void)typeKeys:(NSArray *)keys;
-
-- (BOOL)dismiss;
+- (void)dismiss;
 
 @end
 

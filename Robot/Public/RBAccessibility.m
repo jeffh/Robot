@@ -27,9 +27,6 @@
 + (NSArray *)_currentFullScreenAlertPresenters;
 + (void)_removePresenter:(id)presenter;
 - (void)_dismissAlertControllerAnimated:(BOOL)animated completion:(void(^)())block;
-
-- (/*UIAlertViewController*/UIViewController *)alertController;
-
 @end
 
 
@@ -85,7 +82,8 @@
 - (BOOL)isAlertViewShowing
 {
     if (NSClassFromString(@"_UIAlertControllerShimPresenter")) { // iOS 8+
-        return !![[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] window];
+        UIWindow *window = [[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] window];
+        return window != nil;
     } else {
         UIWindow *window = [UIApplication sharedApplication].keyWindow;
         return [window isKindOfClass:NSClassFromString(@"_UIModalItemHostingWindow")] && [NSClassFromString(@"_UIAlertManager") topMostAlert];
@@ -108,7 +106,6 @@
     while ([_UIAlertControllerShimPresenter _currentFullScreenAlertPresenters].count) {
         id lastPresenter = [[_UIAlertControllerShimPresenter _currentFullScreenAlertPresenters] lastObject];
         [_UIAlertControllerShimPresenter _removePresenter:lastPresenter];
-        [[lastPresenter alertController] dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
