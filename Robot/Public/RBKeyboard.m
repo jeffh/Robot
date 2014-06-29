@@ -162,23 +162,29 @@
 - (void)typeCharacter:(NSString *)character
 {
     // does not work in iOS 8+
-//    [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
+    if ([[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] firstObject] integerValue] < 8) {
+        [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
+        [[[self activeKeyboardImpl] taskQueue] waitUntilAllTasksAreFinished];
+    } else {
+        UIKeyboardImpl *impl = [self activeKeyboardImpl];
+        [impl _setNeedsCandidates:YES];
 
-    UIKeyboardImpl *impl = [self activeKeyboardImpl];
-    [impl _setNeedsCandidates:YES];
+        UIKeyboardLayoutStar *layout = [impl _layout];
+        UIKBTree *key = [layout baseKeyForString:character];
+        [layout changeToKeyplane:[[impl _layout] keyplaneForKey:key]];
+        CGRect frame = key.frame;
+        CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
+        CGPoint windowPoint = [layout convertPoint:keyCenter toView:nil];
 
-    UIKeyboardLayoutStar *layout = [impl _layout];
-    UIKBTree *key = [layout baseKeyForString:character];
-    [layout changeToKeyplane:[[impl _layout] keyplaneForKey:key]];
-    CGRect frame = key.frame;
-    CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
-    CGPoint windowPoint = [layout convertPoint:keyCenter toView:nil];
+        RBTouch *touch = [RBTouch touchAtPoint:windowPoint inWindow:layout.window phase:UITouchPhaseBegan];
+        [touch updatePhase:UITouchPhaseEnded];
+        [touch sendEvent];
 
-    RBTouch *touch = [RBTouch touchAtPoint:windowPoint inWindow:layout.window phase:UITouchPhaseBegan];
-    [touch updatePhase:UITouchPhaseEnded];
-    [touch sendEvent];
-
-    [[impl taskQueue] waitUntilAllTasksAreFinished];
+        [[layout taskQueue] waitUntilAllTasksAreFinished];
+        [[impl taskQueue] waitUntilAllTasksAreFinished];
+        // if we don't do this, the keyboard daemon gets overwhelmed.
+        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate date]];
+    }
 }
 
 - (BOOL)isKnownSpecialKey:(NSString *)key
