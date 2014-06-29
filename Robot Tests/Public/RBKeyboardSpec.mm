@@ -3,6 +3,18 @@
 #import "UIView+RBTouch.h"
 #import "RBAnimation.h"
 
+@interface NSInvocation (Debug)
+- (NSString *)selectorString;
+@end
+
+@implementation NSInvocation (Debug)
+
+- (NSString *)selectorString {
+    return NSStringFromSelector(self.selector);
+}
+
+@end
+
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
@@ -51,6 +63,7 @@ describe(@"RBKeyboard", ^{
         context(@"vanilla keyboard settings", ^{
             it(@"should accept keyboard input", ^{
                 [[RBKeyboard mainKeyboard] typeString:@"hello world!"];
+                [[NSRunLoop mainRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:3]];
                 controller.textField.text should equal(@"hello world!");
             });
 

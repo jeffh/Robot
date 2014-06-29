@@ -27,10 +27,10 @@ describe(@"RBAccessibility", ^{
 
         beforeEach(^{
             alertDelegate = nice_fake_for(@protocol(UIAlertViewDelegate));
-            firstAlert = [[UIAlertView alloc] initWithTitle:@"First" message:@"message" delegate:alertDelegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-            secondAlert = [[UIAlertView alloc] initWithTitle:@"Second" message:@"message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-
             [RBAnimation disableAnimationsInBlock:^{
+                firstAlert = [[UIAlertView alloc] initWithTitle:@"First" message:@"message" delegate:alertDelegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+                secondAlert = [[UIAlertView alloc] initWithTitle:@"Second" message:@"message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+
                 [firstAlert show];
             }];
         });
@@ -46,21 +46,22 @@ describe(@"RBAccessibility", ^{
 
             it(@"should call the delegate", ^{
                 alertDelegate should have_received(@selector(willPresentAlertView:)).with(firstAlert);
-                alertDelegate should have_received(@selector(alertViewShouldEnableFirstOtherButton:)).with(firstAlert);
                 alertDelegate should have_received(@selector(alertView:clickedButtonAtIndex:)).with(firstAlert, 0);
                 alertDelegate should have_received(@selector(didPresentAlertView:)).with(firstAlert);
                 alertDelegate should have_received(@selector(alertView:willDismissWithButtonIndex:)).with(firstAlert, 0);
                 alertDelegate should have_received(@selector(alertView:didDismissWithButtonIndex:)).with(firstAlert, 0);
             });
 
-            it(@"should return nil", ^{
-                [accessibility isAlertViewShowing] should be_truthy;
+            it(@"should hide the alert view", ^{
+                [accessibility isAlertViewShowing] should be_falsy;
             });
         });
 
         context(@"displaying another alert view", ^{
             beforeEach(^{
-                [secondAlert show];
+                [RBAnimation disableAnimationsInBlock:^{
+                    [secondAlert show];
+                }];
             });
 
             it(@"should find the most recently shown alert view", ^{
@@ -83,8 +84,8 @@ describe(@"RBAccessibility", ^{
                     tapOn(theFirstView(withLabel(@"Cancel")));
                 });
 
-                it(@"should return nil", ^{
-                    [accessibility isAlertViewShowing] should be_truthy;
+                it(@"should know that no alert views are visible", ^{
+                    [accessibility isAlertViewShowing] should be_falsy;
                 });
             });
         });

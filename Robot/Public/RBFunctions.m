@@ -4,17 +4,26 @@
 #import "NSObject+RBKVCUndefined.h"
 #import "RBAnimation.h"
 
+@interface NSObject (PrivateAPIs) // _UIAlertControllerShimPresenter
+- (NSArray *)_currentFullScreenAlertPresenters;
+@end
+
+
 RB_EXPORT NSArray *allViews(void) {
     return allViews([NSPredicate predicateWithValue:YES]);
 }
 
 RB_EXPORT NSArray *allViews(NSPredicate *predicate) {
-    NSMutableArray *scopedViews = [NSMutableArray array];
-//    if ([[RBAccessibility sharedInstance] visibleAlertWindow]) {
-//        [scopedViews addObject:[[RBAccessibility sharedInstance] visibleAlertWindow]];
-//    }
-    [scopedViews addObject:[UIApplication sharedApplication].keyWindow];
-    return allViews(predicate, scopedViews);
+    NSMutableArray *viewsToSearch = [NSMutableArray array];
+    UIWindow *modalWindow = [[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] window];
+    if (modalWindow) {
+        [viewsToSearch addObject:modalWindow];
+    }
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    if (keyWindow) {
+        [viewsToSearch addObject:keyWindow];
+    }
+    return allViews(predicate, viewsToSearch);
 }
 
 RB_EXPORT NSArray *allViews(NSPredicate *predicate, NSArray *viewsToSearch) {

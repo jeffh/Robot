@@ -1,4 +1,6 @@
 #import "RBKeyboard.h"
+#import "RBTouch.h"
+#import "RBAnimation.h"
 #import <objc/runtime.h>
 
 
@@ -23,14 +25,38 @@
 
 @end
 
-
 @interface UIKeyboardTaskQueue : NSObject
 
 - (void)waitUntilAllTasksAreFinished;
-- (void)continueExecutionOnMainThread;
 
 @end
 
+@interface UIKBTree : NSObject
+- (CGRect)frame;
+- (NSString *)representedString;
+- (BOOL)visible;
+@end
+
+@interface UIKBKeyplaneView : UIView
+- (NSArray *)keys;
+@end
+
+@interface UIKeyboardLayout : UIView
+
+@end
+
+@interface UIKeyboardLayoutStar : UIKeyboardLayout
+
+- (void)changeToKeyplane:(id)keyplane;
+- (id)keyplaneForKey:(UIKBTree *)key;
+- (UIKBTree *)baseKeyForString:(NSString *)character;
+- (UIKBKeyplaneView *)currentKeyplaneView;
+
+- (UIKBTree *)keyHitTestContainingPoint:(CGPoint)point;
+
+@property(readonly) UIKeyboardTaskQueue * taskQueue;
+
+@end
 
 @interface UIKeyboardImpl : UIView
 
@@ -38,6 +64,9 @@
 - (void)dismissKeyboard;
 - (void)cancelSplitTransition;
 - (void)setSplitProgress:(double)progress;
+- (void)_setNeedsCandidates:(BOOL)needsCandidates;
+
+- (UIKeyboardLayoutStar *)_layout;
 
 @property(readonly) UIKeyboardTaskQueue * taskQueue;
 @property(nonatomic) id geometryDelegate;
@@ -62,8 +91,8 @@
     Class keyboardTouchClass = NSClassFromString(@"UIKeyboardSyntheticTouch");
     if (![keyboardTouchClass instancesRespondToSelector:@selector(_setLocationInWindow:resetPrevious:)]) {
         IMP setLocationAndReset = imp_implementationWithBlock(^(id that, CGPoint point, BOOL reset){ });
-        Method m = class_getClassMethod(self, @selector(_setLocationInWindow:resetPrevious:));
-        class_addMethod(keyboardTouchClass, @selector(_setLocationInWindow:resetPrevious:), setLocationAndReset, method_getTypeEncoding(m));
+        Method setLocationMethod = class_getClassMethod(self, @selector(_setLocationInWindow:resetPrevious:));
+        class_addMethod(keyboardTouchClass, @selector(_setLocationInWindow:resetPrevious:), setLocationAndReset, method_getTypeEncoding(setLocationMethod));
     }
 }
 
@@ -132,8 +161,24 @@
 
 - (void)typeCharacter:(NSString *)character
 {
-    [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
-    [[[self activeKeyboardImpl] taskQueue] waitUntilAllTasksAreFinished];
+    // does not work in iOS 8+
+//    [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
+
+    UIKeyboardImpl *impl = [self activeKeyboardImpl];
+    [impl _setNeedsCandidates:YES];
+
+    UIKeyboardLayoutStar *layout = [impl _layout];
+    UIKBTree *key = [layout baseKeyForString:character];
+    [layout changeToKeyplane:[[impl _layout] keyplaneForKey:key]];
+    CGRect frame = key.frame;
+    CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
+    CGPoint windowPoint = [layout convertPoint:keyCenter toView:nil];
+
+    RBTouch *touch = [RBTouch touchAtPoint:windowPoint inWindow:layout.window phase:UITouchPhaseBegan];
+    [touch updatePhase:UITouchPhaseEnded];
+    [touch sendEvent];
+
+    [[impl taskQueue] waitUntilAllTasksAreFinished];
 }
 
 - (BOOL)isKnownSpecialKey:(NSString *)key

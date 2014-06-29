@@ -23,6 +23,16 @@
 @end
 
 
+@interface _UIAlertControllerShimPresenter : NSObject // iOS 8+
++ (NSArray *)_currentFullScreenAlertPresenters;
++ (void)_removePresenter:(id)presenter;
+- (void)_dismissAlertControllerAnimated:(BOOL)animated completion:(void(^)())block;
+
+- (UIAlertController *)alertController;
+
+@end
+
+
 @interface RBAccessibility ()
 
 @property (nonatomic) BOOL shouldRaiseExceptions;
@@ -44,6 +54,7 @@
 
 + (void)beforeEach
 {
+    CFPreferencesSetAppValue((CFStringRef)@"UIAutomationEnabled", kCFBooleanTrue, (CFStringRef)@"com.apple.UIAutomation");
     [NSClassFromString(@"_UIAlertManager") hideAlertsForTermination];
     [[self sharedInstance] cleanup];
 }
@@ -73,18 +84,31 @@
 
 - (BOOL)isAlertViewShowing
 {
-    return [[UIApplication sharedApplication].keyWindow isKindOfClass:NSClassFromString(@"_UIModalItemHostingWindow")];
+    if (NSClassFromString(@"_UIAlertControllerShimPresenter")) { // iOS 8+
+        return [[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] window];
+    } else {
+        return [[UIApplication sharedApplication].keyWindow isKindOfClass:NSClassFromString(@"_UIModalItemHostingWindow")];
+    }
 }
 
 - (void)cleanup
 {
-    id _UIAlertManager = (id)NSClassFromString(@"_UIAlertManager");
-    UIAlertView *alertView;
-    while ((alertView = [_UIAlertManager topMostAlert])) {
-        alertView.delegate = nil; // should we be doing this or warning users?
-        [_UIAlertManager removeFromStack:alertView];
+    [RBAnimation disableAnimationsInBlock:^{
+        id _UIAlertManager = (id)NSClassFromString(@"_UIAlertManager");
+        UIAlertView *alertView;
+        while ((alertView = [_UIAlertManager topMostAlert])) {
+            alertView.delegate = nil; // should we be doing this or warning users?
+            [_UIAlertManager removeFromStack:alertView];
+        }
+        [[_UIAlertManager topMostAlert] _removeAlertWindowOrShowAnOldAlert];
+    }];
+
+    id _UIAlertControllerShimPresenter = (id)NSClassFromString(@"_UIAlertControllerShimPresenter");
+    while ([_UIAlertControllerShimPresenter _currentFullScreenAlertPresenters].count) {
+        id lastPresenter = [[_UIAlertControllerShimPresenter _currentFullScreenAlertPresenters] lastObject];
+        [_UIAlertControllerShimPresenter _removePresenter:lastPresenter];
+        [[lastPresenter alertController] dismissViewControllerAnimated:NO completion:nil];
     }
-    [[_UIAlertManager topMostAlert] _removeAlertWindowOrShowAnOldAlert];
 }
 
 #pragma mark - Private
