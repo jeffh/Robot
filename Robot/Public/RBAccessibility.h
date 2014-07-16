@@ -11,6 +11,8 @@
 
 - (NSArray *)subviewsOfViews:(NSArray *)views satisfyingPredicate:(NSPredicate *)predicate;
 
+- (NSArray *)windows;
+
 - (void)layoutView:(UIView *)view;
 - (BOOL)isAlertViewShowing;
 

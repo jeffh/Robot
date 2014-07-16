@@ -14,16 +14,7 @@ RB_EXPORT NSArray *allViews(void) {
 }
 
 RB_EXPORT NSArray *allViews(NSPredicate *predicate) {
-    NSMutableArray *viewsToSearch = [NSMutableArray array];
-    UIWindow *modalWindow = [[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] window];
-    if (modalWindow) {
-        [viewsToSearch addObject:modalWindow];
-    }
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    if (keyWindow) {
-        [viewsToSearch addObject:keyWindow];
-    }
-    return allViews(predicate, viewsToSearch);
+    return allViews(predicate, [[RBAccessibility sharedInstance] windows]);
 }
 
 RB_EXPORT NSArray *allViews(NSPredicate *predicate, NSArray *viewsToSearch) {

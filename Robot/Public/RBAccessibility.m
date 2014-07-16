@@ -26,7 +26,9 @@
 @interface _UIAlertControllerShimPresenter : NSObject // iOS 8+
 + (NSArray *)_currentFullScreenAlertPresenters;
 + (void)_removePresenter:(id)presenter;
+- (void)_presentAlertControllerAnimated:(BOOL)animated completion:(void(^)())block;
 - (void)_dismissAlertControllerAnimated:(BOOL)animated completion:(void(^)())block;
+- (UIAlertController *)alertController;
 @end
 
 
@@ -51,8 +53,6 @@
 
 + (void)beforeEach
 {
-    CFPreferencesSetAppValue((CFStringRef)@"UIAutomationEnabled", kCFBooleanTrue, (CFStringRef)@"com.apple.UIAutomation");
-    [NSClassFromString(@"_UIAlertManager") hideAlertsForTermination];
     [[self sharedInstance] cleanup];
 }
 
@@ -72,6 +72,21 @@
         [matchedViews addObjectsFromArray:[self subviewsInView:view satisfyingPredicate:predicate]];
     }
     return matchedViews;
+}
+
+- (NSArray *)windows
+{
+    NSMutableArray *viewsToSearch = [NSMutableArray array];
+    UIWindow *modalWindow = [[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] window];
+    if (modalWindow) {
+        [viewsToSearch addObject:modalWindow];
+    }
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    if (keyWindow) {
+        [viewsToSearch addObject:keyWindow];
+    }
+
+    return viewsToSearch;
 }
 
 - (void)layoutView:(UIView *)view
