@@ -1,12 +1,8 @@
-#import "RBFunctions.h"
+#import "RBDSL.h"
 #import "RBAccessibility.h"
 #import "RBTouch.h"
 #import "NSObject+RBKVCUndefined.h"
 #import "RBAnimation.h"
-
-@interface NSObject (PrivateAPIs) // _UIAlertControllerShimPresenter
-- (NSArray *)_currentFullScreenAlertPresenters;
-@end
 
 
 RB_EXPORT NSArray *allViews(void) {
@@ -104,13 +100,6 @@ RB_EXPORT void tapOn(id view) {
     tapOn(view, [view center]);
 }
 
-RB_EXPORT void tapOn(NSArray *views) {
-    NSCAssert(views.count, @"No views where given to be tapped on");
-    tapOn(views, ^CGPoint(UIView *view) {
-        return view.center;
-    });
-}
-
 RB_EXPORT void tapOn(id view, CGPoint pointRelativeToView) {
     NSCAssert(view, @"A view wasn't given to be tapped on");
     [RBAnimation disableAnimationsInBlock:^{
@@ -118,11 +107,71 @@ RB_EXPORT void tapOn(id view, CGPoint pointRelativeToView) {
     }];
 }
 
-RB_EXPORT void tapOn(NSArray *views, CGPoint (^pointForView)(UIView *view)) {
-    NSCAssert(views.count, @"No views where given to be tapped on");
-    for (UIView *view in views) {
-        [RBAnimation disableAnimationsInBlock:^{
-            [RBTouch tapOnView:view atPoint:pointForView(view)];
-        }];
+RB_EXPORT void touchAndMove(id view, CGPoint *points, NSUInteger numOfPoints) {
+    NSCAssert(view, @"A view wasn't given to be tapped on");
+    NSCAssert(numOfPoints, @"Expected at least 1 point");
+    __block RBTouch *touch;
+    [RBAnimation disableAnimationsInBlock:^{
+        touch = [RBTouch touchOnView:view atPoint:points[0] phase:UITouchPhaseBegan];
+    }];
+    for (NSUInteger i = 1; i < numOfPoints; i++) {
+        [touch updateRelativePoint:points[i]];
+        [touch updatePhase:(i + 1 == numOfPoints ? UITouchPhaseEnded : UITouchPhaseMoved)];
+        [touch sendEvent];
     }
+}
+
+RB_EXPORT void touchAndMoveLinearly(id view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints) {
+    NSUInteger numPoints = numOfIntermediatePoints + 2;
+    CGPoint delta = CGPointMake((end.x - start.x) / numPoints,
+                                (end.y - start.y) / numPoints);
+    CGPoint *points = alloca(numPoints * sizeof(CGPoint));
+    points[0] = start;
+    for (NSUInteger i = 1; i < numPoints - 1; i++) {
+        points[i] = CGPointMake(points[i-1].x + delta.x, points[i-1].y + delta.y);
+    }
+    points[numPoints - 1] = end;
+    touchAndMove(view, points, numPoints);
+}
+
+RB_EXPORT void touchAndMoveLinearlyAroundPoint(id view, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints) {
+    CGPoint start = CGPointMake(center.x - delta.x, center.y - delta.y);
+    CGPoint end = CGPointMake(center.x + delta.x, center.y + delta.y);
+    touchAndMoveLinearly(view, start, end, numOfIntermediatePoints);
+}
+
+RB_EXPORT void touchAndMoveLinearlyFromCenter(id view, CGPoint delta, NSUInteger numOfIntermediatePoints) {
+    touchAndMoveLinearlyAroundPoint(view, [view center], delta, numOfIntermediatePoints);
+}
+
+RB_EXPORT void swipeLeftOn(id view, CGFloat swipeWidth) {
+    touchAndMoveLinearlyFromCenter(view, CGPointMake(-swipeWidth / 2, 0), 5);
+}
+
+RB_EXPORT void swipeRightOn(id view, CGFloat swipeWidth) {
+    touchAndMoveLinearlyFromCenter(view, CGPointMake(swipeWidth / 2, 0), 5);
+}
+
+RB_EXPORT void swipeUpOn(id view, CGFloat swipeHeight) {
+    touchAndMoveLinearlyFromCenter(view, CGPointMake(0, -swipeHeight / 2), 5);
+}
+
+RB_EXPORT void swipeDownOn(id view, CGFloat swipeHeight) {
+    touchAndMoveLinearlyFromCenter(view, CGPointMake(0, swipeHeight), 5);
+}
+
+RB_EXPORT void swipeLeftOn(id view) {
+    swipeLeftOn(view, CGRectGetWidth([view bounds]) / 2);
+}
+
+RB_EXPORT void swipeRightOn(id view) {
+    swipeRightOn(view, CGRectGetWidth([view bounds]) / 2);
+}
+
+RB_EXPORT void swipeUpOn(id view) {
+    swipeUpOn(view, CGRectGetHeight([view bounds]) / 2);
+}
+
+RB_EXPORT void swipeDownOn(id view) {
+    swipeDownOn(view, CGRectGetHeight([view bounds]) / 2);
 }

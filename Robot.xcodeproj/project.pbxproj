@@ -31,7 +31,7 @@
 		1FBA18A0193AB63D00EF9E38 /* RBSpecHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA189F193AB63D00EF9E38 /* RBSpecHelper.m */; };
 		1FBA18A4193AD4CF00EF9E38 /* RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18A3193AD4CF00EF9E38 /* RBTouch.m */; };
 		1FBA18A7193B0B2800EF9E38 /* UIWindow+RB.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18A6193B0B2800EF9E38 /* UIWindow+RB.m */; };
-		1FBA18AA193B111900EF9E38 /* RBFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18A9193B111900EF9E38 /* RBFunctions.m */; };
+		1FBA18AA193B111900EF9E38 /* RBDSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18A9193B111900EF9E38 /* RBDSL.m */; };
 		1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4916A193B287700C8087D /* NSObject+RBKVCUndefined.m */; };
 		1FC4916D193BA0AD00C8087D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4916C193BA0AD00C8087D /* Default-568h@2x.png */; };
 		1FC49170193BB11B00C8087D /* NSObject+RBSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4916F193BB11B00C8087D /* NSObject+RBSwizzle.m */; };
@@ -97,8 +97,8 @@
 		1FBA18A3193AD4CF00EF9E38 /* RBTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTouch.m; sourceTree = "<group>"; };
 		1FBA18A5193B0B2800EF9E38 /* UIWindow+RB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+RB.h"; sourceTree = "<group>"; };
 		1FBA18A6193B0B2800EF9E38 /* UIWindow+RB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+RB.m"; sourceTree = "<group>"; };
-		1FBA18A8193B111900EF9E38 /* RBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBFunctions.h; sourceTree = "<group>"; };
-		1FBA18A9193B111900EF9E38 /* RBFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBFunctions.m; sourceTree = "<group>"; };
+		1FBA18A8193B111900EF9E38 /* RBDSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBDSL.h; sourceTree = "<group>"; };
+		1FBA18A9193B111900EF9E38 /* RBDSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBDSL.m; sourceTree = "<group>"; };
 		1FC49169193B287700C8087D /* NSObject+RBKVCUndefined.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RBKVCUndefined.h"; sourceTree = "<group>"; };
 		1FC4916A193B287700C8087D /* NSObject+RBKVCUndefined.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RBKVCUndefined.m"; sourceTree = "<group>"; };
 		1FC4916C193BA0AD00C8087D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -212,8 +212,8 @@
 				1FBA187F1939C04300EF9E38 /* RBTableViewCellsProxy.m */,
 				1FBA18A2193AD4CF00EF9E38 /* RBTouch.h */,
 				1FBA18A3193AD4CF00EF9E38 /* RBTouch.m */,
-				1FBA18A8193B111900EF9E38 /* RBFunctions.h */,
-				1FBA18A9193B111900EF9E38 /* RBFunctions.m */,
+				1FBA18A8193B111900EF9E38 /* RBDSL.h */,
+				1FBA18A9193B111900EF9E38 /* RBDSL.m */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -408,7 +408,7 @@
 			files = (
 				1FBA18861939CCA600EF9E38 /* RBTableViewCellProxy.m in Sources */,
 				1F45D7C6191647F2005271F1 /* RBAnimation.m in Sources */,
-				1FBA18AA193B111900EF9E38 /* RBFunctions.m in Sources */,
+				1FBA18AA193B111900EF9E38 /* RBDSL.m in Sources */,
 				1FBA18A4193AD4CF00EF9E38 /* RBTouch.m in Sources */,
 				1FBA18801939C04300EF9E38 /* RBTableViewCellsProxy.m in Sources */,
 				1FBA1890193A821C00EF9E38 /* NSObject+RBExploratory.m in Sources */,

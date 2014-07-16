@@ -112,6 +112,13 @@
     [self _setLocationInWindow:point resetPrevious:NO];
 }
 
+- (void)updateRelativePoint:(CGPoint)viewPoint
+{
+    CGPoint windowPoint = [self.window convertPoint:viewPoint fromView:self.view.superview];
+    UIView *touchedView = [self.window hitTest:windowPoint withEvent:nil];
+    [self updateWindowPoint:windowPoint inView:touchedView];
+}
+
 - (void)sendEvent
 {
     UITouchesEvent *event = [[UIApplication sharedApplication] _touchesEvent];

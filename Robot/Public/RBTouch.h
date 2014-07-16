@@ -31,6 +31,8 @@
  */
 - (void)updateWindowPoint:(CGPoint)point inView:(UIView *)view;
 
+- (void)updateRelativePoint:(CGPoint)viewPoint;
+
 /*! Propagates this event through the current application.
  */
 - (void)sendEvent;
