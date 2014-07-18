@@ -121,7 +121,7 @@ RB_EXPORT void touchAndMove(id view, CGPoint *points, NSUInteger numOfPoints) {
     }
 }
 
-RB_EXPORT void touchAndMoveLinearly(id view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints) {
+RB_EXPORT void touchAndMoveLinearlyOn(id view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints) {
     NSUInteger numPoints = numOfIntermediatePoints + 2;
     CGPoint delta = CGPointMake((end.x - start.x) / numPoints,
                                 (end.y - start.y) / numPoints);
@@ -134,30 +134,32 @@ RB_EXPORT void touchAndMoveLinearly(id view, CGPoint start, CGPoint end, NSUInte
     touchAndMove(view, points, numPoints);
 }
 
-RB_EXPORT void touchAndMoveLinearlyAroundPoint(id view, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints) {
+RB_EXPORT void touchAndMoveLinearlyAroundPointOn(id view, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints) {
     CGPoint start = CGPointMake(center.x - delta.x, center.y - delta.y);
     CGPoint end = CGPointMake(center.x + delta.x, center.y + delta.y);
-    touchAndMoveLinearly(view, start, end, numOfIntermediatePoints);
+    touchAndMoveLinearlyOn(view, start, end, numOfIntermediatePoints);
 }
 
-RB_EXPORT void touchAndMoveLinearlyFromCenter(id view, CGPoint delta, NSUInteger numOfIntermediatePoints) {
-    touchAndMoveLinearlyAroundPoint(view, [view center], delta, numOfIntermediatePoints);
+RB_EXPORT void touchAndMoveLinearlyFromCenterOf(id view, CGPoint delta, NSUInteger numOfIntermediatePoints) {
+    touchAndMoveLinearlyAroundPointOn(view, [view center], delta, numOfIntermediatePoints);
 }
+
+const NSUInteger kRBDefaultNumberOfIntermediatePoints = 5;
 
 RB_EXPORT void swipeLeftOn(id view, CGFloat swipeWidth) {
-    touchAndMoveLinearlyFromCenter(view, CGPointMake(-swipeWidth / 2, 0), 5);
+    touchAndMoveLinearlyFromCenterOf(view, CGPointMake(-swipeWidth / 2, 0), kRBDefaultNumberOfIntermediatePoints);
 }
 
 RB_EXPORT void swipeRightOn(id view, CGFloat swipeWidth) {
-    touchAndMoveLinearlyFromCenter(view, CGPointMake(swipeWidth / 2, 0), 5);
+    touchAndMoveLinearlyFromCenterOf(view, CGPointMake(swipeWidth / 2, 0), kRBDefaultNumberOfIntermediatePoints);
 }
 
 RB_EXPORT void swipeUpOn(id view, CGFloat swipeHeight) {
-    touchAndMoveLinearlyFromCenter(view, CGPointMake(0, -swipeHeight / 2), 5);
+    touchAndMoveLinearlyFromCenterOf(view, CGPointMake(0, -swipeHeight / 2), kRBDefaultNumberOfIntermediatePoints);
 }
 
 RB_EXPORT void swipeDownOn(id view, CGFloat swipeHeight) {
-    touchAndMoveLinearlyFromCenter(view, CGPointMake(0, swipeHeight), 5);
+    touchAndMoveLinearlyFromCenterOf(view, CGPointMake(0, swipeHeight), kRBDefaultNumberOfIntermediatePoints);
 }
 
 RB_EXPORT void swipeLeftOn(id view) {

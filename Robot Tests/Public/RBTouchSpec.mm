@@ -41,7 +41,7 @@ describe(@"RBTouch", ^{
             target = [NSMutableArray array];
             swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:target action:@selector(addObject:)];
             swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-            controller.tableView.hidden = YES;
+            controller.tableView.hidden = YES; // otherwise this will capture our swipes
             [controller.view addGestureRecognizer:swipeGestureRecognizer];
         });
 

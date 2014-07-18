@@ -23,8 +23,8 @@ RB_EXPORT id theFirstView(NSPredicate *predicate, UIView *viewToSearch);
 RB_EXPORT NSPredicate *where(NSString *predicateFormat, ...);
 RB_EXPORT NSPredicate *where(BOOL(^matcher)(UIView *view));
 
-RB_EXPORT NSPredicate *RB_all(NSArray *predicate);
-#define matching(PREDICATES) (RB_all(@[PREDICATES]))
+RB_EXPORT NSPredicate *RB_matching(NSArray *predicate);
+#define matching(PREDICATES) (RB_matching(@[PREDICATES]))
 
 // High-level querying
 RB_EXPORT NSPredicate *ofExactClass(Class aClass);
@@ -44,9 +44,9 @@ RB_EXPORT void tapOn(id view);
 RB_EXPORT void tapOn(id view, CGPoint pointRelativeToView);
 
 // Low-level Touches
-RB_EXPORT void touchAndMoveLinearly(id view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints);
-RB_EXPORT void touchAndMoveLinearlyAroundPoint(id view, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints);
-RB_EXPORT void touchAndMoveLinearlyFromCenter(id view, CGPoint delta, NSUInteger numOfIntermediatePoints);
+RB_EXPORT void touchAndMoveLinearlyOn(id view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints);
+RB_EXPORT void touchAndMoveLinearlyAroundPointOn(id view, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints);
+RB_EXPORT void touchAndMoveLinearlyFromCenterOf(id view, CGPoint delta, NSUInteger numOfIntermediatePoints);
 
 // Swipes
 RB_EXPORT void swipeLeftOn(id view, CGFloat swipeWidth);
@@ -58,3 +58,9 @@ RB_EXPORT void swipeLeftOn(id view);
 RB_EXPORT void swipeRightOn(id view);
 RB_EXPORT void swipeUpOn(id view);
 RB_EXPORT void swipeDownOn(id view);
+
+// Pinch
+
+// Rotate
+
+// Long Press

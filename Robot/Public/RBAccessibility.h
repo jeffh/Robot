@@ -1,9 +1,11 @@
 #import <UIKit/UIKit.h>
 
-/*! Handles retrieving views from accessibility.
+/*! Handles retrieving views.	g
  */
 @interface RBAccessibility : NSObject
 
+/*!
+ */
 + (instancetype)sharedInstance;
 
 - (NSArray *)subviewsInView:(UIView *)view
