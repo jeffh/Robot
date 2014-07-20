@@ -2,6 +2,8 @@
 #import <objc/message.h>
 #import "RBAnimation.h"
 
+@class UIAlertController;
+
 @interface UIView (PrivateAPIs)
 
 - (void)layoutBelowIfNeeded;
@@ -51,15 +53,8 @@
     return RBAccessbility__;
 }
 
-+ (void)beforeEach
-{
-    [[self sharedInstance] cleanup];
-}
-
 - (NSArray *)subviewsInView:(UIView *)view satisfyingPredicate:(NSPredicate *)predicate
 {
-    [view layoutIfNeeded];
-    [view layoutBelowIfNeeded];
     return [self objectsSatisfyingPredicate:predicate
                                    inObject:view
                           recursiveSelector:@selector(subviews)];
@@ -81,20 +76,16 @@
     if (modalWindow) {
         [viewsToSearch addObject:modalWindow];
     }
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    if (keyWindow) {
-        [viewsToSearch addObject:keyWindow];
-    }
-
+    [viewsToSearch addObjectsFromArray:[UIApplication sharedApplication].windows];
     return viewsToSearch;
 }
 
-- (void)layoutView:(UIView *)view
+- (UIWindow *)keyWindow
 {
-    [view layoutBelowIfNeeded];
+    return [(id)NSClassFromString(@"UIWindow") keyWindow];
 }
 
-- (BOOL)isAlertViewShowing
+- (BOOL)isAlertShowing
 {
     if (NSClassFromString(@"_UIAlertControllerShimPresenter")) { // iOS 8+
         UIWindow *window = [[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] window];
@@ -105,7 +96,7 @@
     }
 }
 
-- (void)cleanup
+- (void)removeAllAlerts
 {
     [RBAnimation disableAnimationsInBlock:^{
         id _UIAlertManager = (id)NSClassFromString(@"_UIAlertManager");
@@ -133,7 +124,9 @@
                           recursiveSelector:@selector(subviews)];
 }
 
-- (id)objectsSatisfyingPredicate:(NSPredicate *)predicate inObject:(id)object recursiveSelector:(SEL)selector
+- (id)objectsSatisfyingPredicate:(NSPredicate *)predicate
+                        inObject:(id)object
+               recursiveSelector:(SEL)selector
 {
     NSMutableArray *filteredViews = [NSMutableArray array];
     if ([predicate evaluateWithObject:object]) {
@@ -141,7 +134,9 @@
     }
     id children = objc_msgSend(object, selector);
     for (id childObject in children) {
-        NSArray *matches = [self objectsSatisfyingPredicate:predicate inObject:childObject recursiveSelector:selector];
+        NSArray *matches = [self objectsSatisfyingPredicate:predicate
+                                                   inObject:childObject
+                                          recursiveSelector:selector];
         [filteredViews addObjectsFromArray:matches];
     }
     return filteredViews;

@@ -11,7 +11,6 @@
 		1F45D7A619160EDE005271F1 /* UIView+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A519160EDE005271F1 /* UIView+RBTouch.m */; };
 		1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */; };
 		1F45D7AF19161063005271F1 /* RBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AE19161063005271F1 /* RBConstants.m */; };
-		1F45D7C5191647F2005271F1 /* RBAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7BE191647F2005271F1 /* RBAccessibility.m */; };
 		1F45D7C6191647F2005271F1 /* RBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C0191647F2005271F1 /* RBAnimation.m */; };
 		1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C2191647F2005271F1 /* RBKeyboard.m */; };
 		1F7E867419399A690039400F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7731915E581005271F1 /* UIKit.framework */; };
@@ -21,6 +20,8 @@
 		1F7E868D19399A7D0039400F /* SampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FEB7DBB193837D2006F7479 /* SampleViewController.m */; };
 		1F7E868E19399A840039400F /* SampleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FEB7DBC193837D2006F7479 /* SampleViewController.xib */; };
 		1F7E868F19399A860039400F /* RBAccessibilitySpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FEB7DBF19383905006F7479 /* RBAccessibilitySpec.mm */; };
+		1F848B4D197BA10D00F0966E /* RBDSLSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F848B4C197BA10D00F0966E /* RBDSLSpec.mm */; };
+		1F848B50197BBCED00F0966E /* RBAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F848B4F197BBCED00F0966E /* RBAccessibility.m */; };
 		1FBA187D19399B8A00EF9E38 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA187C19399B8A00EF9E38 /* main.m */; };
 		1FBA18801939C04300EF9E38 /* RBTableViewCellsProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA187F1939C04300EF9E38 /* RBTableViewCellsProxy.m */; };
 		1FBA18821939C06900EF9E38 /* RBTableViewCellsProxySpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18811939C06900EF9E38 /* RBTableViewCellsProxySpec.mm */; };
@@ -28,11 +29,10 @@
 		1FBA18881939D23200EF9E38 /* RBKeyboardSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18871939D23200EF9E38 /* RBKeyboardSpec.mm */; };
 		1FBA188A1939DB0F00EF9E38 /* RBTouchSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18891939DB0F00EF9E38 /* RBTouchSpec.mm */; };
 		1FBA1890193A821C00EF9E38 /* NSObject+RBExploratory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA188F193A821C00EF9E38 /* NSObject+RBExploratory.m */; };
-		1FBA18A0193AB63D00EF9E38 /* RBSpecHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA189F193AB63D00EF9E38 /* RBSpecHelper.m */; };
 		1FBA18A4193AD4CF00EF9E38 /* RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18A3193AD4CF00EF9E38 /* RBTouch.m */; };
 		1FBA18A7193B0B2800EF9E38 /* UIWindow+RB.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18A6193B0B2800EF9E38 /* UIWindow+RB.m */; };
 		1FBA18AA193B111900EF9E38 /* RBDSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18A9193B111900EF9E38 /* RBDSL.m */; };
-		1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4916A193B287700C8087D /* NSObject+RBKVCUndefined.m */; };
+		1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4916A193B287700C8087D /* NSObject+RBKVCUndefined.m */; settings = {COMPILER_FLAGS = "-fobjc-arc-exceptions"; }; };
 		1FC4916D193BA0AD00C8087D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4916C193BA0AD00C8087D /* Default-568h@2x.png */; };
 		1FC49170193BB11B00C8087D /* NSObject+RBSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4916F193BB11B00C8087D /* NSObject+RBSwizzle.m */; };
 		776EF05759954274A1A57DC7 /* libPods-Robot Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E80D5BC713CA4C70B9D8263C /* libPods-Robot Tests.a */; };
@@ -74,13 +74,14 @@
 		1F45D7AD19161063005271F1 /* RBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBConstants.h; sourceTree = "<group>"; };
 		1F45D7AE19161063005271F1 /* RBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBConstants.m; sourceTree = "<group>"; };
 		1F45D7B019161092005271F1 /* Robot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Robot.h; sourceTree = "<group>"; };
-		1F45D7BD191647F2005271F1 /* RBAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAccessibility.h; sourceTree = "<group>"; };
-		1F45D7BE191647F2005271F1 /* RBAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAccessibility.m; sourceTree = "<group>"; };
 		1F45D7BF191647F2005271F1 /* RBAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAnimation.h; sourceTree = "<group>"; };
 		1F45D7C0191647F2005271F1 /* RBAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAnimation.m; sourceTree = "<group>"; };
 		1F45D7C1191647F2005271F1 /* RBKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKeyboard.h; sourceTree = "<group>"; };
 		1F45D7C2191647F2005271F1 /* RBKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKeyboard.m; sourceTree = "<group>"; };
 		1F7E867319399A690039400F /* Robot Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Robot Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F848B4C197BA10D00F0966E /* RBDSLSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBDSLSpec.mm; sourceTree = "<group>"; };
+		1F848B4E197BBCED00F0966E /* RBAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAccessibility.h; sourceTree = "<group>"; };
+		1F848B4F197BBCED00F0966E /* RBAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAccessibility.m; sourceTree = "<group>"; };
 		1FBA187C19399B8A00EF9E38 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1FBA187E1939C04300EF9E38 /* RBTableViewCellsProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTableViewCellsProxy.h; sourceTree = "<group>"; };
 		1FBA187F1939C04300EF9E38 /* RBTableViewCellsProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTableViewCellsProxy.m; sourceTree = "<group>"; };
@@ -91,8 +92,6 @@
 		1FBA18891939DB0F00EF9E38 /* RBTouchSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBTouchSpec.mm; sourceTree = "<group>"; };
 		1FBA188E193A821C00EF9E38 /* NSObject+RBExploratory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RBExploratory.h"; sourceTree = "<group>"; };
 		1FBA188F193A821C00EF9E38 /* NSObject+RBExploratory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RBExploratory.m"; sourceTree = "<group>"; };
-		1FBA189E193AB63D00EF9E38 /* RBSpecHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBSpecHelper.h; sourceTree = "<group>"; };
-		1FBA189F193AB63D00EF9E38 /* RBSpecHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBSpecHelper.m; sourceTree = "<group>"; };
 		1FBA18A2193AD4CF00EF9E38 /* RBTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTouch.h; sourceTree = "<group>"; };
 		1FBA18A3193AD4CF00EF9E38 /* RBTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTouch.m; sourceTree = "<group>"; };
 		1FBA18A5193B0B2800EF9E38 /* UIWindow+RB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+RB.h"; sourceTree = "<group>"; };
@@ -199,8 +198,6 @@
 			isa = PBXGroup;
 			children = (
 				1F45D7A219160E4B005271F1 /* Extensions */,
-				1F45D7BD191647F2005271F1 /* RBAccessibility.h */,
-				1F45D7BE191647F2005271F1 /* RBAccessibility.m */,
 				1F45D7BF191647F2005271F1 /* RBAnimation.h */,
 				1F45D7C0191647F2005271F1 /* RBAnimation.m */,
 				1F45D7AD19161063005271F1 /* RBConstants.h */,
@@ -234,6 +231,8 @@
 		1FBA18831939CC7700EF9E38 /* Private */ = {
 			isa = PBXGroup;
 			children = (
+				1F848B4E197BBCED00F0966E /* RBAccessibility.h */,
+				1F848B4F197BBCED00F0966E /* RBAccessibility.m */,
 				1FBA18841939CCA600EF9E38 /* RBTableViewCellProxy.h */,
 				1FBA18851939CCA600EF9E38 /* RBTableViewCellProxy.m */,
 				1FBA188E193A821C00EF9E38 /* NSObject+RBExploratory.h */,
@@ -273,6 +272,7 @@
 				1FBA18811939C06900EF9E38 /* RBTableViewCellsProxySpec.mm */,
 				1FBA18871939D23200EF9E38 /* RBKeyboardSpec.mm */,
 				1FBA18891939DB0F00EF9E38 /* RBTouchSpec.mm */,
+				1F848B4C197BA10D00F0966E /* RBDSLSpec.mm */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -283,8 +283,6 @@
 				1FEB7DBA193837D2006F7479 /* SampleViewController.h */,
 				1FEB7DBB193837D2006F7479 /* SampleViewController.m */,
 				1FEB7DBC193837D2006F7479 /* SampleViewController.xib */,
-				1FBA189E193AB63D00EF9E38 /* RBSpecHelper.h */,
-				1FBA189F193AB63D00EF9E38 /* RBSpecHelper.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -415,8 +413,8 @@
 				1FBA18A7193B0B2800EF9E38 /* UIWindow+RB.m in Sources */,
 				1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */,
 				1F45D7AF19161063005271F1 /* RBConstants.m in Sources */,
-				1F45D7C5191647F2005271F1 /* RBAccessibility.m in Sources */,
 				1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */,
+				1F848B50197BBCED00F0966E /* RBAccessibility.m in Sources */,
 				1F45D7A619160EDE005271F1 /* UIView+RBTouch.m in Sources */,
 				1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */,
 				1FC49170193BB11B00C8087D /* NSObject+RBSwizzle.m in Sources */,
@@ -428,12 +426,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F7E868F19399A860039400F /* RBAccessibilitySpec.mm in Sources */,
+				1F848B4D197BA10D00F0966E /* RBDSLSpec.mm in Sources */,
 				1FBA187D19399B8A00EF9E38 /* main.m in Sources */,
 				1F7E868D19399A7D0039400F /* SampleViewController.m in Sources */,
 				1FBA18881939D23200EF9E38 /* RBKeyboardSpec.mm in Sources */,
 				1FBA188A1939DB0F00EF9E38 /* RBTouchSpec.mm in Sources */,
 				1FBA18821939C06900EF9E38 /* RBTableViewCellsProxySpec.mm in Sources */,
-				1FBA18A0193AB63D00EF9E38 /* RBSpecHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

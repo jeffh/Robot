@@ -159,8 +159,10 @@
 
 - (void)typeCharacter:(NSString *)character
 {
-    // does not work in iOS 8+
-    if ([[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] firstObject] integerValue] < 8) {
+    // Historically, beta SDKs do not always support this immediately.
+    // But this is probably where UIAutomation walks through.
+    BOOL isSupportedSDK = [[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedAscending;
+    if (isSupportedSDK) {
         [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
         [[[self activeKeyboardImpl] taskQueue] waitUntilAllTasksAreFinished];
     } else {
@@ -174,7 +176,7 @@
         CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
         CGPoint windowPoint = [layout convertPoint:keyCenter toView:nil];
 
-        RBTouch *touch = [RBTouch touchAtPoint:windowPoint inWindow:layout.window phase:UITouchPhaseBegan];
+        RBTouch *touch = [RBTouch touchAtPoint:windowPoint inWindow:layout.window];
         [touch updatePhase:UITouchPhaseEnded];
         [touch sendEvent];
 

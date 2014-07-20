@@ -49,7 +49,9 @@
                        atScrollPosition:__scrollPosition
                                animated:NO];
     [__tableView layoutIfNeeded];
-    return [__tableView cellForRowAtIndexPath:__indexPath];
+    UITableViewCell *cell = [__tableView cellForRowAtIndexPath:__indexPath];
+    [cell layoutIfNeeded];
+    return cell;
 }
 
 @end

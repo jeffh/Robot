@@ -2,7 +2,7 @@
 
 @interface NSObject (RBExploratory)
 
-- (id)objectFromInstanceVariableName:(NSString *)ivarName;
-- (void)setObject:(id)object forInstanceVariableName:(NSString *)ivarName;
+- (id)RB_objectFromInstanceVariableName:(NSString *)ivarName;
+- (void)RB_setObject:(id)object forInstanceVariableName:(NSString *)ivarName;
 
 @end

@@ -16,7 +16,8 @@ static NSMutableDictionary *RBSwizzledClasses;
     return nil;
 }
 
-+ (void)RB_allowUndefinedKeys:(BOOL)allowUndefinedKeys {
++ (void)RB_allowUndefinedKeys:(BOOL)allowUndefinedKeys
+{
     @synchronized (RBSwizzledClasses) {
         if (!RBSwizzledClasses) {
             RBSwizzledClasses = [[NSMutableDictionary alloc] init];
@@ -35,6 +36,16 @@ static NSMutableDictionary *RBSwizzledClasses;
                                 withMethod:@selector(RB_originalValueForUndefinedKey:)];
         }
         RBSwizzledClasses[key] = @(allowUndefinedKeys);
+    }
+}
+
++ (void)RB_allowUndefinedKeysInBlock:(void(^)())block
+{
+    [self RB_allowUndefinedKeys:YES];
+    @try {
+        block();
+    } @finally {
+        [self RB_allowUndefinedKeys:NO];
     }
 }
 

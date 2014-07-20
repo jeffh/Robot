@@ -46,15 +46,15 @@
 
 @implementation RBTouch
 
-+ (instancetype)touchAtPoint:(CGPoint)point inWindow:(UIWindow *)window phase:(UITouchPhase)phase
++ (instancetype)touchAtPoint:(CGPoint)point inWindow:(UIWindow *)window
 {
     UIView *touchedView = [window hitTest:point withEvent:nil];
-    RBTouch *touch = [[RBTouch alloc] initWithWindowPoint:point phase:phase inView:touchedView];
+    RBTouch *touch = [[RBTouch alloc] initWithWindowPoint:point phase:UITouchPhaseBegan inView:touchedView];
     [touch sendEvent];
     return touch;
 }
 
-+ (instancetype)touchOnView:(UIView *)view atPoint:(CGPoint)point phase:(UITouchPhase)phase
++ (instancetype)touchOnView:(UIView *)view atPoint:(CGPoint)point
 {
     NSAssert(view.superview, @"Touched view does not have a superview. Needs to be under a visible UIWindow");
     NSAssert(view.window, @"Touch events require views to be under a visible UIWindow");
@@ -71,12 +71,13 @@
              @" - The view you're trying to touch is not accepting touches (userInteraction disabled; disabled control, etc.)\n"
              @" - The UIWindow this view resides in is not the key window and visible; call [window makeKeyAndVisible]\n",
              NSStringFromCGPoint(windowPoint), view, [view.window hitTest:point withEvent:nil]);
-    return [self touchAtPoint:windowPoint inWindow:view.window phase:phase];
+    RBTouch *touch = [self touchAtPoint:windowPoint inWindow:view.window];
+    return touch;
 }
 
 + (void)tapOnView:(UIView *)view atPoint:(CGPoint)point
 {
-    RBTouch *touch = [self touchOnView:view atPoint:(CGPoint)point phase:UITouchPhaseBegan];
+    RBTouch *touch = [self touchOnView:view atPoint:(CGPoint)point];
     [touch updatePhase:UITouchPhaseEnded];
     [touch sendEvent];
 }

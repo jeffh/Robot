@@ -3,12 +3,12 @@
 
 @implementation NSObject (RBExploratory)
 
-- (id)objectFromInstanceVariableName:(NSString *)ivarName
+- (id)RB_objectFromInstanceVariableName:(NSString *)ivarName
 {
     return object_getIvar(self, class_getInstanceVariable([self class], ivarName.UTF8String));
 }
 
-- (void)setObject:(id)object forInstanceVariableName:(NSString *)ivarName
+- (void)RB_setObject:(id)object forInstanceVariableName:(NSString *)ivarName
 {
     return object_setIvar(self, class_getInstanceVariable([self class], ivarName.UTF8String), object);
 }
