@@ -25,7 +25,7 @@ describe(@"RBTouch", ^{
             target = [NSMutableArray array];
             tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:target action:@selector(addObject:)];
             [controller.view addGestureRecognizer:tapGestureRecognizer];
-            [controller.view tap];
+            tapOn(controller.view);
         });
 
         it(@"should trigger the gesture recognizer", ^{

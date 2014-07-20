@@ -55,6 +55,48 @@
  */
 + (void)tapOnView:(UIView *)view atPoint:(CGPoint)point;
 
+/*! Creates and moves a touch through the given points, sending events to the application
+ *  each time.
+ *
+ *  This method calls -[sendEvent] for each point with the phase updated to these rules:
+ *   - If the point was the same as the previous one, use UITouchPhaseStationary.
+ *   - If the point is the last point in the array, use endingPhase.
+ *   - Otherwise, use UITouchPhaseMoved.
+ *
+ *  @param view the view to tap on.
+ *  @param numberOfPoints the number of points in the points c-array
+ *  @param touchPoints the points to move to. It is the caller's responsibility to release this
+ *                     memory.
+ *  @param endingPhase the phase of the last point in the points c-array. All intermediate points
+ *                     will use UITouchPhaseMoved.
+ */
++ (instancetype)touchAndMoveOnView:(UIView *)view
+                    numberOfPoints:(NSUInteger)numberOfPoints
+                       touchPoints:(CGPoint *)points
+                       endingPhase:(UITouchPhase)endingPhase;
+
+/*! Creates and moves a touch, sending events to the application each time. This method will
+ *  automatically use a linear number of points between the start and end points.
+ *
+ *  This method calls -[sendEvent] for each point with the phase updated to these rules:
+ *   - If the point was the same as the previous one, use UITouchPhaseStationary.
+ *   - If the point is the last point in the array, use endingPhase.
+ *   - Otherwise, use UITouchPhaseMoved.
+ *
+ *  @param view the view to tap on.
+ *  @param intermediatePoints the number of intermediate points besides the starting and ending
+ *                            points.
+ *  @param startingPoint The point for the touch to start on. Its phase will be UITouchPhaseBegan.
+ *  @param endingPoint The point for the touch to start end. Its phase will be endingPhase.
+ *  @param endingPhase the phase of the last point in the points c-array. All intermediate points
+ *                     will use UITouchPhaseMoved.
+ */
++ (instancetype)touchAndMoveOnView:(UIView *)view
+                intermediatePoints:(NSUInteger)numberOfIntermediatePoints
+                     startingPoint:(CGPoint)startingPoint
+                       endingPoint:(CGPoint)endingPoint
+                       endingPhase:(UITouchPhase)endingPhase;
+
 /*! Creates a UITouch-compatible object that can be updated, unlike the read-only parent class.
  *  Unlike the claa methods on this class, this will not call sendEvent immediately.
  *
@@ -65,14 +107,23 @@
 - (id)initWithWindowPoint:(CGPoint)windowPoint phase:(UITouchPhase)phase inView:(UIView *)view;
 
 /*! Updates the touch phase and timestamp.
+ *
+ *  This is a low-level feature of RBTouch. You must call -[sendEvent] for this phase change to
+ *  go through the system.
  */
 - (void)updatePhase:(UITouchPhase)phase;
 
 /*! Updates point, view, and timestamp.
+ *
+ *  This is a low-level feature of RBTouch. You must call -[sendEvent] for this phase change to
+ *  go through the system.
  */
 - (void)updateWindowPoint:(CGPoint)point inView:(UIView *)view;
 
 /*! Updates the point relative to the touched view's superview.
+ *
+ *  This is a low-level feature of RBTouch. You must call -[sendEvent] for this phase change to
+ *  go through the system.
  */
 - (void)updateRelativePoint:(CGPoint)viewPoint;
 

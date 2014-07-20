@@ -86,13 +86,17 @@ describe(@"RBDSL", ^{
             UIView *viewOffTheScreen = [[UIView alloc] initWithFrame:CGRectMake(-10, -10, 5, 5)];
             [view addSubview:viewOffTheScreen];
 
+            textField.alpha = 0;
+            [view addSubview:textField];
+
             [invisibleView addSubview:label];
 
             allSubViews(thatCanBeSeen(YES), view) should equal(@[randomOtherView]);
             allSubViews(thatCanBeSeen(NO), view) should equal(@[viewWithZeroSize,
                                                                 invisibleView,
                                                                 label,
-                                                                viewOffTheScreen]);
+                                                                viewOffTheScreen,
+                                                                textField]);
         });
     });
 

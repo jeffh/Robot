@@ -52,7 +52,7 @@ RB_EXPORT NSPredicate *RB_withLabel(NSString *accessibilityLabelOrText);
 RB_EXPORT NSPredicate *RB_withTraits(UIAccessibilityTraits traits);
 RB_EXPORT NSPredicate *RB_withVisibility(BOOL isVisible); // checks isHidden property
 RB_EXPORT NSPredicate *RB_withAccessibility(BOOL isAccessibilityView);
-RB_EXPORT NSPredicate *RB_onScreen(void); // intersects or is inside the screen bounds
+RB_EXPORT NSPredicate *RB_onScreen(BOOL isOnScreen); // intersects or is inside the screen bounds
 RB_EXPORT NSPredicate *RB_thatCanBeSeen(BOOL isVisible); // the view and all parents are visible
 
 #pragma mark - View Interaction
@@ -60,7 +60,7 @@ RB_EXPORT NSPredicate *RB_thatCanBeSeen(BOOL isVisible); // the view and all par
 
 // Taps
 RB_EXPORT void RB_tapOn(id view);
-RB_EXPORT void RB_tapOn(id view, CGPoint pointRelativeToView);
+RB_EXPORT void RB_tapOn(id view, CGPoint pointRelativeToSuperView);
 
 // Low-level Touches
 RB_EXPORT void RB_touchAndMoveLinearlyOn(id view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints);
@@ -158,8 +158,8 @@ RB_SHORTHAND(NSPredicate *withVisibility(BOOL isVisible),
              RB_withVisibility(isVisible)); // checks isHidden property
 RB_SHORTHAND(NSPredicate *withAccessibility(BOOL isAccessibilityView),
              RB_withAccessibility(isAccessibilityView));
-RB_SHORTHAND(NSPredicate *onScreen(void),
-             RB_onScreen()); // intersects or is inside the screen bounds
+RB_SHORTHAND(NSPredicate *onScreen(BOOL isOnScreen),
+             RB_onScreen(isOnScreen)); // intersects or is inside the screen bounds
 RB_SHORTHAND(NSPredicate *thatCanBeSeen(BOOL isVisible),
              RB_thatCanBeSeen(isVisible)); // the view and all parents are visible
 
@@ -167,7 +167,7 @@ RB_SHORTHAND(NSPredicate *thatCanBeSeen(BOOL isVisible),
 
 // Taps
 RB_SHORTHAND(void tapOn(id view), RB_tapOn(view));
-RB_SHORTHAND(void tapOn(id view, CGPoint pointRelativeToView), RB_tapOn(view, pointRelativeToView));
+RB_SHORTHAND(void tapOn(id view, CGPoint pointRelativeToSuperView), RB_tapOn(view, pointRelativeToSuperView));
 
 // Swipes
 RB_SHORTHAND(void swipeLeftOn(id view, CGFloat swipeWidth), RB_swipeLeftOn(view, swipeWidth));

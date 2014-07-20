@@ -56,6 +56,7 @@
 
 + (instancetype)touchOnView:(UIView *)view atPoint:(CGPoint)point
 {
+    NSAssert(view, @"Received a nil view. Needs to be a view inside a UIWindow.");
     NSAssert(view.superview, @"Touched view does not have a superview. Needs to be under a visible UIWindow");
     NSAssert(view.window, @"Touch events require views to be under a visible UIWindow");
     CGPoint windowPoint = [view.window convertPoint:point fromView:view.superview];
@@ -80,6 +81,54 @@
     RBTouch *touch = [self touchOnView:view atPoint:(CGPoint)point];
     [touch updatePhase:UITouchPhaseEnded];
     [touch sendEvent];
+}
+
++ (instancetype)touchAndMoveOnView:(UIView *)view
+                    numberOfPoints:(NSUInteger)numberOfPoints
+                       touchPoints:(CGPoint *)points
+                       endingPhase:(UITouchPhase)endingPhase
+{
+    NSAssert(view, @"A view wasn't given to be tapped on");
+    NSAssert(numberOfPoints, @"Expected at least 1 point");
+    __block RBTouch *touch;
+    [RBAnimation disableAnimationsInBlock:^{
+        touch = [RBTouch touchOnView:view atPoint:points[0]];
+    }];
+    for (NSUInteger i = 1; i < numberOfPoints; i++) {
+        [touch updateRelativePoint:points[i]];
+        if (i + 1 == numberOfPoints) {
+            [touch updatePhase:endingPhase];
+        }
+        else if (CGPointEqualToPoint(points[i-1], points[i])) {
+            [touch updatePhase:UITouchPhaseStationary];
+        }
+        else {
+            [touch updatePhase:UITouchPhaseMoved];
+        }
+        [touch sendEvent];
+    }
+    return touch;
+}
+
++ (instancetype)touchAndMoveOnView:(UIView *)view
+                intermediatePoints:(NSUInteger)numberOfIntermediatePoints
+                     startingPoint:(CGPoint)startingPoint
+                       endingPoint:(CGPoint)endingPoint
+                       endingPhase:(UITouchPhase)endingPhase
+{
+    NSUInteger numberOfPoints = numberOfIntermediatePoints + 2;
+    CGPoint delta = CGPointMake((endingPoint.x - startingPoint.x) / numberOfPoints,
+                                (endingPoint.y - startingPoint.y) / numberOfPoints);
+    CGPoint *points = alloca(numberOfPoints * sizeof(CGPoint));
+    points[0] = startingPoint;
+    for (NSUInteger i = 1; i < numberOfPoints - 1; i++) {
+        points[i] = CGPointMake(points[i-1].x + delta.x, points[i-1].y + delta.y);
+    }
+    points[numberOfPoints - 1] = endingPoint;
+    return [self touchAndMoveOnView:view
+                     numberOfPoints:numberOfPoints
+                        touchPoints:points
+                        endingPhase:endingPhase];
 }
 
 - (id)initWithWindowPoint:(CGPoint)windowPoint phase:(UITouchPhase)phase inView:(UIView *)view

@@ -128,7 +128,7 @@ RB_EXPORT NSPredicate *RB_withVisibility(BOOL isVisible) {
     return RB_where(@"hidden == %@", @(!isVisible));
 }
 
-RB_EXPORT NSPredicate *RB_onScreen(void) {
+RB_EXPORT NSPredicate *RB_onScreen(BOOL isOnScreen) {
     return RB_where(^BOOL(UIView *view) {
         UIView *rootView = view.window;
         if (!rootView) {
@@ -139,7 +139,8 @@ RB_EXPORT NSPredicate *RB_onScreen(void) {
             }
         }
         CGRect viewFrameInWindow = [view.superview convertRect:view.frame toView:rootView];
-        return CGRectIntersectsRect(viewFrameInWindow, rootView.bounds) || CGRectContainsRect(rootView.bounds, viewFrameInWindow);
+        BOOL onScreen = CGRectIntersectsRect(viewFrameInWindow, rootView.bounds) || CGRectContainsRect(rootView.bounds, viewFrameInWindow);
+        return onScreen == isOnScreen;
     });
 }
 
@@ -150,7 +151,8 @@ RB_EXPORT NSPredicate *RB_thatCanBeSeen(BOOL canBeSeen) {
     NSPredicate *hasPixelToDraw = [NSCompoundPredicate orPredicateWithSubpredicates:@[RB_where(@"clipsToBounds == NO"),
                                                                                       nonZeroSize]];
     NSPredicate *isVisible = RB_withVisibility(YES);
-    NSPredicate *canBeSeenPredicate = RB_includingSuperViews(RB_matching(isVisible, hasPixelToDraw, RB_onScreen()));
+    NSPredicate *nonZeroAlpha = where(@"alpha > 0");
+    NSPredicate *canBeSeenPredicate = RB_includingSuperViews(RB_matching(isVisible, hasPixelToDraw, RB_onScreen(YES), nonZeroAlpha));
     if (!canBeSeen) {
         return [NSCompoundPredicate notPredicateWithSubpredicate:canBeSeenPredicate];
     } else {
@@ -178,38 +180,14 @@ RB_EXPORT void RB_tapOn(id view) {
     RB_tapOn(view, [view center]);
 }
 
-RB_EXPORT void RB_tapOn(id view, CGPoint pointRelativeToView) {
-    NSCAssert(view, @"A view wasn't given to be tapped on");
+RB_EXPORT void RB_tapOn(id view, CGPoint pointRelativeToSuperView) {
     [RBAnimation disableAnimationsInBlock:^{
-        [RBTouch tapOnView:view atPoint:pointRelativeToView];
+        [RBTouch tapOnView:view atPoint:pointRelativeToSuperView];
     }];
-}
-
-RB_EXPORT void RB_touchAndMove(id view, CGPoint *points, NSUInteger numOfPoints) {
-    NSCAssert(view, @"A view wasn't given to be tapped on");
-    NSCAssert(numOfPoints, @"Expected at least 1 point");
-    __block RBTouch *touch;
-    [RBAnimation disableAnimationsInBlock:^{
-        touch = [RBTouch touchOnView:view atPoint:points[0]];
-    }];
-    for (NSUInteger i = 1; i < numOfPoints; i++) {
-        [touch updateRelativePoint:points[i]];
-        [touch updatePhase:(i + 1 == numOfPoints ? UITouchPhaseEnded : UITouchPhaseMoved)];
-        [touch sendEvent];
-    }
 }
 
 RB_EXPORT void RB_touchAndMoveLinearlyOn(id view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints) {
-    NSUInteger numPoints = numOfIntermediatePoints + 2;
-    CGPoint delta = CGPointMake((end.x - start.x) / numPoints,
-                                (end.y - start.y) / numPoints);
-    CGPoint *points = alloca(numPoints * sizeof(CGPoint));
-    points[0] = start;
-    for (NSUInteger i = 1; i < numPoints - 1; i++) {
-        points[i] = CGPointMake(points[i-1].x + delta.x, points[i-1].y + delta.y);
-    }
-    points[numPoints - 1] = end;
-    RB_touchAndMove(view, points, numPoints);
+    [RBTouch touchAndMoveOnView:view intermediatePoints:numOfIntermediatePoints startingPoint:start endingPoint:end endingPhase:UITouchPhaseEnded];
 }
 
 RB_EXPORT void RB_touchAndMoveLinearlyAroundPointOn(id view, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints) {
