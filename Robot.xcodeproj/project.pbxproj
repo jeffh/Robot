@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1F45D7631915E581005271F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
-		1F45D7A619160EDE005271F1 /* UIView+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A519160EDE005271F1 /* UIView+RBTouch.m */; };
 		1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */; };
 		1F45D7AF19161063005271F1 /* RBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AE19161063005271F1 /* RBConstants.m */; };
 		1F45D7C6191647F2005271F1 /* RBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C0191647F2005271F1 /* RBAnimation.m */; };
@@ -67,8 +66,6 @@
 		1F45D7661915E581005271F1 /* Robot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Robot-Prefix.pch"; sourceTree = "<group>"; };
 		1F45D7701915E581005271F1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		1F45D7731915E581005271F1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		1F45D7A419160EDE005271F1 /* UIView+RBTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RBTouch.h"; sourceTree = "<group>"; };
-		1F45D7A519160EDE005271F1 /* UIView+RBTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RBTouch.m"; sourceTree = "<group>"; };
 		1F45D7A719160F19005271F1 /* UINavigationBar+RBTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+RBTouch.h"; sourceTree = "<group>"; };
 		1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+RBTouch.m"; sourceTree = "<group>"; };
 		1F45D7AD19161063005271F1 /* RBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBConstants.h; sourceTree = "<group>"; };
@@ -220,8 +217,6 @@
 			children = (
 				1F45D7A719160F19005271F1 /* UINavigationBar+RBTouch.h */,
 				1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */,
-				1F45D7A419160EDE005271F1 /* UIView+RBTouch.h */,
-				1F45D7A519160EDE005271F1 /* UIView+RBTouch.m */,
 				1FBA18A5193B0B2800EF9E38 /* UIWindow+RB.h */,
 				1FBA18A6193B0B2800EF9E38 /* UIWindow+RB.m */,
 			);
@@ -415,7 +410,6 @@
 				1F45D7AF19161063005271F1 /* RBConstants.m in Sources */,
 				1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */,
 				1F848B50197BBCED00F0966E /* RBAccessibility.m in Sources */,
-				1F45D7A619160EDE005271F1 /* UIView+RBTouch.m in Sources */,
 				1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */,
 				1FC49170193BB11B00C8087D /* NSObject+RBSwizzle.m in Sources */,
 			);
