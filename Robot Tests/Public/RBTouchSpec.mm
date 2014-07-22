@@ -1,6 +1,5 @@
 #import "Robot.h"
 #import "SampleViewController.h"
-#import "UIView+RBTouch.h"
 #import "RBKeyboard.h"
 
 using namespace Cedar::Matchers;
@@ -76,7 +75,7 @@ describe(@"RBTouch", ^{
 
     describe(@"tapping on buttons", ^{
         beforeEach(^{
-            [controller.button tap];
+            tapOn(controller.button);
         });
 
         it(@"should fire its events appropriately", ^{

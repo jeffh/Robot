@@ -1,5 +1,5 @@
 #import "UINavigationBar+RBTouch.h"
-#import "UIView+RBTouch.h"
+#import "RBDSL.h"
 
 
 @interface UINavigationBar (PrivateAPIs)
@@ -25,13 +25,13 @@
 - (void)tapLeftBarButtonAtIndex:(NSInteger)index
 {
     UIView *subview = [self _currentLeftViews][index];
-    [subview tap];
+    tapOn(subview);
 }
 
 - (void)tapRightBarButtonAtIndex:(NSInteger)index
 {
     UIView *subview = [self _currentRightViews][index];
-    [subview tap];
+    tapOn(subview);
 }
 
 @end

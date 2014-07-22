@@ -161,7 +161,7 @@
 {
     // Historically, beta SDKs do not always support this immediately.
     // But this is probably where UIAutomation walks through.
-    BOOL isSupportedSDK = [[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedAscending;
+    BOOL isSupportedSDK = [[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending;
     if (isSupportedSDK) {
         [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
         [[[self activeKeyboardImpl] taskQueue] waitUntilAllTasksAreFinished];

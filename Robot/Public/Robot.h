@@ -1,5 +1,4 @@
 // extensions
-#import "UIView+RBTouch.h"
 #import "UINavigationBar+RBTouch.h"
 #import "UIWindow+RB.h"
 
