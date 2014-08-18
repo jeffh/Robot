@@ -9,6 +9,11 @@ of time-based performance issues.
 
 And like KIF, this uses private APIs.
 
+```
+// tap on a cancel button/label
+swipeLeftOn(theFirstView(withLabel(@"Cancel")));
+```
+
 Components
 ==========
 
