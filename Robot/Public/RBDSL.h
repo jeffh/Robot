@@ -9,7 +9,6 @@
 #define RB_SHORTHAND(PROTO, BODY)
 #endif
 
-
 #pragma mark - View Fetching
 
 RB_EXPORT NSArray *RB_allViews(void); // uses private APIs

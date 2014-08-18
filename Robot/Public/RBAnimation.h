@@ -5,16 +5,6 @@
  */
 @interface RBAnimation : NSObject
 
-/*! Swizzles out certain UIKit classes to disable animation.
- *
- *  Currently, only UIViewController's dismissViewController methods are swizzled.
- */
-+ (void)swizzleOutAnimations;
-
-/*! Unswizzles certain UIKit classes to re-enable animation.
- */
-+ (void)unswizzleAnimations;
-
 /*! Temporarily disables animation and files all animation callbacks for both
  *  UIView and CoreAnimations.
  *

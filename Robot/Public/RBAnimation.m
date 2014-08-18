@@ -61,64 +61,7 @@ static CFRunLoopModeRef RBCFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeNam
     return NULL;
 }
 
-@interface UIViewController (RBSwizzle)
-- (void)original_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion;
-- (void)original_dismissViewControllerAnimated: (BOOL)flag completion: (void (^)(void))completion;
-@end
-
-@interface UIViewController (RB)
-+ (void)RB_attach;
-- (void)RB_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion;
-- (void)RB_dismissViewControllerAnimated: (BOOL)flag completion: (void (^)(void))completion;
-@end
-
-@implementation UIViewController (RB)
-
-+ (void)RB_attach
-{
-    [self RB_swizzleInstanceMethod:@selector(dismissViewControllerAnimated:completion:)
-                       movingOldTo:@selector(original_dismissViewControllerAnimated:completion:)
-                     replacingWith:@selector(RB_dismissViewControllerAnimated:completion:)];
-}
-
-+ (void)RB_detach
-{
-    [self RB_replaceInstanceMethod:@selector(dismissViewControllerAnimated:completion:)
-                        withMethod:@selector(original_dismissViewControllerAnimated:completion:)];
-}
-
-- (void)RB_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion
-{
-    [self original_presentViewController:viewControllerToPresent animated:NO completion:completion];
-}
-
-- (void)RB_dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
-{
-    if (![self valueForKey:@"currentAction"]) { // suppress warning.
-        [self original_dismissViewControllerAnimated:NO completion:completion];
-    }
-}
-
-@end
-
-
 @implementation RBAnimation
-
-+ (void)initialize
-{
-    [super initialize];
-    [self swizzleOutAnimations];
-}
-
-+ (void)swizzleOutAnimations
-{
-    [UIViewController RB_attach];
-}
-
-+ (void)unswizzleAnimations
-{
-    [UIViewController RB_attach];
-}
 
 + (void)disableAnimationsInBlock:(void(^)())block
 {
