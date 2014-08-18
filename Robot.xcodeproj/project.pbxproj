@@ -556,6 +556,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Robot Tests/Robot Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -579,6 +580,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Robot Tests/Robot Tests-Prefix.pch";
 				INFOPLIST_FILE = "Robot Tests/Robot Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
 					"-ObjC",

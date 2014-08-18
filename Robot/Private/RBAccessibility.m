@@ -88,8 +88,9 @@
 - (BOOL)isAlertShowing
 {
     if (NSClassFromString(@"_UIAlertControllerShimPresenter")) { // iOS 8+
-        UIWindow *window = [[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] window];
-        return window != nil;
+        UIWindow *window1 = [[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] window];
+        UIWindow *window2 = [[[[[NSClassFromString(@"_UIAlertControllerShimPresenter") _currentFullScreenAlertPresenters] lastObject] alertController] view] window];
+        return window2 && window1;
     } else {
         UIWindow *window = [UIApplication sharedApplication].keyWindow;
         return [window isKindOfClass:NSClassFromString(@"_UIModalItemHostingWindow")] && [NSClassFromString(@"_UIAlertManager") topMostAlert];

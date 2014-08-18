@@ -88,6 +88,7 @@
 
 + (void)initialize
 {
+    // if we swizzle this class, we get keyboard entry for by the OS
     Class keyboardTouchClass = NSClassFromString(@"UIKeyboardSyntheticTouch");
     if (![keyboardTouchClass instancesRespondToSelector:@selector(_setLocationInWindow:resetPrevious:)]) {
         IMP setLocationAndReset = imp_implementationWithBlock(^(id that, CGPoint point, BOOL reset){ });
@@ -159,8 +160,7 @@
 
 - (void)typeCharacter:(NSString *)character
 {
-    // Historically, beta SDKs do not always support this immediately.
-    // But this is probably where UIAutomation walks through.
+    // Historically, beta SDKs do not always support this.
     BOOL isSupportedSDK = [[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending;
     if (isSupportedSDK) {
         [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
@@ -180,10 +180,7 @@
         [touch updatePhase:UITouchPhaseEnded];
         [touch sendEvent];
 
-        [[layout taskQueue] waitUntilAllTasksAreFinished];
         [[impl taskQueue] waitUntilAllTasksAreFinished];
-        // if we don't do this, the keyboard daemon gets overwhelmed.
-        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate date]];
     }
 }
 
