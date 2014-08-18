@@ -4,6 +4,6 @@
 
 - (id)initWithTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath preferredScrollPosition:(UITableViewScrollPosition)scrollPosition;
 
-- (void)__makeVisible;
+- (void)RB__makeVisible;
 
 @end

@@ -1,13 +1,12 @@
 #import "RBAccessibility.h"
 #import <objc/message.h>
-#import "RBAnimation.h"
+#import "RBTimeLapse.h"
 
 @class UIAlertController;
 
 @interface UIView (PrivateAPIs)
 
 - (void)layoutBelowIfNeeded;
-- (NSString *)recursiveDescription;
 
 @end
 
@@ -15,7 +14,6 @@
 
 + (UIAlertView *)topMostAlert;
 + (void)removeFromStack:(id)arg1;
-+ (void)hideAlertsForTermination;
 
 @end
 
@@ -28,16 +26,7 @@
 @interface _UIAlertControllerShimPresenter : NSObject // iOS 8+
 + (NSArray *)_currentFullScreenAlertPresenters;
 + (void)_removePresenter:(id)presenter;
-- (void)_presentAlertControllerAnimated:(BOOL)animated completion:(void(^)())block;
-- (void)_dismissAlertControllerAnimated:(BOOL)animated completion:(void(^)())block;
 - (UIAlertController *)alertController;
-@end
-
-
-@interface RBAccessibility ()
-
-@property (nonatomic) BOOL shouldRaiseExceptions;
-
 @end
 
 
@@ -67,6 +56,13 @@
         [matchedViews addObjectsFromArray:[self subviewsInView:view satisfyingPredicate:predicate]];
     }
     return matchedViews;
+}
+
+- (void)layoutApplication
+{
+    for (UIView *view in [self windows]) {
+        [view layoutBelowIfNeeded];
+    }
 }
 
 - (NSArray *)windows
@@ -99,8 +95,8 @@
 
 - (void)removeAllAlerts
 {
-    [RBAnimation disableAnimationsInBlock:^{
-        id _UIAlertManager = (id)NSClassFromString(@"_UIAlertManager");
+    [RBTimeLapse disableAnimationsInBlock:^{
+        id _UIAlertManager = (id) NSClassFromString(@"_UIAlertManager");
         UIAlertView *alertView;
         while ((alertView = [_UIAlertManager topMostAlert])) {
             alertView.delegate = nil; // should we be doing this or warning users?
@@ -117,13 +113,6 @@
 }
 
 #pragma mark - Private
-
-- (NSArray *)viewsWithPredicate:(NSPredicate *)predicate inView:(UIView *)view
-{
-    return [self objectsSatisfyingPredicate:predicate
-                                   inObject:view
-                          recursiveSelector:@selector(subviews)];
-}
 
 - (id)objectsSatisfyingPredicate:(NSPredicate *)predicate
                         inObject:(id)object

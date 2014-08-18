@@ -1,6 +1,5 @@
 #import "RBTouch.h"
-#import "RBKeyboard.h"
-#import "RBAnimation.h"
+#import "RBTimeLapse.h"
 
 
 @interface UITouch (PrivateAPIs)
@@ -26,20 +25,12 @@
 
 - (void)_addTouch:(UITouch *)touch forDelayedDelivery:(BOOL)delayDelivery;
 - (void)_clearTouches;
-- (void)_invalidateGestureRecognizerForWindowCache;
 
 @end
 
 @interface UIApplication (PrivateAPIs)
 
 - (id)_touchesEvent;
-
-@end
-
-@interface UIWindow (PrivateAPIs)
-
-- (void)_sendTouchesForEvent:(UIEvent *)event;
-- (void)_createSystemGestureGateGestureRecognizerIfNeeded;
 
 @end
 
@@ -91,7 +82,7 @@
     NSAssert(view, @"A view wasn't given to be tapped on");
     NSAssert(numberOfPoints, @"Expected at least 1 point");
     __block RBTouch *touch;
-    [RBAnimation disableAnimationsInBlock:^{
+    [RBTimeLapse disableAnimationsInBlock:^{
         touch = [RBTouch touchOnView:view atPoint:points[0]];
     }];
     for (NSUInteger i = 1; i < numberOfPoints; i++) {

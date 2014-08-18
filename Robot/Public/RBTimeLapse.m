@@ -1,4 +1,4 @@
-#import "RBAnimation.h"
+#import "RBTimeLapse.h"
 #import "NSObject+RBSwizzle.h"
 #import <pthread/pthread.h>
 
@@ -49,7 +49,7 @@ struct __CFRunLoop {
 
 extern void _CFRuntimeSetInstanceTypeID(CFTypeRef cf, CFTypeID newTypeID);
 
-static CFRunLoopModeRef RBCFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeName) {
+static CFRunLoopModeRef CFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeName) {
     NSSet *set = (__bridge NSSet *)(rl->_modes);
     id modeObj = [[set objectsPassingTest:^BOOL(id obj, BOOL *stop) {
         CFRunLoopModeRef rlm = (__bridge CFRunLoopModeRef)(obj);
@@ -61,7 +61,35 @@ static CFRunLoopModeRef RBCFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeNam
     return NULL;
 }
 
-@implementation RBAnimation
+static bool CFRunLoopIsWaitingForDelayedPerform(CFRunLoopRef runLoop) {
+    NSString *description = [(__bridge id)runLoop description];
+    return [description containsString:@"callout = (Delayed Perform)"];
+}
+
+static bool CFRunLoopIsWaitingWithoutDelayedPerforms(CFRunLoopRef runLoop) {
+    return CFRunLoopIsWaiting(runLoop)
+        || CFRunLoopIsWaitingForDelayedPerform(runLoop);
+}
+
+static void CFRunLoopTruncateTimers(CFRunLoopRef runLoop, CFStringRef runLoopMode) {
+    CFRunLoopModeRef mode = CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode);
+    for (NSUInteger i = 0; i < CFArrayGetCount(mode->_timers); i++) {
+        CFRunLoopTimerRef timer = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(mode->_timers, i);
+        if (CFRunLoopTimerIsValid(timer)) {
+            CFRunLoopTimerSetNextFireDate(timer, [NSDate timeIntervalSinceReferenceDate]);
+        }
+    }
+}
+
+static void CFRunLoopInvalidateTimers(CFRunLoopRef runLoop, CFStringRef runLoopMode) {
+    CFRunLoopModeRef mode = CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode);
+    for (NSUInteger i = 0; i < CFArrayGetCount(mode->_timers); i++) {
+        CFRunLoopTimerRef timer = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(mode->_timers, i);
+        CFRunLoopTimerInvalidate(timer);
+    }
+}
+
+@implementation RBTimeLapse
 
 + (void)disableAnimationsInBlock:(void(^)())block
 {
@@ -77,6 +105,7 @@ static CFRunLoopModeRef RBCFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeNam
     //  4. After #3, small growth             |
     //  5. After #4, small shrinking          -
     //  6. After #5, tell delegate "did" show
+    //     using performSelector:
     //
     // We want both delegate methods to fire, so we need to figure out how to trigger this.
     //
@@ -92,15 +121,15 @@ static CFRunLoopModeRef RBCFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeNam
             [UIView setAnimationDuration:0];
             [UIView setAnimationDelay:0];
             [UIView setAnimationDelegate:self];
-            [UIView setAnimationWillStartSelector:@selector(advanceRunLoopUntilWaiting)];
-            [UIView setAnimationDidStopSelector:@selector(advanceRunLoopUntilWaiting)];
+            [UIView setAnimationWillStartSelector:@selector(advanceMainRunLoop)];
+            [UIView setAnimationDidStopSelector:@selector(advanceMainRunLoop)];
 
             // Disable CoreAnimation
             [CATransaction begin];
             {
                 // attach callbacks to core animations to run the runloops
                 [CATransaction setCompletionBlock:^{
-                    [self advanceRunLoopUntilWaiting];
+                    [self advanceMainRunLoop];
                 }];
                 [CATransaction setAnimationDuration:0];
                 block();
@@ -115,33 +144,26 @@ static CFRunLoopModeRef RBCFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeNam
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate date]];
 }
 
-static bool waitingForAnimation(CFRunLoopRef rl) {
-    NSString *description = [(__bridge id)rl description];
-    return [description containsString:@"callout = (Delayed Perform)"];
++ (void)advanceMainRunLoop
+{
+    [self advanceRunLoop:[NSRunLoop mainRunLoop]];
 }
 
-+ (void)advanceRunLoopUntilWaiting
++ (void)advanceRunLoop:(NSRunLoop *)nsRunLoop
 {
-    __block BOOL finishedRunning = NO;
-    CFRunLoopRef runLoop = [[NSRunLoop mainRunLoop] getCFRunLoop];
-    CFRunLoopObserverRef obs = CFRunLoopObserverCreateWithHandler(NULL, kCFRunLoopBeforeTimers, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
-        CFRunLoopModeRef mode = RBCFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode);
-        for (NSUInteger i = 0; i < CFArrayGetCount(mode->_timers); i++) {
-            CFRunLoopTimerRef timer = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(mode->_timers, i);
-            if (CFRunLoopTimerIsValid(timer)) {
-                CFRunLoopTimerSetNextFireDate(timer, [NSDate timeIntervalSinceReferenceDate]);
-            }
-        }
-        finishedRunning = YES;
-    });
-    CFRunLoopAddObserver(runLoop, obs, kCFRunLoopDefaultMode);
-
+    CFRunLoopRef runLoop = [nsRunLoop getCFRunLoop];
     do {
+        CFRunLoopTruncateTimers(runLoop, kCFRunLoopDefaultMode);
         [[NSRunLoop mainRunLoop] runUntilDate:[NSDate date]];
-    } while (CFRunLoopIsWaiting(runLoop) || waitingForAnimation(runLoop));
+    } while (CFRunLoopIsWaitingWithoutDelayedPerforms(runLoop));
 
-    CFRunLoopRemoveObserver(runLoop, obs, kCFRunLoopDefaultMode);
-    CFRelease(obs);
+}
+
+// TODO: delete this?
++ (void)invalidateTimersForRunLoop:(NSRunLoop *)runLoop
+{
+    CFRunLoopInvalidateTimers([runLoop getCFRunLoop], kCFRunLoopDefaultMode);
+    CFRunLoopInvalidateTimers([runLoop getCFRunLoop], kCFRunLoopCommonModes);
 }
 
 @end

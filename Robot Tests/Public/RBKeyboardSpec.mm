@@ -1,6 +1,6 @@
 #import "Robot.h"
 #import "SampleViewController.h"
-#import "RBAnimation.h"
+#import "RBTimeLapse.h"
 
 
 using namespace Cedar::Matchers;
@@ -21,7 +21,7 @@ describe(@"RBKeyboard", ^{
         controller = [[SampleViewController alloc] init];
         controller.view should_not be_nil;
         controller.textField.delegate = textDelegate;
-        [UIWindow windowForTesting].rootViewController = controller;
+        [UIWindow createWindowForTesting].rootViewController = controller;
     });
 
     afterEach(^{

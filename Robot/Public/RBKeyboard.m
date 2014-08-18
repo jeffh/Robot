@@ -1,6 +1,6 @@
 #import "RBKeyboard.h"
 #import "RBTouch.h"
-#import "RBAnimation.h"
+#import "RBTimeLapse.h"
 #import <objc/runtime.h>
 
 
@@ -136,7 +136,7 @@
 
 - (void)dismiss
 {
-    [RBAnimation disableAnimationsInBlock:^{
+    [RBTimeLapse disableAnimationsInBlock:^{
         [[self activeKeyboardImpl] dismissKeyboard];
     }];
 }
@@ -151,11 +151,6 @@
 - (UIKeyboardImpl *)activeKeyboardImpl
 {
     return [UIKeyboardImpl activeInstance];
-}
-
-- (BOOL)isOnScreen
-{
-    return [[self activeKeyboard] typingEnabled];
 }
 
 - (void)typeCharacter:(NSString *)character

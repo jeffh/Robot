@@ -13,7 +13,7 @@ describe(@"RBTouch", ^{
     beforeEach(^{
         controller = [[SampleViewController alloc] init];
         controller.view should_not be_nil;
-        [[UIWindow windowForTesting] addSubview:controller.view];
+        [[UIWindow createWindowForTesting] addSubview:controller.view];
     });
 
     describe(@"triggering a tap gesture recognizer", ^{

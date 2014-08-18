@@ -26,6 +26,48 @@
     return self;
 }
 
+- (instancetype)init
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+#pragma mark - Public
+
+- (id)cellForRow:(NSUInteger)row inSection:(NSUInteger)section
+{
+    return [self cellForIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
+}
+
+- (id)cellForIndexPath:(NSIndexPath *)indexPath
+{
+    return [[RBTableViewCellProxy alloc] initWithTableView:self.tableView
+                                                 indexPath:indexPath
+                                   preferredScrollPosition:self.preferredScrollPosition];
+}
+
+- (id)cellAtIndex:(NSUInteger)index
+{
+    return self[index];
+}
+
+- (void)scrollToRow:(NSUInteger)row inSection:(NSUInteger)section
+{
+    [self scrollToIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
+}
+
+- (void)scrollToIndexPath:(NSIndexPath *)indexPath
+{
+    [[self cellForIndexPath:indexPath] RB__makeVisible];
+}
+
+- (void)scrollToIndex:(NSUInteger)index
+{
+    [self[index] RB__makeVisible];
+}
+
+#pragma mark - NSArray
+
 - (NSUInteger)count
 {
     NSUInteger rowCount = 0;
@@ -38,9 +80,10 @@
 
 - (id)objectAtIndex:(NSUInteger)index
 {
-    NSIndexPath *targetedIndexPath = [self indexPathForVisibleCellIndex:index];
-    return [[RBTableViewCellProxy alloc] initWithTableView:self.tableView indexPath:targetedIndexPath preferredScrollPosition:self.preferredScrollPosition];
+    return [self cellForIndexPath:[self indexPathForVisibleCellIndex:index]];
 }
+
+#pragma mark - NSObject
 
 - (id)valueForKeyPath:(NSString *)keyPath
 {
@@ -62,11 +105,6 @@
         }
     }
     return indexPaths;
-}
-
-- (void)scrollToIndex:(NSUInteger)index
-{
-    [self[index] __makeVisible];
 }
 
 #pragma mark - Private

@@ -29,7 +29,7 @@ describe(@"RBAccessibility", ^{
             firstAlert = [[UIAlertView alloc] initWithTitle:@"First" message:@"message" delegate:alertDelegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
             secondAlert = [[UIAlertView alloc] initWithTitle:@"Second" message:@"message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
 
-            [RBAnimation disableAnimationsInBlock:^{
+            [RBTimeLapse disableAnimationsInBlock:^{
                 [firstAlert show];
             }];
         });
@@ -58,7 +58,7 @@ describe(@"RBAccessibility", ^{
 
         context(@"displaying another alert view", ^{
             beforeEach(^{
-                [RBAnimation disableAnimationsInBlock:^{
+                [RBTimeLapse disableAnimationsInBlock:^{
                     [secondAlert show];
                 }];
             });

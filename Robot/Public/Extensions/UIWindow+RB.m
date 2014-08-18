@@ -2,7 +2,7 @@
 
 @implementation UIWindow (RB)
 
-+ (instancetype)windowForTesting
++ (instancetype)createWindowForTesting
 {
     UIWindow *window = [[self alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [window makeKeyAndVisible];

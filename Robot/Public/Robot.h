@@ -7,7 +7,7 @@
 #import "RBConstants.h"
 
 // drivers
-#import "RBAnimation.h"
+#import "RBTimeLapse.h"
 #import "RBKeyboard.h"
 
 // DSL

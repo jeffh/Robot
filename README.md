@@ -1,25 +1,26 @@
 Robot
 =====
 
-An experiemental integration test library for UIKit.
+An integration test library on UIKit.
 
 Unlike KIF, this does not aim to emulate how users interact with the system.
 But instead, try to replicate the same behavior while minimizing the overhead
-of progressing the run loop under test.
+of time-based performance issues.
 
 And like KIF, this uses private APIs.
 
 Components
 ==========
 
-There a 3 main parts to this library:
+There are 4 main parts to this library:
 
- - View Query - Provides an API to find views and manage alerts
- - Keyboard - Provides an API to interact with the system default keyboard
- - Touch - Provides an API to interact with views
+ - View Query - Provides an API to find views and manage alerts.
+ - Keyboard - Provides an API to interact with the system default keyboard.
+ - Touch - Provides an API to interact with views.
+ - TimeLapse - Provides an API to speed up time-based operations (Animations + RunLoop).
 
 View Query
-----------
+==========
 
 This component provides a DSL to find for views. They're built upon recursive
 subview walking and NSPredicate.
@@ -49,11 +50,26 @@ You can use NSPredicate directly, or compose the helper functions:
         - The view has a non-zero ``alpha`` value
         - The view has ``clipsToBounds`` as ``NO`` OR the view has a non-zero size.
 
-Keyboard
---------
+Table Views
+-----------
 
-Robot wraps UIKit's keyboard with a basic interface to control. The interface
-is on ``RBKeyboard``:
+Verifying behavior of table views would still be cumbersome without some model to inspect
+the table without explicitly scrolling. Use ``RBTableViewCellsProxy``:
+
+```
+RBTableViewCellsProxy *cells = [RBTableViewCellsProxy cellsFromTableView:tableView];
+cells[0] // -> Returns proxy to the first table view's cell
+[cells[0] textLabel].text // works as expected
+cells[100] // -> Returns another proxy
+[cells[100] textLabel].text // works. Table view is scrolled before accessed.
+```
+
+
+Keyboard
+========
+
+Robot wraps UIKit's keyboard with a basic interface to control it. The
+interface is on ``RBKeyboard``:
 
 ```
 // focus a text field to get keyboard focus
@@ -72,10 +88,11 @@ To type special characters on the keyboard use ``-[typeKey:]`` instead:
 ```
 
 Touch
------
+=====
 
 Robot implements its own UITouch subclass, ``RBTouch``, that simulates touch
-events through your application.
+events through your application. You can emulate any complex touch interaction
+to your application with this class.
 
 Along with ``RBTouch`` there are DSL functions that can keep you syntax concise for tests.
 
@@ -86,3 +103,39 @@ tapOn(myButton);
 tapOn(myButton, pointRelativeToSuperView);
 ```
 
+But more complex gestures are supported:
+
+```
+swipeLeftOn(myView);
+swipeUpOn(myView);
+swipeDownOn(myView);
+swipeRightOn(myView);
+```
+
+TimeLapse
+=========
+
+Robot can optionally speed up specific operations as needed. To disable animations under
+test and call any completion blocks, use the ``-[disableAnimationsInBlock:]`` API:
+
+```
+[RBTimeLapse disableAnimationsInBlock:^{
+    [UIView animateWithDuration:2 animations:^{
+        view.x = 200;        
+    } completion:^(BOOL finished){
+        view.hidden = YES;
+    }];
+}];
+
+view.isHidden // => YES;
+```
+
+Internally, ``RBTimeLapse`` will advance the run loop while disabling animations
+and set timer delays to zero.
+
+If you just want the latter without disabling animations, you can do:
+
+```
+[logger performSelector:@selector(logMessage:) withObject:@"hello" afterDelay:1];
+[RBTimeLapse advanceMainRunLoop]; // calls [logger logMessage:@"hello"]
+```

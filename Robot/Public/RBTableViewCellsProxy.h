@@ -14,18 +14,41 @@
  *      cells[1] // second cell
  *      cells[2] // third cell
  *
+ *  The returned cells are proxies to the underlying ones, so don't be too clever.
  */
 @interface RBTableViewCellsProxy : NSArray
 
 @property (nonatomic) UITableViewScrollPosition preferredScrollPosition;
 
 + (instancetype)cellsFromTableView:(UITableView *)tableView;
+- (instancetype)initWithTableView:(UITableView *)tableView;
+
+/*! Returns a table view cell at the given index path
+ */
+- (id)cellForRow:(NSUInteger)row inSection:(NSUInteger)section;
+
+/*! Returns a table view cell at the given index path
+ */
+- (id)cellForIndexPath:(NSIndexPath *)indexPath;
+
+/*! Returns a table view cell at the given index
+ */
+- (id)cellAtIndex:(NSUInteger)index; // alias to index access
+
 
 /*! Returns an array of all the indexPaths this table view has.
  */
 - (NSArray *)indexPaths;
 
-/*! Scrolls to a given index offset.
+/*! Scrolls to a given cell at a given index path
+ */
+- (void)scrollToRow:(NSUInteger)row inSection:(NSUInteger)section;
+
+/*! Scrolls to a given cell at a given index path
+ */
+- (void)scrollToIndexPath:(NSIndexPath *)indexPath;
+
+/*! Scrolls to a given cell at a given index offset.
  */
 - (void)scrollToIndex:(NSUInteger)index;
 

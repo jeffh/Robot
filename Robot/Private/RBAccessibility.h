@@ -22,6 +22,10 @@
 - (NSArray *)subviewsOfViews:(NSArray *)views
          satisfyingPredicate:(NSPredicate *)predicate;
 
+/*! Recursively lays out all windows in the application
+ */
+- (void)layoutApplication;
+
 /*! Returns all windows. Identical to [[UIApplication sharedApplication] windows] except
  *  it may include a private UIWindow when alerts are visible.
  *

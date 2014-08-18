@@ -2,7 +2,7 @@
 #import "RBAccessibility.h"
 #import "RBTouch.h"
 #import "NSObject+RBKVCUndefined.h"
-#import "RBAnimation.h"
+#import "RBTimeLapse.h"
 
 
 #pragma mark - View Fetching
@@ -181,7 +181,7 @@ RB_EXPORT void RB_tapOn(id view) {
 }
 
 RB_EXPORT void RB_tapOn(id view, CGPoint pointRelativeToSuperView) {
-    [RBAnimation disableAnimationsInBlock:^{
+    [RBTimeLapse disableAnimationsInBlock:^{
         [RBTouch tapOnView:view atPoint:pointRelativeToSuperView];
     }];
 }

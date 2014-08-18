@@ -18,32 +18,32 @@
 
 - (id)forwardingTargetForSelector:(SEL)aSelector
 {
-    return [self __retrieveCell];
+    return [self RB__retrieveCell];
 }
 
 - (id)valueForKey:(NSString *)key
 {
-    return [[self __retrieveCell] valueForKey:key];
+    return [[self RB__retrieveCell] valueForKey:key];
 }
 
 - (id)valueForKeyPath:(NSString *)keyPath
 {
-    return [[self __retrieveCell] valueForKeyPath:keyPath];
+    return [[self RB__retrieveCell] valueForKeyPath:keyPath];
 }
 
 - (void)setValue:(id)value forKey:(NSString *)key
 {
-    return [[self __retrieveCell] setValue:value forKey:key];
+    return [[self RB__retrieveCell] setValue:value forKey:key];
 }
 
-- (void)__makeVisible
+- (void)RB__makeVisible
 {
-    [self __retrieveCell];
+    [self RB__retrieveCell];
 }
 
 #pragma mark - Private
 
-- (UITableViewCell *)__retrieveCell
+- (UITableViewCell *)RB__retrieveCell
 {
     [__tableView scrollToRowAtIndexPath:__indexPath
                        atScrollPosition:__scrollPosition
