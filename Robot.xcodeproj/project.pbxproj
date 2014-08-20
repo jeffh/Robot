@@ -12,7 +12,6 @@
 		1F45D7AF19161063005271F1 /* RBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AE19161063005271F1 /* RBConstants.m */; };
 		1F45D7C6191647F2005271F1 /* RBTimeLapse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C0191647F2005271F1 /* RBTimeLapse.m */; };
 		1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C2191647F2005271F1 /* RBKeyboard.m */; };
-		1F61923319A1986600FFDCA9 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 1F61923219A1986600FFDCA9 /* README.md */; };
 		1F7E867419399A690039400F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7731915E581005271F1 /* UIKit.framework */; };
 		1F7E867519399A690039400F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
 		1F7E867619399A690039400F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FEB7D841936EB6A006F7479 /* CoreGraphics.framework */; };
@@ -412,7 +411,6 @@
 				1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */,
 				1F45D7AF19161063005271F1 /* RBConstants.m in Sources */,
 				1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */,
-				1F61923319A1986600FFDCA9 /* README.md in Sources */,
 				1F848B50197BBCED00F0966E /* RBAccessibility.m in Sources */,
 				1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */,
 				1FC49170193BB11B00C8087D /* NSObject+RBSwizzle.m in Sources */,

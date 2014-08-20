@@ -44,6 +44,7 @@
 
 - (NSArray *)subviewsInView:(UIView *)view satisfyingPredicate:(NSPredicate *)predicate
 {
+    [view layoutBelowIfNeeded];
     return [self objectsSatisfyingPredicate:predicate
                                    inObject:view
                           recursiveSelector:@selector(subviews)];
@@ -108,7 +109,9 @@
     id _UIAlertControllerShimPresenter = (id)NSClassFromString(@"_UIAlertControllerShimPresenter");
     while ([_UIAlertControllerShimPresenter _currentFullScreenAlertPresenters].count) {
         id lastPresenter = [[_UIAlertControllerShimPresenter _currentFullScreenAlertPresenters] lastObject];
-        [_UIAlertControllerShimPresenter _removePresenter:lastPresenter];
+        [RBTimeLapse disableAnimationsInBlock:^{
+            [_UIAlertControllerShimPresenter _removePresenter:lastPresenter];
+        }];
     }
 }
 

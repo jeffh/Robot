@@ -14,7 +14,7 @@ typedef struct __CFRunLoopMode *CFRunLoopModeRef;
 
 struct __CFRunLoopMode {
     CFRuntimeBase _base;
-    pthread_mutex_t _lock;	/* must have the run loop locked before locking this */
+    pthread_mutex_t _lock;
     CFStringRef _name;
     Boolean _stopped;
     char _padding[3];
@@ -32,10 +32,10 @@ typedef struct __CFRunLoop *CFRunLoopRef;
 
 struct __CFRunLoop {
     CFRuntimeBase _base;
-    pthread_mutex_t _lock;			/* locked for accessing mode list */
-    mach_port_t _wakeUpPort;			// used for CFRunLoopWakeUp
+    pthread_mutex_t _lock;
+    mach_port_t _wakeUpPort;
     Boolean _unused;
-    void *_perRunData;              // reset for runs of the run loop
+    void *_perRunData;
     pthread_t _pthread;
     uint32_t _winthread;
     CFMutableSetRef _commonModes;
@@ -61,31 +61,13 @@ static CFRunLoopModeRef CFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeName)
     return NULL;
 }
 
-static bool CFRunLoopIsWaitingForDelayedPerform(CFRunLoopRef runLoop) {
-    NSString *description = [(__bridge id)runLoop description];
-    return [description containsString:@"callout = (Delayed Perform)"];
-}
-
-static bool CFRunLoopIsWaitingWithoutDelayedPerforms(CFRunLoopRef runLoop) {
-    return CFRunLoopIsWaiting(runLoop)
-        || CFRunLoopIsWaitingForDelayedPerform(runLoop);
-}
-
-static void CFRunLoopTruncateTimers(CFRunLoopRef runLoop, CFStringRef runLoopMode) {
+static void CFRunLoopZeroFireDateOfTimers(CFRunLoopRef runLoop, CFStringRef runLoopMode) {
     CFRunLoopModeRef mode = CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode);
-    for (NSUInteger i = 0; i < CFArrayGetCount(mode->_timers); i++) {
+    for (NSUInteger i = 0, count = CFArrayGetCount(mode->_timers); i < count; i++) {
         CFRunLoopTimerRef timer = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(mode->_timers, i);
         if (CFRunLoopTimerIsValid(timer)) {
             CFRunLoopTimerSetNextFireDate(timer, [NSDate timeIntervalSinceReferenceDate]);
         }
-    }
-}
-
-static void CFRunLoopInvalidateTimers(CFRunLoopRef runLoop, CFStringRef runLoopMode) {
-    CFRunLoopModeRef mode = CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode);
-    for (NSUInteger i = 0; i < CFArrayGetCount(mode->_timers); i++) {
-        CFRunLoopTimerRef timer = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(mode->_timers, i);
-        CFRunLoopTimerInvalidate(timer);
     }
 }
 
@@ -141,7 +123,7 @@ static void CFRunLoopInvalidateTimers(CFRunLoopRef runLoop, CFStringRef runLoopM
     [UIView setAnimationsEnabled:YES];
 
     // trigger animation callbacks
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate date]];
+    [self advanceMainRunLoop];
 }
 
 + (void)advanceMainRunLoop
@@ -152,18 +134,15 @@ static void CFRunLoopInvalidateTimers(CFRunLoopRef runLoop, CFStringRef runLoopM
 + (void)advanceRunLoop:(NSRunLoop *)nsRunLoop
 {
     CFRunLoopRef runLoop = [nsRunLoop getCFRunLoop];
+    NSSet *previousTimers = [NSSet set];
+    NSSet *timers = [NSSet setWithArray:(__bridge NSArray *)(CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode)->_timers)];
     do {
-        CFRunLoopTruncateTimers(runLoop, kCFRunLoopDefaultMode);
+        previousTimers = timers;
+        CFRunLoopZeroFireDateOfTimers(runLoop, kCFRunLoopDefaultMode);
         [[NSRunLoop mainRunLoop] runUntilDate:[NSDate date]];
-    } while (CFRunLoopIsWaitingWithoutDelayedPerforms(runLoop));
+        timers = [NSSet setWithArray:(__bridge NSArray *)(CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode)->_timers)];
+    } while (CFRunLoopIsWaiting(runLoop) || ![previousTimers isEqual:timers]);
 
-}
-
-// TODO: delete this?
-+ (void)invalidateTimersForRunLoop:(NSRunLoop *)runLoop
-{
-    CFRunLoopInvalidateTimers([runLoop getCFRunLoop], kCFRunLoopDefaultMode);
-    CFRunLoopInvalidateTimers([runLoop getCFRunLoop], kCFRunLoopCommonModes);
 }
 
 @end
