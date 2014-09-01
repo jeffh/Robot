@@ -12,6 +12,11 @@
  */
 + (instancetype)mainKeyboard;
 
+
+- (BOOL)isVisible;
+
+- (void)clearText;
+
 /*! Attempts to type the given string to whatever input that has keyboard focus.
  *  Capitalization from the string is preserved, even if the textfield has
  *  special capitalization rules.

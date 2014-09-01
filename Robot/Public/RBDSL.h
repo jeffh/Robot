@@ -26,6 +26,8 @@ RB_EXPORT id RB_theFirstView(NSPredicate *predicate); // uses private APIs
 RB_EXPORT id RB_theFirstView(NSPredicate *predicate, NSArray *viewsToSearch);
 RB_EXPORT id RB_theFirstView(NSPredicate *predicate, UIView *viewToSearch);
 
+RB_EXPORT UIView *RB_inViewController(UIViewController *viewController);
+
 RB_EXPORT BOOL RB_isView(NSPredicate *predicate, UIView *view);
 RB_EXPORT BOOL RB_isAlertVisible(void); // uses private APIs
 
@@ -46,13 +48,18 @@ RB_EXPORT NSPredicate *_RB_matching(NSArray *predicate);
 
 // High-level querying
 RB_EXPORT NSPredicate *RB_ofExactClass(Class aClass);
+RB_EXPORT NSPredicate *RB_ofExactClass(NSString *className);
 RB_EXPORT NSPredicate *RB_ofClass(Class aClass); // allows subclasses
+RB_EXPORT NSPredicate *RB_ofClass(NSString *className); // allows subclasses
+RB_EXPORT NSPredicate *RB_withText(NSString *text);
 RB_EXPORT NSPredicate *RB_withLabel(NSString *accessibilityLabelOrText);
 RB_EXPORT NSPredicate *RB_withTraits(UIAccessibilityTraits traits);
 RB_EXPORT NSPredicate *RB_withVisibility(BOOL isVisible); // checks isHidden property
+RB_EXPORT NSPredicate *RB_withImage(UIImage *image);
 RB_EXPORT NSPredicate *RB_withAccessibility(BOOL isAccessibilityView);
 RB_EXPORT NSPredicate *RB_onScreen(BOOL isOnScreen); // intersects or is inside the screen bounds
 RB_EXPORT NSPredicate *RB_thatCanBeSeen(BOOL isVisible); // the view and all parents are visible
+RB_EXPORT NSPredicate *RB_withParent(NSPredicate *predicateForParent);
 
 #pragma mark - View Interaction
 // All interactions use private APIs
@@ -90,36 +97,24 @@ RB_EXPORT void RB_swipeDownOn(id view);
 
 #pragma mark View Fetching
 
-RB_SHORTHAND(NSArray *allViews(void),
-             RB_allViews());  // uses private APIs
-RB_SHORTHAND(NSArray *allViews(NSPredicate *predicate),
-             RB_allViews(predicate));  // uses private APIs
-RB_SHORTHAND(NSArray *allViews(NSPredicate *predicate, NSArray *viewsToSearch),
-             RB_allViews(predicate, viewsToSearch));
-RB_SHORTHAND(NSArray *allViews(NSPredicate *predicate, UIView *viewToSearch),
-             RB_allViews(predicate, viewToSearch));
+RB_SHORTHAND(NSArray *allViews(void), RB_allViews());  // uses private APIs
+RB_SHORTHAND(NSArray *allViews(NSPredicate *predicate), RB_allViews(predicate));  // uses private APIs
+RB_SHORTHAND(NSArray *allViews(NSPredicate *predicate, NSArray *viewsToSearch), RB_allViews(predicate, viewsToSearch));
+RB_SHORTHAND(NSArray *allViews(NSPredicate *predicate, UIView *viewToSearch), RB_allViews(predicate, viewToSearch));
 
-RB_SHORTHAND(NSArray *allSubViews(void),
-             RB_allSubViews()); // uses private APIs
-RB_SHORTHAND(NSArray *allSubViews(NSPredicate *predicate),
-             RB_allSubViews(predicate)); // uses private APIs
-RB_SHORTHAND(NSArray *allSubViews(NSPredicate *predicate, NSArray *viewsToSearch),
-             RB_allSubViews(predicate, viewsToSearch));
-RB_SHORTHAND(NSArray *allSubViews(NSPredicate *predicate, UIView *viewToSearch),
-             RB_allSubViews(predicate, viewToSearch));
-RB_SHORTHAND(id theFirstView(void),
-             RB_theFirstView()); // uses private APIs
-RB_SHORTHAND(id theFirstView(NSPredicate *predicate),
-             RB_theFirstView(predicate)); // uses private APIs
-RB_SHORTHAND(id theFirstView(NSPredicate *predicate, NSArray *viewsToSearch),
-             RB_theFirstView(predicate, viewsToSearch));
-RB_SHORTHAND(id theFirstView(NSPredicate *predicate, UIView *viewToSearch),
-             RB_theFirstView(predicate, viewToSearch));
+RB_SHORTHAND(NSArray *allSubViews(void), RB_allSubViews()); // uses private APIs
+RB_SHORTHAND(NSArray *allSubViews(NSPredicate *predicate), RB_allSubViews(predicate)); // uses private APIs
+RB_SHORTHAND(NSArray *allSubViews(NSPredicate *predicate, NSArray *viewsToSearch), RB_allSubViews(predicate, viewsToSearch));
+RB_SHORTHAND(NSArray *allSubViews(NSPredicate *predicate, UIView *viewToSearch), RB_allSubViews(predicate, viewToSearch));
+RB_SHORTHAND(id theFirstView(void), RB_theFirstView()); // uses private APIs
+RB_SHORTHAND(id theFirstView(NSPredicate *predicate), RB_theFirstView(predicate)); // uses private APIs
+RB_SHORTHAND(id theFirstView(NSPredicate *predicate, NSArray *viewsToSearch), RB_theFirstView(predicate, viewsToSearch));
+RB_SHORTHAND(id theFirstView(NSPredicate *predicate, UIView *viewToSearch), RB_theFirstView(predicate, viewToSearch));
 
-RB_SHORTHAND(BOOL isView(NSPredicate *predicate, UIView *view),
-             RB_isView(predicate, view));
-RB_SHORTHAND(BOOL isAlertVisible(void),
-             RB_isAlertVisible()); // uses private APIs
+RB_SHORTHAND(UIView *inViewController(UIViewController *viewController), RB_inViewController(viewController));
+
+RB_SHORTHAND(BOOL isView(NSPredicate *predicate, UIView *view), RB_isView(predicate, view));
+RB_SHORTHAND(BOOL isAlertVisible(void), RB_isAlertVisible()); // uses private APIs
 
 #pragma mark View Mutation
 
@@ -127,10 +122,8 @@ RB_SHORTHAND(void removeAllAlerts(void), RB_removeAllAlerts()); // uses private 
 
 #pragma mark View Querying
 
-RB_SHORTHAND(NSPredicate *where(BOOL(^matcher)(UIView *view)),
-             RB_where(matcher));
-RB_SHORTHAND(NSPredicate *includingSuperViews(NSPredicate *predicate),
-             RB_includingSuperViews(predicate));
+RB_SHORTHAND(NSPredicate *where(BOOL(^matcher)(UIView *view)), RB_where(matcher));
+RB_SHORTHAND(NSPredicate *includingSuperViews(NSPredicate *predicate), RB_includingSuperViews(predicate));
 
 #ifndef RB_DISABLE_SHORTHAND
 #define matching RB_matching
@@ -145,22 +138,19 @@ RB_INLINE NSPredicate *where(NSString *predicateFormat, ...) {
 
 #endif
 
-RB_SHORTHAND(NSPredicate *ofExactClass(Class aClass),
-             RB_ofExactClass(aClass));
-RB_SHORTHAND(NSPredicate *ofClass(Class aClass),
-             RB_ofClass(aClass)); // allows subclasses
-RB_SHORTHAND(NSPredicate *withLabel(NSString *accessibilityLabelOrText),
-             RB_withLabel(accessibilityLabelOrText));
-RB_SHORTHAND(NSPredicate *withTraits(UIAccessibilityTraits traits),
-             RB_withTraits(traits));
-RB_SHORTHAND(NSPredicate *withVisibility(BOOL isVisible),
-             RB_withVisibility(isVisible)); // checks isHidden property
-RB_SHORTHAND(NSPredicate *withAccessibility(BOOL isAccessibilityView),
-             RB_withAccessibility(isAccessibilityView));
-RB_SHORTHAND(NSPredicate *onScreen(BOOL isOnScreen),
-             RB_onScreen(isOnScreen)); // intersects or is inside the screen bounds
-RB_SHORTHAND(NSPredicate *thatCanBeSeen(BOOL isVisible),
-             RB_thatCanBeSeen(isVisible)); // the view and all parents are visible
+RB_SHORTHAND(NSPredicate *ofExactClass(Class aClass), RB_ofExactClass(aClass));
+RB_SHORTHAND(NSPredicate *ofExactClass(NSString *className), RB_ofExactClass(className));
+RB_SHORTHAND(NSPredicate *ofClass(Class aClass), RB_ofClass(aClass));
+RB_SHORTHAND(NSPredicate *ofClass(NSString *className), RB_ofClass(className));
+RB_SHORTHAND(NSPredicate *withText(NSString *text), RB_withText(text));
+RB_SHORTHAND(NSPredicate *withLabel(NSString *accessibilityLabelOrText), RB_withLabel(accessibilityLabelOrText));
+RB_SHORTHAND(NSPredicate *withTraits(UIAccessibilityTraits traits), RB_withTraits(traits));
+RB_SHORTHAND(NSPredicate *withVisibility(BOOL isVisible), RB_withVisibility(isVisible));
+RB_SHORTHAND(NSPredicate *withImage(UIImage *image), RB_withImage(image));
+RB_SHORTHAND(NSPredicate *withAccessibility(BOOL isAccessibilityView), RB_withAccessibility(isAccessibilityView));
+RB_SHORTHAND(NSPredicate *onScreen(BOOL isOnScreen), RB_onScreen(isOnScreen));
+RB_SHORTHAND(NSPredicate *thatCanBeSeen(BOOL isVisible), RB_thatCanBeSeen(isVisible));
+RB_SHORTHAND(NSPredicate *withParent(NSPredicate *predicateForParent), RB_withParent(predicateForParent));
 
 #pragma mark View Interactions
 

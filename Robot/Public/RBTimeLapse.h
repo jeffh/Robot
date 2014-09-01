@@ -35,4 +35,8 @@
  */
 + (void)advanceMainRunLoop;
 
+
++ (void)resetMainRunLoop;
++ (void)resetRunLoop:(NSRunLoop *)nsRunLoop;
+
 @end

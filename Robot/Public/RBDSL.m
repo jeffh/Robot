@@ -22,6 +22,15 @@ RB_EXPORT NSArray *RB_allViews(NSPredicate *predicate, NSArray *viewsToSearch) {
     [UIView RB_allowUndefinedKeysInBlock:^{
         results = [[RBAccessibility sharedInstance] subviewsOfViews:viewsToSearch
                                                 satisfyingPredicate:predicate];
+        [results sortedArrayUsingComparator:^NSComparisonResult(UIView *view1, UIView *view2) {
+            CGRect frame1 = view1.frame;
+            CGRect frame2 = view2.frame;
+            NSComparisonResult result = [@(frame1.origin.y) compare:@(frame2.origin.y)];
+            if (result == NSOrderedSame) {
+                return [@(frame1.origin.x) compare:@(frame2.origin.x)];
+            }
+            return result;
+        }];
     }];
     return results;
 }
@@ -62,6 +71,10 @@ RB_EXPORT id RB_theFirstView(NSPredicate *predicate, NSArray *viewsToSearch) {
 
 RB_EXPORT id RB_theFirstView(NSPredicate *predicate, UIView *viewToSearch) {
     return [RB_allViews(predicate, viewToSearch) firstObject];
+}
+
+RB_EXPORT UIView *RB_inViewController(UIViewController *viewController) {
+    return viewController.view;
 }
 
 RB_EXPORT BOOL RB_isView(NSPredicate *predicate, UIView *view) {
@@ -105,13 +118,33 @@ RB_EXPORT NSPredicate *RB_ofExactClass(Class aClass) {
     return RB_where(@"class == %@", aClass);
 }
 
+RB_EXPORT NSPredicate *RB_ofExactClass(NSString *className) {
+    Class aClass = NSClassFromString(className);
+    NSCAssert(aClass, @"Class was not found: %@", className);
+    return RB_ofExactClass(aClass);
+}
+
 RB_EXPORT NSPredicate *RB_ofClass(Class aClass) {
     return RB_where(@"self isKindOfClass: %@", aClass);
 }
 
+RB_EXPORT NSPredicate *RB_ofClass(NSString *className) {
+    Class aClass = NSClassFromString(className);
+    NSCAssert(aClass, @"Class was not found: %@", className);
+    return RB_ofClass(aClass);
+}
+
+RB_EXPORT NSPredicate *RB_withText(NSString *text) {
+    return RB_where(@"text == %@", text);
+}
+
 RB_EXPORT NSPredicate *RB_withLabel(NSString *accessibilityLabel) {
-    return RB_where(@"accessibilityLabel == %@ OR text == %@",
-                    accessibilityLabel, accessibilityLabel);
+    return RB_where(@"accessibilityLabel == %@ "
+                    @"OR text == %@ "
+                    @"OR placeholder == %@",
+                    accessibilityLabel,
+                    accessibilityLabel,
+                    accessibilityLabel);
 }
 
 RB_EXPORT NSPredicate *RB_withTraits(UIAccessibilityTraits traits) {
@@ -126,6 +159,18 @@ RB_EXPORT NSPredicate *RB_withAccessibility(BOOL isAcessibilityView) {
 
 RB_EXPORT NSPredicate *RB_withVisibility(BOOL isVisible) {
     return RB_where(@"hidden == %@", @(!isVisible));
+}
+
+RB_EXPORT NSPredicate *RB_withImage(UIImage *image) {
+    return RB_where(^BOOL(UIView *view) {
+        UIImage *viewImage = [view valueForKey:@"image"];
+        return viewImage && (
+            [viewImage isEqual:image] || (
+                CGSizeEqualToSize(viewImage.size, image.size) &&
+                [UIImagePNGRepresentation(viewImage) isEqual:UIImagePNGRepresentation(image)]
+            )
+        );
+    });
 }
 
 RB_EXPORT NSPredicate *RB_onScreen(BOOL isOnScreen) {
@@ -158,6 +203,10 @@ RB_EXPORT NSPredicate *RB_thatCanBeSeen(BOOL canBeSeen) {
     } else {
         return canBeSeenPredicate;
     }
+}
+
+RB_EXPORT NSPredicate *RB_withParent(NSPredicate *predicateForParent) {
+    return RB_where(@"self.superview != nil AND %@ evaluateWithObject: self.superview", predicateForParent);
 }
 
 RB_EXPORT NSPredicate *RB_where(NSString *predicateFormat, ...) {

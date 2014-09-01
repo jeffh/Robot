@@ -28,6 +28,8 @@
 @interface UIKeyboardTaskQueue : NSObject
 
 - (void)waitUntilAllTasksAreFinished;
+- (void)performTask:(id)task;
+- (void)performTaskOnMainThread:(id)task waitUntilDone:(BOOL)done;
 
 @end
 
@@ -49,6 +51,7 @@
 
 - (void)changeToKeyplane:(id)keyplane;
 - (id)keyplaneForKey:(UIKBTree *)key;
+- (id)currentKeyplane;
 - (UIKBTree *)baseKeyForString:(NSString *)character;
 - (UIKBKeyplaneView *)currentKeyplaneView;
 
@@ -65,6 +68,7 @@
 - (void)cancelSplitTransition;
 - (void)setSplitProgress:(double)progress;
 - (void)_setNeedsCandidates:(BOOL)needsCandidates;
+- (void)handleClear;
 
 - (UIKeyboardLayoutStar *)_layout;
 
@@ -107,10 +111,22 @@
     return RBKeyboard__;
 }
 
+- (BOOL)isVisible {
+    return [UIKeyboard isOnScreen];
+}
+
+- (void)clearText
+{
+    NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type. Did you forget to add the views into a UIWindow?");
+    UIKeyboardImpl *impl = [self activeKeyboardImpl];
+    [impl handleClear];
+    [[impl taskQueue] waitUntilAllTasksAreFinished];
+}
+
 - (void)typeString:(NSString *)string
 {
     NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type. Did you forget to add the views into a UIWindow?");
-    for (NSInteger i=0; i<string.length; i++) {
+    for (NSInteger i = 0; i < string.length; i++) {
         NSString *character = [string substringWithRange:NSMakeRange(i, 1)];
         [self typeCharacter:character];
     }
@@ -157,16 +173,21 @@
 {
     // Historically, beta SDKs do not always support this.
     BOOL isSupportedSDK = [[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending;
+    isSupportedSDK = YES;
     if (isSupportedSDK) {
         [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
-        [[[self activeKeyboardImpl] taskQueue] waitUntilAllTasksAreFinished];
     } else {
         UIKeyboardImpl *impl = [self activeKeyboardImpl];
         [impl _setNeedsCandidates:YES];
 
         UIKeyboardLayoutStar *layout = [impl _layout];
         UIKBTree *key = [layout baseKeyForString:character];
-        [layout changeToKeyplane:[[impl _layout] keyplaneForKey:key]];
+        NSAssert(key, @"Couldn't find key for string: %@", key);
+        id keyplane = [[impl _layout] keyplaneForKey:key];
+        if (keyplane != [layout currentKeyplane]) {
+            [layout changeToKeyplane:keyplane];
+            NSAssert([layout currentKeyplane] == keyplane, @"Failed to find key: %@", key);
+        }
         CGRect frame = key.frame;
         CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
         CGPoint windowPoint = [layout convertPoint:keyCenter toView:nil];
@@ -174,9 +195,9 @@
         RBTouch *touch = [RBTouch touchAtPoint:windowPoint inWindow:layout.window];
         [touch updatePhase:UITouchPhaseEnded];
         [touch sendEvent];
-
-        [[impl taskQueue] waitUntilAllTasksAreFinished];
     }
+    [[[self activeKeyboardImpl] taskQueue] waitUntilAllTasksAreFinished];
+    [RBTimeLapse resetMainRunLoop];
 }
 
 - (BOOL)isKnownSpecialKey:(NSString *)key

@@ -1,6 +1,6 @@
 #import "RBTimeLapse.h"
 #import "NSObject+RBSwizzle.h"
-#import <pthread/pthread.h>
+#import <pthread.h>
 
 typedef struct __CFRuntimeBase {
     uintptr_t _cfisa;
@@ -143,6 +143,18 @@ static void CFRunLoopZeroFireDateOfTimers(CFRunLoopRef runLoop, CFStringRef runL
         timers = [NSSet setWithArray:(__bridge NSArray *)(CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode)->_timers)];
     } while (CFRunLoopIsWaiting(runLoop) || ![previousTimers isEqual:timers]);
 
+}
+
++ (void)resetMainRunLoop
+{
+    [self resetRunLoop:[NSRunLoop mainRunLoop]];
+}
+
++ (void)resetRunLoop:(NSRunLoop *)nsRunLoop
+{
+    CFRunLoopRef runLoop = [nsRunLoop getCFRunLoop];
+    CFMutableArrayRef timers = CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode)->_timers;
+    CFArrayRemoveAllValues(timers);
 }
 
 @end

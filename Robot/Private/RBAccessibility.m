@@ -2,7 +2,6 @@
 #import <objc/message.h>
 #import "RBTimeLapse.h"
 
-@class UIAlertController;
 
 @interface UIView (PrivateAPIs)
 
@@ -26,7 +25,7 @@
 @interface _UIAlertControllerShimPresenter : NSObject // iOS 8+
 + (NSArray *)_currentFullScreenAlertPresenters;
 + (void)_removePresenter:(id)presenter;
-- (UIAlertController *)alertController;
+- (id)alertController;
 @end
 
 
