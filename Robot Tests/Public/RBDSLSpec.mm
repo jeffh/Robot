@@ -32,12 +32,17 @@ describe(@"RBDSL", ^{
     });
 
     describe(@"finding views", ^{
+        it(@"should return an empty array if no matches are found", ^{
+            allViews(ofExactClass([UIDatePicker class])).inside(view) should be_empty;
+            theFirstView(ofExactClass([UIDatePicker class])).inside(view) should be_empty;
+        });
+
         it(@"should be able to find views by class", ^{
             [view addSubview:textField];
             [view addSubview:label];
             [view addSubview:randomOtherView];
 
-            allViews(ofExactClass([UILabel class]), view) should equal(@[label]);
+            allViews(ofExactClass([UILabel class])).inside(view) should equal(@[label]);
         });
 
         it(@"should be able to find views by accessibility label", ^{
@@ -45,30 +50,30 @@ describe(@"RBDSL", ^{
             [view addSubview:textField];
             [view addSubview:randomOtherView];
 
-            allViews(withLabel(@"label1"), view) should equal(@[label, textField]);
-            theFirstView(withLabel(@"label1"), view) should equal(label);
+            allViews(withLabel(@"label1")).inside(view) should equal(@[label, textField]);
+            theFirstView(@[withLabel(@"label1"), withoutRootView()]).inside(view) should equal(@[label]);
         });
 
         it(@"should be able to find views by predicate", ^{
             [view addSubview:textField];
             [view addSubview:randomOtherView];
 
-            allViews(where(@"self == %@", textField), view) should equal(@[textField]);
+            allViews(where(@"self == %@", textField)).inside(view) should equal(@[textField]);
         });
 
         it(@"should be able to find visible views", ^{
             [view addSubview:label];
             [view addSubview:invisibleView];
 
-            allViews(withVisibility(YES), view) should equal(@[view, label]);
-            allViews(withVisibility(NO), view) should equal(@[invisibleView]);
+            allViews(withVisibility(YES)).inside(view) should equal(@[view, label]);
+            allViews(withVisibility(NO)).inside(view) should equal(@[invisibleView]);
         });
 
         it(@"should be able to exclude the root view", ^{
             [view addSubview:label];
             [view addSubview:invisibleView];
 
-            allSubViews(withVisibility(YES), view) should equal(@[label]);
+            allSubviews(withVisibility(YES)).inside(view) should equal(@[label]);
         });
 
         it(@"should be able to find views that have all its parentViews matching the predicate", ^{
@@ -76,7 +81,7 @@ describe(@"RBDSL", ^{
             [invisibleView addSubview:label];
 
             [view addSubview:label];
-            allViews(includingSuperViews(withVisibility(YES)), view) should equal(@[view, label]);
+            allViews(includingSuperViews(withVisibility(YES))).inside(view) should equal(@[view, label]);
         });
 
         it(@"should be able to identify views that can be seen", ^{
@@ -91,16 +96,13 @@ describe(@"RBDSL", ^{
 
             [invisibleView addSubview:label];
 
-            allSubViews(thatCanBeSeen(YES), view) should equal(@[randomOtherView]);
-            allSubViews(thatCanBeSeen(NO), view) should equal(@[viewWithZeroSize,
-                                                                invisibleView,
-                                                                label,
-                                                                viewOffTheScreen,
-                                                                textField]);
+            allSubviews(onScreenAndVisible(YES)).inside(view) should equal(@[randomOtherView]);
+            allSubviews(onScreenAndVisible(NO)).inside(view) should equal(@[viewWithZeroSize,
+                                                                                               invisibleView,
+                                                                                               label,
+                                                                                               viewOffTheScreen,
+                                                                                               textField]);
         });
-    });
-
-    describe(@"view interaction", ^{
     });
 });
 

@@ -12,6 +12,7 @@
 		1F45D7AF19161063005271F1 /* RBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AE19161063005271F1 /* RBConstants.m */; };
 		1F45D7C6191647F2005271F1 /* RBTimeLapse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C0191647F2005271F1 /* RBTimeLapse.m */; };
 		1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C2191647F2005271F1 /* RBKeyboard.m */; };
+		1F6A28C719B4BBB100A31E0D /* RBViewQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6A28C619B4BBB100A31E0D /* RBViewQuery.m */; };
 		1F7E867419399A690039400F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7731915E581005271F1 /* UIKit.framework */; };
 		1F7E867519399A690039400F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
 		1F7E867619399A690039400F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FEB7D841936EB6A006F7479 /* CoreGraphics.framework */; };
@@ -76,6 +77,8 @@
 		1F45D7C1191647F2005271F1 /* RBKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKeyboard.h; sourceTree = "<group>"; };
 		1F45D7C2191647F2005271F1 /* RBKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKeyboard.m; sourceTree = "<group>"; };
 		1F61923219A1986600FFDCA9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		1F6A28C519B4BBB100A31E0D /* RBViewQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBViewQuery.h; sourceTree = "<group>"; };
+		1F6A28C619B4BBB100A31E0D /* RBViewQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBViewQuery.m; sourceTree = "<group>"; };
 		1F7E867319399A690039400F /* Robot Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Robot Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F848B4C197BA10D00F0966E /* RBDSLSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBDSLSpec.mm; sourceTree = "<group>"; };
 		1F848B4E197BBCED00F0966E /* RBAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAccessibility.h; sourceTree = "<group>"; };
@@ -210,6 +213,8 @@
 				1FBA18A3193AD4CF00EF9E38 /* RBTouch.m */,
 				1FBA18A8193B111900EF9E38 /* RBDSL.h */,
 				1FBA18A9193B111900EF9E38 /* RBDSL.m */,
+				1F6A28C519B4BBB100A31E0D /* RBViewQuery.h */,
+				1F6A28C619B4BBB100A31E0D /* RBViewQuery.m */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -408,6 +413,7 @@
 				1FBA18801939C04300EF9E38 /* RBTableViewCellsProxy.m in Sources */,
 				1FBA1890193A821C00EF9E38 /* NSObject+RBExploratory.m in Sources */,
 				1FBA18A7193B0B2800EF9E38 /* UIWindow+RB.m in Sources */,
+				1F6A28C719B4BBB100A31E0D /* RBViewQuery.m in Sources */,
 				1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */,
 				1F45D7AF19161063005271F1 /* RBConstants.m in Sources */,
 				1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */,

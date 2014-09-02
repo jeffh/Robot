@@ -37,15 +37,22 @@
 
 @implementation RBTouch
 
-+ (instancetype)touchAtPoint:(CGPoint)point inWindow:(UIWindow *)window
++ (instancetype)touchAtPoint:(CGPoint)point
+                    inWindow:(UIWindow *)window
+                 atTimestamp:(CFAbsoluteTime)timestamp
 {
     UIView *touchedView = [window hitTest:point withEvent:nil];
-    RBTouch *touch = [[RBTouch alloc] initWithWindowPoint:point phase:UITouchPhaseBegan inView:touchedView];
+    RBTouch *touch = [[RBTouch alloc] initWithWindowPoint:point
+                                                    phase:UITouchPhaseBegan
+                                                   inView:touchedView
+                                              atTimestamp:timestamp];
     [touch sendEvent];
     return touch;
 }
 
-+ (instancetype)touchOnView:(UIView *)view atPoint:(CGPoint)point
++ (instancetype)touchOnView:(UIView *)view
+                    atPoint:(CGPoint)point
+                atTimestamp:(CFAbsoluteTime)timestamp
 {
     NSAssert(view, @"Received a nil view. Needs to be a view inside a UIWindow.");
     NSAssert(view.superview, @"Touched view does not have a superview. Needs to be under a visible UIWindow");
@@ -63,13 +70,15 @@
              @" - The view you're trying to touch is not accepting touches (userInteraction disabled; disabled control, etc.)\n"
              @" - The UIWindow this view resides in is not the key window and visible; call [window makeKeyAndVisible]\n",
              NSStringFromCGPoint(windowPoint), view, [view.window hitTest:point withEvent:nil]);
-    RBTouch *touch = [self touchAtPoint:windowPoint inWindow:view.window];
+    RBTouch *touch = [self touchAtPoint:windowPoint inWindow:view.window atTimestamp:timestamp];
     return touch;
 }
 
 + (void)tapOnView:(UIView *)view atPoint:(CGPoint)point
 {
-    RBTouch *touch = [self touchOnView:view atPoint:(CGPoint)point];
+    RBTouch *touch = [self touchOnView:view
+                               atPoint:(CGPoint)point
+                           atTimestamp:CFAbsoluteTimeGetCurrent()];
     [touch updatePhase:UITouchPhaseEnded];
     [touch sendEvent];
 }
@@ -81,10 +90,8 @@
 {
     NSAssert(view, @"A view wasn't given to be tapped on");
     NSAssert(numberOfPoints, @"Expected at least 1 point");
-    __block RBTouch *touch;
-    [RBTimeLapse disableAnimationsInBlock:^{
-        touch = [RBTouch touchOnView:view atPoint:points[0]];
-    }];
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    RBTouch *touch = [RBTouch touchOnView:view atPoint:points[0] atTimestamp:startTime];
     for (NSUInteger i = 1; i < numberOfPoints; i++) {
         [touch updateRelativePoint:points[i]];
         if (i + 1 == numberOfPoints) {
@@ -96,6 +103,7 @@
         else {
             [touch updatePhase:UITouchPhaseMoved];
         }
+        [touch setTimestamp:CFAbsoluteTimeGetCurrent()];
         [touch sendEvent];
     }
     return touch;
@@ -122,14 +130,17 @@
                         endingPhase:endingPhase];
 }
 
-- (id)initWithWindowPoint:(CGPoint)windowPoint phase:(UITouchPhase)phase inView:(UIView *)view
+- (id)initWithWindowPoint:(CGPoint)windowPoint
+                    phase:(UITouchPhase)phase
+                   inView:(UIView *)view
+              atTimestamp:(CFAbsoluteTime)timestamp
 {
     NSAssert(view, @"A view is required to touch");
     NSAssert(view.window, @"Touch events require views to be under a visible UIWindow");
     self = [super init];
     if (self) {
         [self setPhase:phase];
-        [self setTimestamp:CFAbsoluteTimeGetCurrent()];
+        [self setTimestamp:timestamp];
         [self setTapCount:1];
         [self setIsTap:YES];
         [self setView:view];
@@ -163,7 +174,7 @@
 - (void)sendEvent
 {
     UITouchesEvent *event = [[UIApplication sharedApplication] _touchesEvent];
-    [event _setTimestamp:CFAbsoluteTimeGetCurrent()];
+    [event _setTimestamp:[self timestamp]];
     if (![[event allTouches] containsObject:self]) {
         [event _addTouch:self forDelayedDelivery:NO];
     }

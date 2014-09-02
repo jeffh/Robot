@@ -192,7 +192,9 @@
         CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
         CGPoint windowPoint = [layout convertPoint:keyCenter toView:nil];
 
-        RBTouch *touch = [RBTouch touchAtPoint:windowPoint inWindow:layout.window];
+        RBTouch *touch = [RBTouch touchAtPoint:windowPoint
+                                      inWindow:layout.window
+                                   atTimestamp:CFAbsoluteTimeGetCurrent()];
         [touch updatePhase:UITouchPhaseEnded];
         [touch sendEvent];
     }

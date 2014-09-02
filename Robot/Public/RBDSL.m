@@ -3,82 +3,64 @@
 #import "RBTouch.h"
 #import "NSObject+RBKVCUndefined.h"
 #import "RBTimeLapse.h"
+#import "RBViewQuery.h"
 
 
 #pragma mark - View Fetching
 
-RB_EXPORT NSArray *RB_allViews(void) {
+RB_EXPORT_OVERLOADED RBViewQuery *RB_allViews(void) {
     return allViews([NSPredicate predicateWithValue:YES]);
 }
 
-RB_EXPORT NSArray *RB_allViews(NSPredicate *predicate) {
-    return allViews(predicate, [[RBAccessibility sharedInstance] keyWindow]);
-}
-
-RB_EXPORT NSArray *RB_allViews(NSPredicate *predicate, NSArray *viewsToSearch) {
+RB_EXPORT_OVERLOADED RBViewQuery *RB_allViews(NSPredicate *predicate) {
+    // _UIBackdropEffectView emits warnings with walked over. Ignore it.
     NSPredicate *ignoreNoisyViews = where(@"class != %@", NSClassFromString(@"_UIBackdropEffectView"));
     predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ignoreNoisyViews, predicate]];
-    __block NSArray *results;
-    [UIView RB_allowUndefinedKeysInBlock:^{
-        results = [[RBAccessibility sharedInstance] subviewsOfViews:viewsToSearch
-                                                satisfyingPredicate:predicate];
-        [results sortedArrayUsingComparator:^NSComparisonResult(UIView *view1, UIView *view2) {
-            CGRect frame1 = view1.frame;
-            CGRect frame2 = view2.frame;
-            NSComparisonResult result = [@(frame1.origin.y) compare:@(frame2.origin.y)];
-            if (result == NSOrderedSame) {
-                return [@(frame1.origin.x) compare:@(frame2.origin.x)];
-            }
-            return result;
-        }];
-    }];
-    return results;
+    NSArray *windows = [NSArray arrayWithObjects:[[RBAccessibility sharedInstance] keyWindow], nil];
+    return [[RBViewQuery alloc] initWithMatchingPredicate:predicate
+                                              inRootViews:windows
+                                          sortDescriptors:@[]];
 }
 
-RB_EXPORT NSArray *RB_allViews(NSPredicate *predicate, UIView *viewToSearch) {
-    return RB_allViews(predicate, @[viewToSearch]);
+RB_EXPORT_OVERLOADED RBViewQuery *RB_allViews(NSArray *predicates) {
+    return RB_allViews([NSCompoundPredicate andPredicateWithSubpredicates:predicates]);
 }
 
-RB_EXPORT NSArray *RB_allSubViews(void) {
-    return RB_allSubViews([NSPredicate predicateWithValue:YES]);
+RB_EXPORT_OVERLOADED RBViewQuery *RB_allSubviews(void) {
+    return allSubviews([NSPredicate predicateWithValue:YES]);
 }
 
-RB_EXPORT NSArray *RB_allSubViews(NSPredicate *predicate) {
-    return RB_allSubViews(predicate, [[RBAccessibility sharedInstance] keyWindow]);
+RB_EXPORT_OVERLOADED RBViewQuery *RB_allSubviews(NSPredicate *predicate) {
+    return allViews(@[predicate, RB_withoutRootView()]);
 }
 
-RB_EXPORT NSArray *RB_allSubViews(NSPredicate *predicate, NSArray *viewsToSearch) {
-    NSPredicate *ignoreSelf = where(@"NOT SELF IN %@", viewsToSearch);
-    NSPredicate *fullPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ignoreSelf, predicate]];
-    return RB_allViews(fullPredicate, viewsToSearch);
+RB_EXPORT_OVERLOADED RBViewQuery *RB_allSubviews(NSArray *predicates) {
+    return RB_allSubviews([NSCompoundPredicate andPredicateWithSubpredicates:predicates]);
 }
 
-RB_EXPORT NSArray *RB_allSubViews(NSPredicate *predicate, UIView *viewToSearch) {
-    return RB_allSubViews(predicate, @[viewToSearch]);
+RB_EXPORT_OVERLOADED RBViewQuery *RB_theFirstView(void) {
+    return RB_allViews().subrange(NSMakeRange(0, 1));
 }
 
-RB_EXPORT id RB_theFirstView(void) {
-    return RB_theFirstView([NSPredicate predicateWithValue:YES]);
+RB_EXPORT_OVERLOADED RBViewQuery *RB_theFirstView(NSPredicate *predicate) {
+    return RB_allViews(predicate).subrange(NSMakeRange(0, 1));
 }
 
-RB_EXPORT id RB_theFirstView(NSPredicate *predicate) {
-    return [RB_allViews(predicate) firstObject];
+RB_EXPORT_OVERLOADED RBViewQuery *RB_theFirstView(NSArray *predicates) {
+    return RB_allViews(predicates).subrange(NSMakeRange(0, 1));
 }
 
-RB_EXPORT id RB_theFirstView(NSPredicate *predicate, NSArray *viewsToSearch) {
-    return [RB_allViews(predicate, viewsToSearch) firstObject];
+RB_EXPORT_OVERLOADED RBViewQuery *RB_theFirstSubview(void) {
+    return RB_theFirstSubview([NSPredicate predicateWithValue:YES]);
 }
 
-RB_EXPORT id RB_theFirstView(NSPredicate *predicate, UIView *viewToSearch) {
-    return [RB_allViews(predicate, viewToSearch) firstObject];
+RB_EXPORT_OVERLOADED RBViewQuery *RB_theFirstSubview(NSPredicate *predicate) {
+    return RB_theFirstSubview(@[predicate]);
 }
 
-RB_EXPORT UIView *RB_inViewController(UIViewController *viewController) {
-    return viewController.view;
-}
-
-RB_EXPORT BOOL RB_isView(NSPredicate *predicate, UIView *view) {
-    return [predicate evaluateWithObject:view];
+RB_EXPORT_OVERLOADED RBViewQuery *RB_theFirstSubview(NSArray *predicates) {
+    predicates = [predicates arrayByAddingObject:RB_withoutRootView()];
+    return RB_theFirstSubview([NSCompoundPredicate andPredicateWithSubpredicates:predicates]);
 }
 
 RB_EXPORT BOOL RB_isAlertVisible(void) {
@@ -89,6 +71,24 @@ RB_EXPORT BOOL RB_isAlertVisible(void) {
 
 RB_EXPORT void RB_removeAllAlerts(void) {
     return [[RBAccessibility sharedInstance] removeAllAlerts];
+}
+
+#pragma mark - Sort Descriptors
+
+RB_EXPORT NSSortDescriptor *RB_smallestOrigin(void) {
+    return [[NSSortDescriptor alloc] initWithKey:nil ascending:YES comparator:^NSComparisonResult(UIView *view1, UIView *view2) {
+        CGRect frame1 = view1.frame;
+        CGRect frame2 = view2.frame;
+        NSComparisonResult result = [@(frame1.origin.y) compare:@(frame2.origin.y)];
+        if (result == NSOrderedSame) {
+            return [@(frame1.origin.x) compare:@(frame2.origin.x)];
+        }
+        return result;
+    }];
+}
+
+RB_EXPORT NSSortDescriptor *RB_largestOrigin(void) {
+    return [RB_smallestOrigin() reversedSortDescriptor];
 }
 
 #pragma mark - View Querying
@@ -114,21 +114,21 @@ RB_EXPORT NSPredicate *_RB_matching(NSArray *predicates) {
     return [NSCompoundPredicate andPredicateWithSubpredicates:predicates];
 }
 
-RB_EXPORT NSPredicate *RB_ofExactClass(Class aClass) {
+RB_EXPORT_OVERLOADED NSPredicate *RB_ofExactClass(Class aClass) {
     return RB_where(@"class == %@", aClass);
 }
 
-RB_EXPORT NSPredicate *RB_ofExactClass(NSString *className) {
+RB_EXPORT_OVERLOADED NSPredicate *RB_ofExactClass(NSString *className) {
     Class aClass = NSClassFromString(className);
     NSCAssert(aClass, @"Class was not found: %@", className);
     return RB_ofExactClass(aClass);
 }
 
-RB_EXPORT NSPredicate *RB_ofClass(Class aClass) {
+RB_EXPORT_OVERLOADED NSPredicate *RB_ofClass(Class aClass) {
     return RB_where(@"self isKindOfClass: %@", aClass);
 }
 
-RB_EXPORT NSPredicate *RB_ofClass(NSString *className) {
+RB_EXPORT_OVERLOADED NSPredicate *RB_ofClass(NSString *className) {
     Class aClass = NSClassFromString(className);
     NSCAssert(aClass, @"Class was not found: %@", className);
     return RB_ofClass(aClass);
@@ -189,7 +189,7 @@ RB_EXPORT NSPredicate *RB_onScreen(BOOL isOnScreen) {
     });
 }
 
-RB_EXPORT NSPredicate *RB_thatCanBeSeen(BOOL canBeSeen) {
+RB_EXPORT NSPredicate *RB_onScreenAndVisible(BOOL canBeSeen) {
     NSPredicate *nonZeroSize = RB_where(^BOOL(UIView *view) {
         return !CGSizeEqualToSize(CGRectStandardize(view.bounds).size, CGSizeZero);
     });
@@ -209,7 +209,11 @@ RB_EXPORT NSPredicate *RB_withParent(NSPredicate *predicateForParent) {
     return RB_where(@"self.superview != nil AND %@ evaluateWithObject: self.superview", predicateForParent);
 }
 
-RB_EXPORT NSPredicate *RB_where(NSString *predicateFormat, ...) {
+RB_EXPORT NSPredicate *RB_withoutRootView(void) {
+    return RB_where(@"self != $rootView");
+}
+
+RB_EXPORT_OVERLOADED NSPredicate *RB_where(NSString *predicateFormat, ...) {
     va_list args;
     va_start(args, predicateFormat);
     NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat arguments:args];
@@ -217,7 +221,7 @@ RB_EXPORT NSPredicate *RB_where(NSString *predicateFormat, ...) {
     return predicate;
 }
 
-RB_EXPORT NSPredicate *RB_where(BOOL(^matcher)(UIView *view)) {
+RB_EXPORT_OVERLOADED NSPredicate *RB_where(BOOL(^matcher)(UIView *view)) {
     return [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         return matcher(evaluatedObject);
     }];
@@ -225,60 +229,120 @@ RB_EXPORT NSPredicate *RB_where(BOOL(^matcher)(UIView *view)) {
 
 #pragma mark - View Interaction
 
-RB_EXPORT void RB_tapOn(id view) {
+RB_EXPORT_OVERLOADED void RB_tapOn(UIView *view) {
     RB_tapOn(view, [view center]);
 }
 
-RB_EXPORT void RB_tapOn(id view, CGPoint pointRelativeToSuperView) {
+RB_EXPORT_OVERLOADED void RB_tapOn(UIView *view, CGPoint pointRelativeToSuperView) {
     [RBTimeLapse disableAnimationsInBlock:^{
         [RBTouch tapOnView:view atPoint:pointRelativeToSuperView];
     }];
 }
 
-RB_EXPORT void RB_touchAndMoveLinearlyOn(id view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints) {
+RB_EXPORT_OVERLOADED void RB_tapOn(RBViewQuery *query) {
+    for (UIView *view in query) {
+        RB_tapOn(view, [view center]);
+    }
+}
+
+RB_EXPORT_OVERLOADED void RB_tapOn(RBViewQuery *query, CGPoint pointRelativeToSuperView) {
+    for (UIView *view in query) {
+        RB_tapOn(view, pointRelativeToSuperView);
+    }
+}
+
+RB_EXPORT void RB_touchAndMoveLinearlyOn(UIView *view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints) {
     [RBTouch touchAndMoveOnView:view intermediatePoints:numOfIntermediatePoints startingPoint:start endingPoint:end endingPhase:UITouchPhaseEnded];
 }
 
-RB_EXPORT void RB_touchAndMoveLinearlyAroundPointOn(id view, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints) {
+RB_EXPORT void RB_touchAndMoveLinearlyAroundPointOn(UIView *view, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints) {
     CGPoint start = CGPointMake(center.x - delta.x, center.y - delta.y);
     CGPoint end = CGPointMake(center.x + delta.x, center.y + delta.y);
     RB_touchAndMoveLinearlyOn(view, start, end, numOfIntermediatePoints);
 }
 
-RB_EXPORT void RB_touchAndMoveLinearlyFromCenterOf(id view, CGPoint delta, NSUInteger numOfIntermediatePoints) {
+RB_EXPORT void RB_touchAndMoveLinearlyFromCenterOf(UIView *view, CGPoint delta, NSUInteger numOfIntermediatePoints) {
     RB_touchAndMoveLinearlyAroundPointOn(view, [view center], delta, numOfIntermediatePoints);
 }
 
 const NSUInteger kRBDefaultNumberOfIntermediatePoints = 5;
 
-RB_EXPORT void RB_swipeLeftOn(id view, CGFloat swipeWidth) {
+RB_EXPORT_OVERLOADED void RB_swipeLeftOn(UIView *view, CGFloat swipeWidth) {
     RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(-swipeWidth / 2, 0), kRBDefaultNumberOfIntermediatePoints);
 }
 
-RB_EXPORT void RB_swipeRightOn(id view, CGFloat swipeWidth) {
+RB_EXPORT_OVERLOADED void RB_swipeRightOn(UIView *view, CGFloat swipeWidth) {
     RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(swipeWidth / 2, 0), kRBDefaultNumberOfIntermediatePoints);
 }
 
-RB_EXPORT void RB_swipeUpOn(id view, CGFloat swipeHeight) {
+RB_EXPORT_OVERLOADED void RB_swipeUpOn(UIView *view, CGFloat swipeHeight) {
     RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(0, -swipeHeight / 2), kRBDefaultNumberOfIntermediatePoints);
 }
 
-RB_EXPORT void RB_swipeDownOn(id view, CGFloat swipeHeight) {
+RB_EXPORT_OVERLOADED void RB_swipeDownOn(UIView *view, CGFloat swipeHeight) {
     RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(0, swipeHeight), kRBDefaultNumberOfIntermediatePoints);
 }
 
-RB_EXPORT void RB_swipeLeftOn(id view) {
-    RB_swipeLeftOn(view, CGRectGetWidth([view bounds]) / 2);
+RB_EXPORT_OVERLOADED void RB_swipeLeftOn(UIView *view) {
+    RB_swipeLeftOn(view, CGRectGetWidth([view bounds]) / 4);
 }
 
-RB_EXPORT void RB_swipeRightOn(id view) {
-    RB_swipeRightOn(view, CGRectGetWidth([view bounds]) / 2);
+RB_EXPORT_OVERLOADED void RB_swipeRightOn(UIView *view) {
+    RB_swipeRightOn(view, CGRectGetWidth([view bounds]) / 4);
 }
 
-RB_EXPORT void RB_swipeUpOn(id view) {
-    RB_swipeUpOn(view, CGRectGetHeight([view bounds]) / 2);
+RB_EXPORT_OVERLOADED void RB_swipeUpOn(UIView *view) {
+    RB_swipeUpOn(view, CGRectGetHeight([view bounds]) / 4);
 }
 
-RB_EXPORT void RB_swipeDownOn(id view) {
-    RB_swipeDownOn(view, CGRectGetHeight([view bounds]) / 2);
+RB_EXPORT_OVERLOADED void RB_swipeDownOn(UIView *view) {
+    RB_swipeDownOn(view, CGRectGetHeight([view bounds]) / 4);
+}
+
+RB_EXPORT_OVERLOADED void RB_swipeLeftOn(RBViewQuery *views, CGFloat swipeWidth) {
+    for (UIView *view in views) {
+        RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(-swipeWidth / 2, 0), kRBDefaultNumberOfIntermediatePoints);
+    }
+}
+
+RB_EXPORT_OVERLOADED void RB_swipeRightOn(RBViewQuery *views, CGFloat swipeWidth) {
+    for (UIView *view in views) {
+        RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(swipeWidth / 2, 0), kRBDefaultNumberOfIntermediatePoints);
+    }
+}
+
+RB_EXPORT_OVERLOADED void RB_swipeUpOn(RBViewQuery *views, CGFloat swipeHeight) {
+    for (UIView *view in views) {
+        RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(0, -swipeHeight / 2), kRBDefaultNumberOfIntermediatePoints);
+    }
+}
+
+RB_EXPORT_OVERLOADED void RB_swipeDownOn(RBViewQuery *views, CGFloat swipeHeight) {
+    for (UIView *view in views) {
+        RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(0, swipeHeight), kRBDefaultNumberOfIntermediatePoints);
+    }
+}
+
+RB_EXPORT_OVERLOADED void RB_swipeLeftOn(RBViewQuery *views) {
+    for (UIView *view in views) {
+        RB_swipeLeftOn(view, CGRectGetWidth([view bounds]) / 4);
+    }
+}
+
+RB_EXPORT_OVERLOADED void RB_swipeRightOn(RBViewQuery *views) {
+    for (UIView *view in views) {
+        RB_swipeRightOn(view, CGRectGetWidth([view bounds]) / 4);
+    }
+}
+
+RB_EXPORT_OVERLOADED void RB_swipeUpOn(RBViewQuery *views) {
+    for (UIView *view in views) {
+        RB_swipeUpOn(view, CGRectGetHeight([view bounds]) / 4);
+    }
+}
+
+RB_EXPORT_OVERLOADED void RB_swipeDownOn(RBViewQuery *views) {
+    for (UIView *view in views) {
+        RB_swipeDownOn(view, CGRectGetHeight([view bounds]) / 4);
+    }
 }

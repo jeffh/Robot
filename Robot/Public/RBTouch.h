@@ -25,7 +25,9 @@
  *
  *  Before the touch is returned, -[RBTouch sendEvent] is called.
  */
-+ (instancetype)touchAtPoint:(CGPoint)point inWindow:(UIWindow *)window;
++ (instancetype)touchAtPoint:(CGPoint)point
+                    inWindow:(UIWindow *)window
+                 atTimestamp:(CFAbsoluteTime)timestamp;
 
 /*! Creates an instance of RBTouch that begins on the given point on the window with the
  *  initial phase set to UITouchPhaseBegan.
@@ -41,8 +43,11 @@
  *  @param view The view that the point is related to. The point is in the view's superview coordinates.
  *              This view may not be the final view receiving the touch.
  *  @param point The point to initially touch. This is relative to the view's superview coordinates.
+ *  @param timestamp The absolute timestamp which the touch down event occurred.
  */
-+ (instancetype)touchOnView:(UIView *)view atPoint:(CGPoint)point;
++ (instancetype)touchOnView:(UIView *)view
+                    atPoint:(CGPoint)point
+                atTimestamp:(CFAbsoluteTime)timestamp;
 
 /*! Creates touch events that simulates tapping on a given point on the window.
  *
@@ -103,8 +108,12 @@
  *  @param windowPoint the point to touch relative to the window screen space.
  *  @param phase the current state of the touch.
  *  @param view the target view that the touch is interacting with.
+ *  @param timetsamp the absolute timestamp when the touch occurred
  */
-- (id)initWithWindowPoint:(CGPoint)windowPoint phase:(UITouchPhase)phase inView:(UIView *)view;
+- (id)initWithWindowPoint:(CGPoint)windowPoint
+                    phase:(UITouchPhase)phase
+                   inView:(UIView *)view
+              atTimestamp:(CFAbsoluteTime)timestamp;
 
 /*! Updates the touch phase and timestamp.
  *

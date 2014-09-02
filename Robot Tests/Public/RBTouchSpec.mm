@@ -16,6 +16,39 @@ describe(@"RBTouch", ^{
         [[UIWindow createWindowForTesting] addSubview:controller.view];
     });
 
+    describe(@"triggering a tableview pan gesture recognizer", ^{
+        __block NSMutableArray *target;
+
+        beforeEach(^{
+            target = [NSMutableArray array];
+            [controller fillTableViewWithNumberOfRows:10 andSections:2];
+            swipeLeftOn(theFirstView(ofClass([UITableViewCell class])).sortedBy(@[smallestOrigin()]));
+        });
+
+        it(@"should show the delete menu", ^{
+            theFirstView(withText(@"Delete")) should_not be_nil;
+        });
+    });
+
+    describe(@"triggering a pan gesture recognizer", ^{
+        __block NSMutableArray *target;
+        __block UIPanGestureRecognizer *panGestureRecognizer;
+
+        beforeEach(^{
+            controller.tableView.hidden = YES; // otherwise this will capture our swipes
+
+            target = [NSMutableArray array];
+            panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(addObject:)];
+            [controller.view addGestureRecognizer:panGestureRecognizer];
+            spy_on(panGestureRecognizer);
+            swipeLeftOn(controller.view);
+        });
+
+        it(@"should trigger the gesture recognizer", ^{
+            target should_not be_empty;
+        });
+    });
+
     describe(@"triggering a tap gesture recognizer", ^{
         __block NSMutableArray *target;
         __block UITapGestureRecognizer *tapGestureRecognizer;
@@ -32,7 +65,7 @@ describe(@"RBTouch", ^{
         });
     });
 
-    describe(@"a swipe gesture", ^{
+    describe(@"triggering a swipe gesture recognizer", ^{
         __block NSMutableArray *target;
         __block UISwipeGestureRecognizer *swipeGestureRecognizer;
 

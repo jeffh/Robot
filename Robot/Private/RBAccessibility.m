@@ -46,7 +46,8 @@
     [view layoutBelowIfNeeded];
     return [self objectsSatisfyingPredicate:predicate
                                    inObject:view
-                          recursiveSelector:@selector(subviews)];
+                          recursiveSelector:@selector(subviews)
+                      substitutionVariables:@{@"rootView": view}];
 }
 
 - (NSArray *)subviewsOfViews:(NSArray *)views satisfyingPredicate:(NSPredicate *)predicate
@@ -78,7 +79,7 @@
 
 - (UIWindow *)keyWindow
 {
-    return [(id)NSClassFromString(@"UIWindow") keyWindow];
+    return [(id)NSClassFromString(@"UIWindow") keyWindow] ?: [UIApplication sharedApplication].keyWindow;
 }
 
 - (BOOL)isAlertShowing
@@ -119,16 +120,18 @@
 - (id)objectsSatisfyingPredicate:(NSPredicate *)predicate
                         inObject:(id)object
                recursiveSelector:(SEL)selector
+           substitutionVariables:(NSDictionary *)substitutionVariables
 {
     NSMutableArray *filteredViews = [NSMutableArray array];
-    if ([predicate evaluateWithObject:object]) {
+    if ([predicate evaluateWithObject:object substitutionVariables:substitutionVariables]) {
         [filteredViews addObject:object];
     }
     id children = objc_msgSend(object, selector);
     for (id childObject in children) {
         NSArray *matches = [self objectsSatisfyingPredicate:predicate
                                                    inObject:childObject
-                                          recursiveSelector:selector];
+                                          recursiveSelector:selector
+                                      substitutionVariables:substitutionVariables];
         [filteredViews addObjectsFromArray:matches];
     }
     return filteredViews;
