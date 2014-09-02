@@ -17,6 +17,8 @@ describe(@"RBTouch", ^{
     });
 
     describe(@"triggering a tableview pan gesture recognizer", ^{
+        // UITableViewCells have custom subclasses of pan gesture recognizers
+        // they're more sensitive to distance panned than the public pan recognizer
         __block NSMutableArray *target;
 
         beforeEach(^{

@@ -1,17 +1,19 @@
 Robot
 =====
 
-An integration test library on UIKit.
+An integration test library on UIKit. Easily emulate high-level user interaction
+through UIKit.
 
-Unlike KIF, this does not aim to emulate how users interact with the system.
-But instead, try to replicate the same behavior while minimizing the overhead
-of time-based performance issues.
+Unlike KIF, this does not aim to perfectly emulate how users interact with
+the system. Instead, trying to replicate the same behavior while minimizing
+the overhead of time-based operations. A perfect example is disabling animations
+to speed up running of tests.
 
 And like KIF, this uses private APIs.
 
 ```
 // tap on a cancel button/label
-swipeLeftOn(theFirstView(withLabel(@"Cancel")));
+tapOn(theFirstView(withLabel(@"Cancel")));
 ```
 
 Components
@@ -30,13 +32,19 @@ View Query
 This component provides a DSL to find for views. They're built upon recursive
 subview walking and NSPredicate.
 
-There are two core functions to find views, they're based on the number of
-views you want to find:
+There are core functions to find views:
 
-- ``NSArray *allViews([NSPredicate *predicate[, UIView */NSArray *scope]])`` - Returns all the views (and subviews) and satisfies the predicate in the given scope. The default scope is keyWindow.
-- ``UIView *theFirstView([NSPredicate *predicate[, UIView */NSArray *scope]])`` - Returns the first view (or subviews) that satisfies the predicate in the given scope. The default scope is the keyWindow.
+- ``NSArray *allViews([NSPredicate *predicate)`` - Returns all the views (and subviews) that satisfies the predicate in the given scope. The default scope is keyWindow.
+- ``NSArray *allSubviews([NSPredicate *predicate)`` - Returns all the subviews that satisfies the predicate in the given scope. The default scope is keyWindow.
+- ``UIView *theFirstView([NSPredicate *predicate)`` - Returns the first view (or subview) that satisfies the predicate in the given scope. The default scope is the keyWindow.
+- ``UIView *theFirstSubview([NSPredicate *predicate)`` - Returns the first subview that satisfies the predicate in the given scope. The default scope is the keyWindow.
 
-You can use NSPredicate directly, or compose the helper functions:
+Predicates
+----------
+
+All the core methods accept a predicate to check if each view satisfies
+the requirement. You can build your own from NSPredicate, but Robot comes
+with some built-in ones to compose:
 
 - ``NSPredicate *where(NSString *formatString, ...)`` - An alias to ``+[NSPredicate predicateWithFormat:predicateFormat, ...]``
 - ``NSPredicate *where(BOOL(^matcher)(UIView *view))`` - An alias to ``+[NSPredicate predicateWithBlock:matcher]``
@@ -54,6 +62,30 @@ You can use NSPredicate directly, or compose the helper functions:
     - The view is ``onScreen``
     - The view has a non-zero ``alpha`` value
     - The view has ``clipsToBounds`` as ``NO`` OR the view has a non-zero size.
+
+Refining the Query
+------------------
+
+All the core query methods return `RBViewQuery`, which are lazy NSArrays of the views.
+They can be further refined used property-blocks. For example, to restrict the query
+to a given view:
+
+```
+// returns views with text "hello"
+allViews(withText(@"Hello")).inside(myView);
+```
+
+Sorting can also be applied:
+
+```
+allViews(...).sortedBy(smallestOrigin());
+```
+
+All these can be chained:
+
+```
+allViews(...).inside(myView).sortedBy(smallestOrigin());
+```
 
 Table Views
 -----------
@@ -105,7 +137,7 @@ The most common action are to tap elements:
 
 ```
 tapOn(myButton);
-tapOn(myButton, pointRelativeToSuperView);
+tapOn(myViewQuery);
 ```
 
 But more complex gestures are supported:
@@ -117,8 +149,8 @@ swipeDownOn(myView);
 swipeRightOn(myView);
 ```
 
-TimeLapse
-=========
+Time Lapse
+==========
 
 Robot can optionally speed up specific operations as needed. To disable animations under
 test and call any completion blocks, use the ``-[disableAnimationsInBlock:]`` API:
