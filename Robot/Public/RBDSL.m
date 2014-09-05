@@ -92,6 +92,22 @@ RB_EXPORT NSSortDescriptor *RB_largestOrigin(void) {
     return [RB_smallestOrigin() reversedSortDescriptor];
 }
 
+RB_EXPORT NSSortDescriptor *RB_smallestSize(void) {
+    return [[NSSortDescriptor alloc] initWithKey:nil ascending:YES comparator:^NSComparisonResult(UIView *view1, UIView *view2) {
+        CGRect frame1 = view1.frame;
+        CGRect frame2 = view2.frame;
+        NSComparisonResult result = [@(frame1.size.height) compare:@(frame2.size.height)];
+        if (result == NSOrderedSame) {
+            return [@(frame1.size.width) compare:@(frame2.size.width)];
+        }
+        return result;
+    }];
+}
+
+RB_EXPORT NSSortDescriptor *RB_largestSize(void) {
+    return [RB_smallestSize() reversedSortDescriptor];
+}
+
 #pragma mark - View Querying
 
 RB_EXPORT NSPredicate *RB_includingSuperViews(NSPredicate *predicate) {
@@ -159,7 +175,13 @@ RB_EXPORT NSPredicate *RB_withAccessibility(BOOL isAcessibilityView) {
 }
 
 RB_EXPORT NSPredicate *RB_withVisibility(BOOL isVisible) {
-    return RB_where(@"hidden == %@", @(!isVisible));
+    NSPredicate *visible = RB_where(@"hidden == %@", @(!isVisible));
+    NSPredicate *nonZeroSize = RB_where(^BOOL(UIView *view) {
+        return !CGSizeEqualToSize(CGRectStandardize(view.bounds).size, CGSizeZero);
+    });
+    NSPredicate *hasPixelToDraw = [NSCompoundPredicate orPredicateWithSubpredicates:@[RB_where(@"clipsToBounds == NO"), nonZeroSize]];
+    NSPredicate *nonZeroAlpha = where(@"alpha > 0");
+    return RB_matching(@[visible, hasPixelToDraw, nonZeroAlpha]);
 }
 
 RB_EXPORT NSPredicate *RB_withImage(UIImage *image) {
@@ -191,14 +213,7 @@ RB_EXPORT NSPredicate *RB_onScreen(BOOL isOnScreen) {
 }
 
 RB_EXPORT NSPredicate *RB_onScreenAndVisible(BOOL canBeSeen) {
-    NSPredicate *nonZeroSize = RB_where(^BOOL(UIView *view) {
-        return !CGSizeEqualToSize(CGRectStandardize(view.bounds).size, CGSizeZero);
-    });
-    NSPredicate *hasPixelToDraw = [NSCompoundPredicate orPredicateWithSubpredicates:@[RB_where(@"clipsToBounds == NO"),
-                                                                                      nonZeroSize]];
-    NSPredicate *isVisible = RB_withVisibility(YES);
-    NSPredicate *nonZeroAlpha = where(@"alpha > 0");
-    NSPredicate *canBeSeenPredicate = RB_includingSuperViews(RB_matching(isVisible, hasPixelToDraw, RB_onScreen(YES), nonZeroAlpha));
+    NSPredicate *canBeSeenPredicate = RB_includingSuperViews(RB_matching(RB_withVisibility(YES), RB_onScreen(YES)));
     if (!canBeSeen) {
         return [NSCompoundPredicate notPredicateWithSubpredicate:canBeSeenPredicate];
     } else {

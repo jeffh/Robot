@@ -11,7 +11,7 @@ to speed up running of tests.
 
 And like KIF, this uses private APIs.
 
-```
+```objc
 // tap on a cancel button/label
 tapOn(theFirstView(withLabel(@"Cancel")));
 ```
@@ -46,22 +46,86 @@ All the core methods accept a predicate to check if each view satisfies
 the requirement. You can build your own from NSPredicate, but Robot comes
 with some built-in ones to compose:
 
-- ``NSPredicate *where(NSString *formatString, ...)`` - An alias to ``+[NSPredicate predicateWithFormat:predicateFormat, ...]``
-- ``NSPredicate *where(BOOL(^matcher)(UIView *view))`` - An alias to ``+[NSPredicate predicateWithBlock:matcher]``
-- ``NSPredicate *matching(...)`` - An alias to ``+[NSCompoundPredicate andPredicateWithSubpredicates:@[...]]``
-- ``NSPredicate *includingSuperViews(NSPredicate *predicate)`` - A predicate that enforces all superviews also satisfy the given predicate.
-- ``NSPredicate *ofExactClass(Class aClass)`` - A predicate that filters views of a particular class
-- ``NSPredicate *ofClass(Class aClass)`` - A predicate that filters views of a particular class or subclass
-- ``NSPredicate *withLabel(NSString *accessibilityLabelOrText)`` - A predicate that filters views by their accessibilityLabel or text property
-- ``NSPredicate *withTraits(UIAccessibilityTraits traits)`` - A predicate that filters views containing the given UIAccessibilityTrait.
-- ``NSPredicate *withVisibility(BOOL isVisible)`` - A predicate that filters by the view's ``isHidden`` property.
-- ``NSPredicate *withAccessibility(BOOL isAccessibilityView)`` - A predicate that filters views that indicate they are accessible
-- ``NSPredicate *onScreen(BOOL isOnScreen)`` - A predicate that filters views that do not fit on the screen bounds. If the view is not in a window, the root view is treated like the window.
-- ``NSPredicate *thatCanBeSeen(BOOL isVisible)`` - A predicate that filters for views that are "visible" by the user which follows the criteria:
-    - The ``isHidden`` property is ``NO``
-    - The view is ``onScreen``
-    - The view has a non-zero ``alpha`` value
-    - The view has ``clipsToBounds`` as ``NO`` OR the view has a non-zero size.
+``where(NSString *formatString, ...)`` is an alias to ``+[NSPredicate predicateWithFormat:predicateFormat, ...]``:
+Likewise, ``NSPredicate *where(BOOL(^matcher)(UIView *view))`` is an alias to ``+[NSPredicate predicateWithBlock:matcher]``
+
+```objc
+// finds all views that have more than 2 subviews
+allViews(where(@"subviews.count > %@", @2));
+
+// finds all views that have a tag of 3
+allViews(where(^BOOL(UIView *view){
+    return view.tag == 3;
+}));
+```
+
+Building up from that, the ``matching(...)`` macro is an alias to ``+[NSCompoundPredicate andPredicateWithSubpredicates:@[...]]``:
+
+```objc
+// find all views with tag of 3 with more than 2 subviews.
+allViews(matching(where(@"subviews.count > 2"), where(@"tag == 3")));
+```
+
+There is are methods of filtering by the classes of views:
+
+```objc
+// find all UITextViews, but not subclasses
+allViews(ofExactClass([UITextView class]));
+allViews(ofExactClass(@"UITextView"));
+
+// find all UIButtons and subclasses
+allViews(ofClass([UIButton class]));
+allViews(ofClass(@"UIButton"));
+```
+
+You can also filter by parent view state:
+
+```objc
+// find all views that have UIViews as superviews
+allViews(withParent(ofExactClass([UIView class])));
+
+// find all views that have superviews that have UIView classes. This includes
+// the root view.
+allViews(includingSuperViews(ofExactClass([UIView class])));
+
+// all views, excluding the root view
+allViews(withoutRootView());
+```
+
+Or by content:
+
+```objc
+// find any views with the text of "Cancel"
+allViews(withText(@"Cancel"));
+
+// find any views with the text or accessibilityLabel of "Cancel"
+allViews(withLabel(@"Cancel"));
+
+// find any views with the EXACT image
+allViews(withImage([UIImage imageNamed:@"myImage"]));
+
+// find any views behaviorally acts like a button
+allViews(withTraits(UIAccessibilityTraitButton));
+
+// find any views that are accessible
+allViews(withAccessibility(YES));
+```
+
+Finally, by visibility:
+
+```objc
+// find all views that are visible (isHidden = NO and alpha > 0 and a drawable pixel)
+// a drawable pixel is where clipsToBounds is NO or a non-zero size
+allViews(withVisibility(YES));
+
+// find all views that are on screen. On screen means the view's rect intersects or is
+// inside the window. If not in a window, the root view is used instead.
+allViews(onScreen(YES));
+
+// find all views that are visible and on screen -- including all their superviews.
+// This is a combination of withVisibility() and onScreen() with includingSuperViews().
+allViews(onScreenAndVisible(YES));
+```
 
 Refining the Query
 ------------------
@@ -70,21 +134,32 @@ All the core query methods return `RBViewQuery`, which are lazy NSArrays of the 
 They can be further refined used property-blocks. For example, to restrict the query
 to a given view:
 
-```
-// returns views with text "hello"
+```objc
+// returns views with text "hello" that are either myView or any of its subviews
 allViews(withText(@"Hello")).inside(myView);
+
+// if you want to search inside multiple disperate view hierarchies
+allViews(withText(@"Hello")).insideOneOf(@[myView1, myView2]);
 ```
 
-Sorting can also be applied:
+Sorting can also be applied with an array of ``NSSortDescriptors``:
 
 ```
-allViews(...).sortedBy(smallestOrigin());
+// sort all the views by smallest origin first. Smallest is by y first, then x.
+allViews(...).sortedBy(@[smallestOrigin()]);
+// reverse sort
+allViews(...).sortedBy(@[largestOrigin()]);
+
+// sort all the views by smallest size first. Smallest is by height first, then width.
+allViews(...).sortedBy(@[smallestSize()]);
+// reverse sort
+allViews(...).sortedBy(@[largestSize()]);
 ```
 
 All these can be chained:
 
 ```
-allViews(...).inside(myView).sortedBy(smallestOrigin());
+allViews(...).inside(myView).sortedBy(@[smallestOrigin()]);
 ```
 
 Table Views
@@ -111,9 +186,12 @@ interface is on ``RBKeyboard``:
 ```
 // focus a text field to get keyboard focus
 tapOn(textField);
+
 // type through the keyboard
 [[RBKeyboard mainKeyboard] typeString:@"Hello World!"];
-// dismiss the keyboard
+
+// dismiss the keyboard - you must always do this otherwise the next
+// time you use the keyboard it might crash.
 [[RBKeyboard mainKeyboard] dismiss];
 ```
 
@@ -176,3 +254,6 @@ If you just want the latter without disabling animations, you can do:
 [logger performSelector:@selector(logMessage:) withObject:@"hello" afterDelay:1];
 [RBTimeLapse advanceMainRunLoop]; // calls [logger logMessage:@"hello"]
 ```
+
+Time lapsing is automatic for ``tapOn``, but not for any other gestures.
+

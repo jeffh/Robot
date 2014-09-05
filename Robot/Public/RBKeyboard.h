@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "RBConstants.h"
+#import "RBMacros.h"
 
 
 /*! Wraps UIKit's keyboard implementation. This provides an
@@ -15,6 +16,7 @@
  *  @warning be sure to dismiss the keyboard after usage to avoid
  *           dangling UI components that are awaiting keyboard input.
  */
+RB_USES_PRIVATE_APIS
 @interface RBKeyboard : NSObject
 
 /*! Returns an instance to use UIKit's keyboard

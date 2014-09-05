@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "RBMacros.h"
 
 
 /*! A mutatable subclass of UITouch.
@@ -14,6 +15,7 @@
  *
  *  Uses private APIs.
  */
+RB_USES_PRIVATE_APIS
 @interface RBTouch : UITouch
 
 /*! Creates an instance of RBTouch that begins on the given point on the window with the

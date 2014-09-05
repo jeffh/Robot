@@ -43,6 +43,8 @@
 
 - (NSArray *)subviewsInView:(UIView *)view satisfyingPredicate:(NSPredicate *)predicate
 {
+    // triggers -layoutIfNeeded: for the view and its recursive subviews.
+    // this will implicitly trigger UITableViews and UICollectionViews to layout.
     [view layoutBelowIfNeeded];
     return [self objectsSatisfyingPredicate:predicate
                                    inObject:view
@@ -57,13 +59,6 @@
         [matchedViews addObjectsFromArray:[self subviewsInView:view satisfyingPredicate:predicate]];
     }
     return matchedViews;
-}
-
-- (void)layoutApplication
-{
-    for (UIView *view in [self windows]) {
-        [view layoutBelowIfNeeded];
-    }
 }
 
 - (NSArray *)windows

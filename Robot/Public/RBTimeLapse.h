@@ -1,8 +1,10 @@
 #import <UIKit/UIKit.h>
+#import "RBMacros.h"
 
 
 /*! Manipulates time-based operations to run without delay.
  */
+RB_USES_PRIVATE_APIS
 @interface RBTimeLapse : NSObject
 
 /*! Temporarily disables animation and fires all animation callbacks for both

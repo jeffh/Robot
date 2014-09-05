@@ -42,8 +42,13 @@ describe(@"RBKeyboard", ^{
 
     describe(@"typing in a number text field", ^{
         beforeEach(^{
-            controller.textField.keyboardType = UIKeyboardTypeDecimalPad;
-            tapOn(controller.textField);
+            controller.textField.keyboardType = UIKeyboardTypeNumberPad;
+            tapOn(controller.textField); // sadly logs in iOS 8
+            [[RBKeyboard mainKeyboard] typeString:@"123"];
+        });
+
+        it(@"should accept numbers", ^{
+            controller.textField.text should equal(@"123");
         });
     });
 
