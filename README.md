@@ -11,7 +11,7 @@ to speed up running of tests.
 
 Also unlike KIF, Robot does not aim to be a full integration testing solution. Rather,
 it relies on other testing frameworks to do assertion and running. Besides XCTest, there
-are some populate BDD frameworks:
+are some popular BDD frameworks:
 
  - Cedar
  - Specta / Expecta
