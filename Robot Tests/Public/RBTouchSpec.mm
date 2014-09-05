@@ -16,6 +16,19 @@ describe(@"RBTouch", ^{
         [[UIWindow createWindowForTesting] addSubview:controller.view];
     });
 
+    describe(@"tapping on views of id", ^{
+        __block NSArray *views;
+
+        beforeEach(^{
+            views = @[controller.view];
+        });
+
+        it(@"should not emit an ambigious compiler error", ^{
+            tapOn([views firstObject]);
+            swipeLeftOn([views firstObject]);
+        });
+    });
+
     describe(@"triggering a tableview pan gesture recognizer", ^{
         // UITableViewCells have custom subclasses of pan gesture recognizers
         // they're more sensitive to distance panned than the public pan recognizer

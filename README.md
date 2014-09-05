@@ -34,10 +34,10 @@ subview walking and NSPredicate.
 
 There are core functions to find views:
 
-- ``NSArray *allViews([NSPredicate *predicate)`` - Returns all the views (and subviews) that satisfies the predicate in the given scope. The default scope is keyWindow.
-- ``NSArray *allSubviews([NSPredicate *predicate)`` - Returns all the subviews that satisfies the predicate in the given scope. The default scope is keyWindow.
-- ``UIView *theFirstView([NSPredicate *predicate)`` - Returns the first view (or subview) that satisfies the predicate in the given scope. The default scope is the keyWindow.
-- ``UIView *theFirstSubview([NSPredicate *predicate)`` - Returns the first subview that satisfies the predicate in the given scope. The default scope is the keyWindow.
+- ``RBViewQuery *allViews([NSPredicate *predicate)`` - Returns all the views (and subviews) that satisfies the predicate in the given scope. The default scope is keyWindow.
+- ``RBViewQuery *allSubviews([NSPredicate *predicate)`` - Returns all the subviews that satisfies the predicate in the given scope. The default scope is keyWindow.
+- ``RBViewQuery *theFirstView([NSPredicate *predicate)`` - Returns the first view (or subview) that satisfies the predicate in the given scope. The default scope is the keyWindow.
+- ``RBViewQuery *theFirstSubview([NSPredicate *predicate)`` - Returns the first subview that satisfies the predicate in the given scope. The default scope is the keyWindow.
 
 Predicates
 ----------

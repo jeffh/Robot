@@ -1,16 +1,7 @@
 #import <UIKit/UIKit.h>
+#import "RBMacros.h"
 #import "RBViewQuery.h"
 
-#define RB_EXPORT FOUNDATION_EXTERN
-#define RB_EXPORT_OVERLOADED RB_EXPORT __attribute__((overloadable))
-#define RB_INLINE FOUNDATION_STATIC_INLINE
-#define RB_INLINE_OVERLOADED RB_INLINE __attribute__((overloadable))
-
-// used simply the mark Robot APIs that trigger private iOS APIs
-// You can predefine the macro if you want to audit private API usage
-#ifndef RB_USES_PRIVATE_APIS
-#define RB_USES_PRIVATE_APIS
-#endif
 
 #pragma mark - View Fetching
 
@@ -72,36 +63,24 @@ RB_EXPORT NSPredicate *RB_withoutRootView(void);
 // All interactions use private APIs
 
 // Low-level Touches
-RB_EXPORT RB_USES_PRIVATE_APIS void RB_touchAndMoveLinearlyOn(UIView *view, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints);
-RB_EXPORT RB_USES_PRIVATE_APIS void RB_touchAndMoveLinearlyAroundPointOn(UIView *view, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints);
-RB_EXPORT RB_USES_PRIVATE_APIS void RB_touchAndMoveLinearlyFromCenterOf(UIView *view, CGPoint delta, NSUInteger numOfIntermediatePoints);
+RB_EXPORT RB_USES_PRIVATE_APIS void RB_touchAndMoveLinearlyOn(id viewOrViews, CGPoint start, CGPoint end, NSUInteger numOfIntermediatePoints);
+RB_EXPORT RB_USES_PRIVATE_APIS void RB_touchAndMoveLinearlyAroundPointOn(id viewOrViews, CGPoint center, CGPoint delta, NSUInteger numOfIntermediatePoints);
+RB_EXPORT RB_USES_PRIVATE_APIS void RB_touchAndMoveLinearlyFromCenterOf(id viewOrViews, CGPoint delta, NSUInteger numOfIntermediatePoints);
 
 // Taps
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_tapOn(UIView *view);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_tapOn(UIView *view, CGPoint pointRelativeToSuperView);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_tapOn(RBViewQuery *query);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_tapOn(RBViewQuery *query, CGPoint pointRelativeToSuperView);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_tapOn(id viewOrViews);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_tapOn(id viewOrViews, CGPoint pointRelativeToSuperView);
 
 // Swipes
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeLeftOn(UIView *view, CGFloat swipeWidth);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeRightOn(UIView *view, CGFloat swipeWidth);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeUpOn(UIView *view, CGFloat swipeHeight);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeDownOn(UIView *view, CGFloat swipeHeight);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeLeftOn(id viewOrViews, CGFloat swipeWidth);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeRightOn(id viewOrViews, CGFloat swipeWidth);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeUpOn(id viewOrViews, CGFloat swipeHeight);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeDownOn(id viewOrViews, CGFloat swipeHeight);
 
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeLeftOn(UIView *view);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeRightOn(UIView *view);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeUpOn(UIView *view);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeDownOn(UIView *view);
-
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeLeftOn(RBViewQuery *views, CGFloat swipeWidth);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeRightOn(RBViewQuery *views, CGFloat swipeWidth);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeUpOn(RBViewQuery *views, CGFloat swipeHeight);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeDownOn(RBViewQuery *views, CGFloat swipeHeight);
-
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeLeftOn(RBViewQuery *views);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeRightOn(RBViewQuery *views);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeUpOn(RBViewQuery *views);
-RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeDownOn(RBViewQuery *views);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeLeftOn(id viewOrViews);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeRightOn(id viewOrViews);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeUpOn(id viewOrViews);
+RB_EXPORT_OVERLOADED RB_USES_PRIVATE_APIS void RB_swipeDownOn(id viewOrViews);
 
 // Pinch
 
@@ -212,51 +191,37 @@ RB_ALIAS NSPredicate *withoutRootView(void) { return RB_withoutRootView(); }
 #pragma mark View Interactions
 
 // Taps
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void tapOn(UIView *view) { RB_tapOn(view); }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void tapOn(UIView *view, CGPoint pointRelativeToSuperView) {
-    RB_tapOn(view, pointRelativeToSuperView);
-}
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void tapOn(RBViewQuery *query) { RB_tapOn(query); }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void tapOn(RBViewQuery *query, CGPoint pointRelativeToSuperView) {
-    RB_tapOn(query, pointRelativeToSuperView);
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void tapOn(id viewOrViews) { RB_tapOn(viewOrViews); }
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void tapOn(id viewOrViews, CGPoint pointRelativeToSuperView) {
+    RB_tapOn(viewOrViews, pointRelativeToSuperView);
 }
 
 // Swipes
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeLeftOn(UIView *view, CGFloat swipeWidth) {
-    RB_swipeLeftOn(view, swipeWidth);
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeLeftOn(id viewOrViews, CGFloat swipeWidth) {
+    RB_swipeLeftOn(viewOrViews, swipeWidth);
 }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeRightOn(UIView *view, CGFloat swipeWidth) {
-    RB_swipeRightOn(view, swipeWidth);
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeRightOn(id viewOrViews, CGFloat swipeWidth) {
+    RB_swipeRightOn(viewOrViews, swipeWidth);
 }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeUpOn(UIView *view, CGFloat swipeHeight) {
-    RB_swipeUpOn(view, swipeHeight);
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeUpOn(id viewOrViews, CGFloat swipeHeight) {
+    RB_swipeUpOn(viewOrViews, swipeHeight);
 }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeDownOn(UIView *view, CGFloat swipeHeight) {
-    RB_swipeDownOn(view, swipeHeight);
-}
-
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeLeftOn(UIView *view) { RB_swipeLeftOn(view); }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeRightOn(UIView *view) { RB_swipeRightOn(view); }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeUpOn(UIView *view) { RB_swipeUpOn(view); }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeDownOn(UIView *view) { RB_swipeDownOn(view); }
-
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeLeftOn(RBViewQuery *query, CGFloat swipeWidth) {
-    RB_swipeLeftOn(query, swipeWidth);
-}
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeRightOn(RBViewQuery *query, CGFloat swipeWidth) {
-    RB_swipeRightOn(query, swipeWidth);
-}
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeUpOn(RBViewQuery *query, CGFloat swipeHeight) {
-    RB_swipeUpOn(query, swipeHeight);
-}
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeDownOn(RBViewQuery *query, CGFloat swipeHeight) {
-    RB_swipeDownOn(query, swipeHeight);
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeDownOn(id viewOrViews, CGFloat swipeHeight) {
+    RB_swipeDownOn(viewOrViews, swipeHeight);
 }
 
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeLeftOn(RBViewQuery *query) { RB_swipeLeftOn(query); }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeRightOn(RBViewQuery *query) { RB_swipeRightOn(query); }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeUpOn(RBViewQuery *query) { RB_swipeUpOn(query); }
-RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeDownOn(RBViewQuery *query) { RB_swipeDownOn(query); }
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeLeftOn(id viewOrViews) {
+    RB_swipeLeftOn(viewOrViews);
+}
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeRightOn(id viewOrViews) {
+    RB_swipeRightOn(viewOrViews);
+}
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeUpOn(id viewOrViews) {
+    RB_swipeUpOn(viewOrViews);
+}
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS void swipeDownOn(id viewOrViews) {
+    RB_swipeDownOn(viewOrViews);
+}
 
 #undef RB_ALIAS
 

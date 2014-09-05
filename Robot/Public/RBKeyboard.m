@@ -27,6 +27,7 @@
 
 @interface UIKeyboardTaskQueue : NSObject
 
+- (void)addTask:(void(^)(id))task;
 - (void)waitUntilAllTasksAreFinished;
 - (void)performTask:(id)task;
 - (void)performTaskOnMainThread:(id)task waitUntilDone:(BOOL)done;
@@ -45,6 +46,9 @@
 
 @interface UIKeyboardLayout : UIView
 
+- (void)touchUp:(id)event;
+- (void)commitTouches:(id)touches;
+
 @end
 
 @interface UIKeyboardLayoutStar : UIKeyboardLayout
@@ -54,6 +58,12 @@
 - (id)currentKeyplane;
 - (UIKBTree *)baseKeyForString:(NSString *)character;
 - (UIKBKeyplaneView *)currentKeyplaneView;
+- (id)simulateTouchForCharacter:(id)arg1
+                    errorVector:(CGPoint)arg2
+             shouldTypeVariants:(BOOL)arg3
+             baseKeyForVariants:(BOOL)arg4;
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 
 - (UIKBTree *)keyHitTestContainingPoint:(CGPoint)point;
 
@@ -69,6 +79,9 @@
 - (void)setSplitProgress:(double)progress;
 - (void)_setNeedsCandidates:(BOOL)needsCandidates;
 - (void)handleClear;
+- (id)delegateAsResponder;
+- (id)delegate;
+- (void)addInputString:(NSString *)key withFlags:(int)flags;
 
 - (UIKeyboardLayoutStar *)_layout;
 
@@ -78,28 +91,10 @@
 @end
 
 
-@interface UIKeyboardSyntheticTouch : NSObject
-
-- (void)setLocationInWindow:(CGPoint)point;
-// not actually implemented by UIKit
-- (void)_setLocationInWindow:(CGPoint)point resetPrevious:(BOOL)resetPrevious;
-
-@end
 /////////////////////////// END Private APIs /////////////////////////
 
 
 @implementation RBKeyboard
-
-+ (void)initialize
-{
-    // if we swizzle this class, we get keyboard entry for by the OS
-    Class keyboardTouchClass = NSClassFromString(@"UIKeyboardSyntheticTouch");
-    if (![keyboardTouchClass instancesRespondToSelector:@selector(_setLocationInWindow:resetPrevious:)]) {
-        IMP setLocationAndReset = imp_implementationWithBlock(^(id that, CGPoint point, BOOL reset){ });
-        Method setLocationMethod = class_getClassMethod(self, @selector(_setLocationInWindow:resetPrevious:));
-        class_addMethod(keyboardTouchClass, @selector(_setLocationInWindow:resetPrevious:), setLocationAndReset, method_getTypeEncoding(setLocationMethod));
-    }
-}
 
 + (instancetype)mainKeyboard
 {
@@ -112,7 +107,14 @@
 }
 
 - (BOOL)isVisible {
-    return [UIKeyboard isOnScreen];
+    UIKeyboardImpl *impl = [self activeKeyboardImpl];
+    if ([impl respondsToSelector:@selector(delegateAsResponder)]) {
+        return [impl delegateAsResponder] != nil;
+    }
+    if ([impl respondsToSelector:@selector(delegate)]) {
+        return [impl delegate] != nil;
+    }
+    return [[self activeKeyboardImpl] delegate] != nil;
 }
 
 - (void)clearText
@@ -171,34 +173,39 @@
 
 - (void)typeCharacter:(NSString *)character
 {
-    // Historically, beta SDKs do not always support this.
-    BOOL isSupportedSDK = [[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending;
-    isSupportedSDK = YES;
-    if (isSupportedSDK) {
-        [[self activeKeyboard] _typeCharacter:character withError:CGPointZero shouldTypeVariants:NO baseKeyForVariants:NO];
-    } else {
-        UIKeyboardImpl *impl = [self activeKeyboardImpl];
-        [impl _setNeedsCandidates:YES];
+    UIKeyboardImpl *keyboardImpl = [self activeKeyboardImpl];
+    UIKeyboardLayoutStar *layout = [keyboardImpl _layout];
 
-        UIKeyboardLayoutStar *layout = [impl _layout];
-        UIKBTree *key = [layout baseKeyForString:character];
-        NSAssert(key, @"Couldn't find key for string: %@", key);
-        id keyplane = [[impl _layout] keyplaneForKey:key];
-        if (keyplane != [layout currentKeyplane]) {
-            [layout changeToKeyplane:keyplane];
-            NSAssert([layout currentKeyplane] == keyplane, @"Failed to find key: %@", key);
-        }
+    UIKBTree *key = [layout baseKeyForString:character];
+    NSAssert(key, @"Couldn't find key for string: %@", key);
+    id keyplane = [[keyboardImpl _layout] keyplaneForKey:key];
+    if (keyplane != [layout currentKeyplane]) {
+        [layout changeToKeyplane:keyplane];
+        NSAssert([layout currentKeyplane] == keyplane, @"Failed to find key: %@", key);
+    }
+
+    if ([[key representedString] isEqual:character]) {
         CGRect frame = key.frame;
         CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
         CGPoint windowPoint = [layout convertPoint:keyCenter toView:nil];
 
-        RBTouch *touch = [RBTouch touchAtPoint:windowPoint
-                                      inWindow:layout.window
-                                   atTimestamp:CFAbsoluteTimeGetCurrent()];
+        UIView *touchedView = [layout.window hitTest:windowPoint withEvent:nil];
+        RBTouch *touch = [[RBTouch alloc] initWithWindowPoint:windowPoint
+                                                        phase:UITouchPhaseBegan
+                                                       inView:touchedView
+                                                  atTimestamp:CFAbsoluteTimeGetCurrent()];
+
+        // instead of going through UIWindow, pass the touch to the layout directly to be slightly faster
+        // this is the same tactic that UIKit's simulated touches do
+        [layout touchesBegan:[NSSet setWithObject:touch] withEvent:nil];
         [touch updatePhase:UITouchPhaseEnded];
-        [touch sendEvent];
+        [layout touchesEnded:[NSSet setWithObject:touch] withEvent:nil];
+    } else {
+        // accented characters
+        [keyboardImpl addInputString:character withFlags:2];
     }
-    [[[self activeKeyboardImpl] taskQueue] waitUntilAllTasksAreFinished];
+
+    [[keyboardImpl taskQueue] waitUntilAllTasksAreFinished];
     [RBTimeLapse resetMainRunLoop];
 }
 

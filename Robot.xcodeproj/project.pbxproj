@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F2A409919B6CE6900BB6511 /* RBSpecHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A409819B6CE6900BB6511 /* RBSpecHelper.m */; };
 		1F45D7631915E581005271F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
 		1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */; };
 		1F45D7AF19161063005271F1 /* RBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AE19161063005271F1 /* RBConstants.m */; };
@@ -62,6 +63,8 @@
 
 /* Begin PBXFileReference section */
 		1510049060B149CFA8226D9E /* Pods-Robot Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Robot Tests.xcconfig"; path = "Pods/Pods-Robot Tests.xcconfig"; sourceTree = "<group>"; };
+		1F2A409719B6CE6900BB6511 /* RBSpecHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBSpecHelper.h; sourceTree = "<group>"; };
+		1F2A409819B6CE6900BB6511 /* RBSpecHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBSpecHelper.m; sourceTree = "<group>"; };
 		1F45D75F1915E581005271F1 /* libRobot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRobot.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F45D7621915E581005271F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F45D7661915E581005271F1 /* Robot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Robot-Prefix.pch"; sourceTree = "<group>"; };
@@ -79,6 +82,8 @@
 		1F61923219A1986600FFDCA9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1F6A28C519B4BBB100A31E0D /* RBViewQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBViewQuery.h; sourceTree = "<group>"; };
 		1F6A28C619B4BBB100A31E0D /* RBViewQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBViewQuery.m; sourceTree = "<group>"; };
+		1F6F701319B6B2F90021CBA5 /* RBUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUtils.h; sourceTree = "<group>"; };
+		1F6F701619B6B3050021CBA5 /* RBMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBMacros.h; sourceTree = "<group>"; };
 		1F7E867319399A690039400F /* Robot Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Robot Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F848B4C197BA10D00F0966E /* RBDSLSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBDSLSpec.mm; sourceTree = "<group>"; };
 		1F848B4E197BBCED00F0966E /* RBAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAccessibility.h; sourceTree = "<group>"; };
@@ -215,6 +220,7 @@
 				1FBA18A9193B111900EF9E38 /* RBDSL.m */,
 				1F6A28C519B4BBB100A31E0D /* RBViewQuery.h */,
 				1F6A28C619B4BBB100A31E0D /* RBViewQuery.m */,
+				1F6F701619B6B3050021CBA5 /* RBMacros.h */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -243,6 +249,7 @@
 				1FC4916A193B287700C8087D /* NSObject+RBKVCUndefined.m */,
 				1FC4916E193BB11B00C8087D /* NSObject+RBSwizzle.h */,
 				1FC4916F193BB11B00C8087D /* NSObject+RBSwizzle.m */,
+				1F6F701319B6B2F90021CBA5 /* RBUtils.h */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -285,6 +292,8 @@
 				1FEB7DBA193837D2006F7479 /* SampleViewController.h */,
 				1FEB7DBB193837D2006F7479 /* SampleViewController.m */,
 				1FEB7DBC193837D2006F7479 /* SampleViewController.xib */,
+				1F2A409719B6CE6900BB6511 /* RBSpecHelper.h */,
+				1F2A409819B6CE6900BB6511 /* RBSpecHelper.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -427,6 +436,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F2A409919B6CE6900BB6511 /* RBSpecHelper.m in Sources */,
 				1F7E868F19399A860039400F /* RBAccessibilitySpec.mm in Sources */,
 				1F848B4D197BA10D00F0966E /* RBDSLSpec.mm in Sources */,
 				1FBA187D19399B8A00EF9E38 /* main.m in Sources */,

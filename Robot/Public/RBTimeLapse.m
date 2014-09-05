@@ -1,6 +1,7 @@
 #import "RBTimeLapse.h"
 #import "NSObject+RBSwizzle.h"
 #import <pthread.h>
+#import "RBUtils.h"
 
 typedef struct __CFRuntimeBase {
     uintptr_t _cfisa;
@@ -47,8 +48,7 @@ struct __CFRunLoop {
     CFTypeRef _counterpart;
 };
 
-extern void _CFRuntimeSetInstanceTypeID(CFTypeRef cf, CFTypeID newTypeID);
-
+// should lock, but doesn't
 static CFRunLoopModeRef CFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeName) {
     NSSet *set = (__bridge NSSet *)(rl->_modes);
     id modeObj = [[set objectsPassingTest:^BOOL(id obj, BOOL *stop) {
@@ -61,13 +61,11 @@ static CFRunLoopModeRef CFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeName)
     return NULL;
 }
 
-static void CFRunLoopZeroFireDateOfTimers(CFRunLoopRef runLoop, CFStringRef runLoopMode) {
-    CFRunLoopModeRef mode = CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode);
-    for (NSUInteger i = 0, count = CFArrayGetCount(mode->_timers); i < count; i++) {
-        CFRunLoopTimerRef timer = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(mode->_timers, i);
-        if (CFRunLoopTimerIsValid(timer)) {
-            CFRunLoopTimerSetNextFireDate(timer, [NSDate timeIntervalSinceReferenceDate]);
-        }
+static void CFZeroFireDateOfTimers(CFArrayRef timers) {
+    for (NSUInteger i = 0, count = CFArrayGetCount(timers); i < count; i++) {
+        CFRunLoopTimerRef timer = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(timers, i);
+        CFRunLoopTimerSetNextFireDate(timer, 0);
+        CFRunLoopTimerSetTolerance(timer, 0);
     }
 }
 
@@ -100,30 +98,18 @@ static void CFRunLoopZeroFireDateOfTimers(CFRunLoopRef runLoop, CFStringRef runL
         // this UIView transaction will finish after all animation completion callbacks fire
         [UIView beginAnimations:@"net.jeffhui.robot.animationless" context:0];
         {
-            [UIView setAnimationDuration:0];
+            [UIView setAnimationStartDate:[NSDate dateWithTimeIntervalSince1970:0]];
+            [UIView setAnimationDuration:-1];
             [UIView setAnimationDelay:0];
             [UIView setAnimationDelegate:self];
             [UIView setAnimationWillStartSelector:@selector(advanceMainRunLoop)];
             [UIView setAnimationDidStopSelector:@selector(advanceMainRunLoop)];
 
-            // Disable CoreAnimation
-            [CATransaction begin];
-            {
-                // attach callbacks to core animations to run the runloops
-                [CATransaction setCompletionBlock:^{
-                    [self advanceMainRunLoop];
-                }];
-                [CATransaction setAnimationDuration:0];
-                block();
-            }
-            [CATransaction commit];
+            block();
         }
         [UIView commitAnimations];
     }
     [UIView setAnimationsEnabled:YES];
-
-    // trigger animation callbacks
-    [self advanceMainRunLoop];
 }
 
 + (void)advanceMainRunLoop
@@ -134,15 +120,18 @@ static void CFRunLoopZeroFireDateOfTimers(CFRunLoopRef runLoop, CFStringRef runL
 + (void)advanceRunLoop:(NSRunLoop *)nsRunLoop
 {
     CFRunLoopRef runLoop = [nsRunLoop getCFRunLoop];
-    NSSet *previousTimers = [NSSet set];
-    NSSet *timers = [NSSet setWithArray:(__bridge NSArray *)(CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode)->_timers)];
+    CFMutableArrayRef previousTimers = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+    CFRunLoopModeRef mode = CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode);
+    CFMutableArrayRef timers = mode->_timers;
     do {
-        previousTimers = timers;
-        CFRunLoopZeroFireDateOfTimers(runLoop, kCFRunLoopDefaultMode);
-        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate date]];
-        timers = [NSSet setWithArray:(__bridge NSArray *)(CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode)->_timers)];
-    } while (CFRunLoopIsWaiting(runLoop) || ![previousTimers isEqual:timers]);
-
+        CFArrayRemoveAllValues(previousTimers);
+        CFArrayAppendArray(previousTimers, timers, CFRangeMake(0, CFArrayGetCount(timers)));
+        CFZeroFireDateOfTimers(timers);
+        if (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false) == kCFRunLoopRunFinished) {
+            break;
+        }
+    } while (CFArrayGetCount(timers) && ![(__bridge id)timers isEqual:(__bridge id)previousTimers]);
+    CFRelease(previousTimers);
 }
 
 + (void)resetMainRunLoop
@@ -153,8 +142,8 @@ static void CFRunLoopZeroFireDateOfTimers(CFRunLoopRef runLoop, CFStringRef runL
 + (void)resetRunLoop:(NSRunLoop *)nsRunLoop
 {
     CFRunLoopRef runLoop = [nsRunLoop getCFRunLoop];
-    CFMutableArrayRef timers = CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode)->_timers;
-    CFArrayRemoveAllValues(timers);
+    CFRunLoopModeRef mode = CFRunLoopFindMode(runLoop, kCFRunLoopDefaultMode);
+    CFArrayRemoveAllValues(mode->_timers);
 }
 
 @end

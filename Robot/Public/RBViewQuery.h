@@ -9,6 +9,7 @@
  */
 @interface RBViewQuery : NSArray
 
++ (instancetype)queryFromViewOrArrayOfViews:(id)viewOrArrayOfViews;
 - (instancetype)initWithMatchingPredicate:(NSPredicate *)predicate
                               inRootViews:(NSArray *)rootViews
                           sortDescriptors:(NSArray *)sortDesciptors;

@@ -26,8 +26,16 @@ describe(@"RBAccessibility", ^{
 
         beforeEach(^{
             alertDelegate = nice_fake_for(@protocol(UIAlertViewDelegate));
-            firstAlert = [[UIAlertView alloc] initWithTitle:@"First" message:@"message" delegate:alertDelegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-            secondAlert = [[UIAlertView alloc] initWithTitle:@"Second" message:@"message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+            firstAlert = [[UIAlertView alloc] initWithTitle:@"First"
+                                                    message:@"message"
+                                                   delegate:alertDelegate
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"OK", nil];
+            secondAlert = [[UIAlertView alloc] initWithTitle:@"Second"
+                                                     message:@"message"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:@"OK", nil];
 
             [RBTimeLapse disableAnimationsInBlock:^{
                 [firstAlert show];

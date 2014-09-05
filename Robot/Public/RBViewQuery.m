@@ -15,6 +15,16 @@
 
 @implementation RBViewQuery
 
++ (instancetype)queryFromViewOrArrayOfViews:(id)viewOrArrayOfViews
+{
+    RBViewQuery *query = [[self alloc] initWithMatchingPredicate:nil inRootViews:nil sortDescriptors:nil];
+    if ([viewOrArrayOfViews isKindOfClass:[UIView class]]) {
+        viewOrArrayOfViews = @[viewOrArrayOfViews];
+    }
+    query->_cache = [NSArray arrayWithArray:viewOrArrayOfViews];
+    return query;
+}
+
 - (instancetype)initWithMatchingPredicate:(NSPredicate *)predicate
                               inRootViews:(NSArray *)rootViews
                           sortDescriptors:(NSArray *)sortDesciptors

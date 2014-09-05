@@ -2,9 +2,18 @@
 #import "RBConstants.h"
 
 
-/*! Wraps UIKit's keyboard implementation.
+/*! Wraps UIKit's keyboard implementation. This provides an
+ *  API to operate on UIKit's default US-based keyboard. Performing
+ *  actions through this interface will properly go through text input
+ *  flow (eg - UITextField delegate calls).
+ *
+ *  Other non-English keyboard are not tested and may or may not work.
+ *  Custom keyboard are not tested with this and will probably NOT work with this.
  *
  *  Uses private APIs.
+ *
+ *  @warning be sure to dismiss the keyboard after usage to avoid
+ *           dangling UI components that are awaiting keyboard input.
  */
 @interface RBKeyboard : NSObject
 
@@ -12,9 +21,15 @@
  */
 + (instancetype)mainKeyboard;
 
-
+/*! Returns YES if the keyboard is currently visible
+ */
 - (BOOL)isVisible;
 
+/*! Clear the text in the active text input.
+ *
+ *  For UITextFields, this will walk through the textFieldShouldClear: flow.
+ *
+ */
 - (void)clearText;
 
 /*! Attempts to type the given string to whatever input that has keyboard focus.
@@ -40,7 +55,8 @@
  */
 - (void)typeKeys:(NSArray *)keys;
 
-/*! Dismisses (or hides) the keyboard. A special button that is available on iPads.
+/*! Dismisses (or hides) the keyboard.
+ *  The keyboard should be dismissed at teardown to avoid dangling delegates.
  */
 - (void)dismiss;
 
