@@ -21,14 +21,16 @@
  */
 + (instancetype)mainKeyboard;
 
-/*! Returns YES if the keyboard is currently visible
+/*! Returns YES if the keyboard is currently visible.
  */
 - (BOOL)isVisible;
 
-/*! Clear the text in the active text input.
+/*! Clear the text in the active text input. This simulates the user tapping
+ *  on the "x" button next to text fields.
+ *
+ *  Calling this method doesn't verify the existance of the clear button.
  *
  *  For UITextFields, this will walk through the textFieldShouldClear: flow.
- *
  */
 - (void)clearText;
 
@@ -46,12 +48,17 @@
 
 /*! Attempts to type a given character to whatever input that has keyboard focus.
  *  Keys are also strings.
+ *  Capitalization from the string is preserved, even if the textfield has
+ *  special capitalization rules.
  */
 - (void)typeKey:(NSString *)keyCharacter;
 
 /*! Like -[RBKeyboard typeString:], but accepts an array of keys to press instead of
  *  a string. If the string is not an explicit key. Calls -[RBKeyboard typeString:]
  *  instead of -[RBKeyboard typeKey:].
+ *
+ *  Capitalization from the string is preserved, even if the textfield has
+ *  special capitalization rules.
  */
 - (void)typeKeys:(NSArray *)keys;
 
