@@ -9,6 +9,14 @@ the system. Instead, trying to replicate the same behavior while minimizing
 the overhead of time-based operations. A perfect example is disabling animations
 to speed up running of tests.
 
+Also unlike KIF, Robot does not aim to be a full integration testing solution. Rather,
+it relies on other testing frameworks to do assertion and running. Besides XCTest, there
+are some populate BDD frameworks:
+
+ - Cedar
+ - Specta / Expecta
+ - Kiwi
+
 And like KIF, this uses private APIs.
 
 ```objc
