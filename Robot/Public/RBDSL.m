@@ -181,7 +181,7 @@ RB_EXPORT NSPredicate *RB_withVisibility(BOOL isVisible) {
     });
     NSPredicate *hasPixelToDraw = [NSCompoundPredicate orPredicateWithSubpredicates:@[RB_where(@"clipsToBounds == NO"), nonZeroSize]];
     NSPredicate *nonZeroAlpha = where(@"alpha > 0");
-    return RB_matching(@[visible, hasPixelToDraw, nonZeroAlpha]);
+    return RB_matching(visible, hasPixelToDraw, nonZeroAlpha);
 }
 
 RB_EXPORT NSPredicate *RB_withImage(UIImage *image) {
@@ -207,7 +207,8 @@ RB_EXPORT NSPredicate *RB_onScreen(BOOL isOnScreen) {
             }
         }
         CGRect viewFrameInWindow = [view.superview convertRect:view.frame toView:rootView];
-        BOOL onScreen = CGRectIntersectsRect(viewFrameInWindow, rootView.bounds) || CGRectContainsRect(rootView.bounds, viewFrameInWindow);
+        BOOL onScreen = CGRectIntersectsRect(viewFrameInWindow, rootView.bounds)
+                     || CGRectContainsRect(rootView.bounds, viewFrameInWindow);
         return onScreen == isOnScreen;
     });
 }

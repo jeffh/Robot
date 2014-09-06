@@ -98,10 +98,10 @@ describe(@"RBDSL", ^{
 
             allSubviews(onScreenAndVisible(YES)).inside(view) should equal(@[randomOtherView]);
             allSubviews(onScreenAndVisible(NO)).inside(view) should equal(@[viewWithZeroSize,
-                                                                                               invisibleView,
-                                                                                               label,
-                                                                                               viewOffTheScreen,
-                                                                                               textField]);
+                                                                            invisibleView,
+                                                                            label,
+                                                                            viewOffTheScreen,
+                                                                            textField]);
         });
     });
 });

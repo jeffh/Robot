@@ -54,12 +54,12 @@ All the core methods accept a predicate to check if each view satisfies
 the requirement. You can build your own from NSPredicate, but Robot comes
 with some built-in ones to compose:
 
-``where(NSString *formatString, ...)`` is an alias to ``+[NSPredicate predicateWithFormat:predicateFormat, ...]``:
+``where(NSString *formatString, ...)`` is an alias to ``+[NSPredicate predicateWithFormat:predicateFormat, ...]``.
 Likewise, ``NSPredicate *where(BOOL(^matcher)(UIView *view))`` is an alias to ``+[NSPredicate predicateWithBlock:matcher]``
 
 ```objc
 // finds all views that have more than 2 subviews
-allViews(where(@"subviews.count > %@", @2));
+allViews(where(@"subviews[SIZE] > %@", @2));
 
 // finds all views that have a tag of 3
 allViews(where(^BOOL(UIView *view){
@@ -67,14 +67,14 @@ allViews(where(^BOOL(UIView *view){
 }));
 ```
 
-Building up from that, the ``matching(...)`` macro is an alias to ``+[NSCompoundPredicate andPredicateWithSubpredicates:@[...]]``:
+Similarly, the ``matching(...)`` macro is an alias to ``+[NSCompoundPredicate andPredicateWithSubpredicates:@[...]]``:
 
 ```objc
 // find all views with tag of 3 with more than 2 subviews.
-allViews(matching(where(@"subviews.count > 2"), where(@"tag == 3")));
+allViews(matching(where(@"subviews[SIZE] > 2"), where(@"tag == 3")));
 ```
 
-There is are methods of filtering by the classes of views:
+There are methods of filtering by the classes of views:
 
 ```objc
 // find all UITextViews, but not subclasses
@@ -86,7 +86,7 @@ allViews(ofClass([UIButton class]));
 allViews(ofClass(@"UIButton"));
 ```
 
-You can also filter by parent view state:
+You can also filter by the parent view using another predicate:
 
 ```objc
 // find all views that have UIViews as superviews
@@ -100,7 +100,7 @@ allViews(includingSuperViews(ofExactClass([UIView class])));
 allViews(withoutRootView());
 ```
 
-Or by content:
+Or by view content:
 
 ```objc
 // find any views with the text of "Cancel"
