@@ -5,8 +5,10 @@ RB_INLINE NSArray *RBForceIntoArrayIfNotNil(id objectOrArray) {
         return objectOrArray;
     } else if (objectOrArray) {
         return @[objectOrArray];
+    } else {
+        NSCAssert(objectOrArray, @"Expected to receive an array or view, but got nil");
+        return nil;
     }
-    return nil;
 }
 
 #define RBTIME(BLOCK) \

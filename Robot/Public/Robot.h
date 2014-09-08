@@ -12,3 +12,7 @@
 
 // DSL
 #import "RBDSL.h"
+
+// proxies
+#import "RBTableViewCellsProxy.h"
+#import "RBCollectionViewCellsProxy.h"

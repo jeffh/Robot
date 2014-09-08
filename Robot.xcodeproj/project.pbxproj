@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1F2A409919B6CE6900BB6511 /* RBSpecHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A409819B6CE6900BB6511 /* RBSpecHelper.m */; };
+		1F3F577A19BBD43C0073E308 /* RBTableViewCellsProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F577919BBD43C0073E308 /* RBTableViewCellsProxy.m */; };
+		1F3F577D19BBD55B0073E308 /* SampleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F577C19BBD55B0073E308 /* SampleCollectionViewCell.m */; };
+		1F3F577F19BBD6C10073E308 /* RBCollectionViewCellsProxySpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F577E19BBD6C10073E308 /* RBCollectionViewCellsProxySpec.mm */; };
+		1F3F578219BBD7120073E308 /* RBCollectionViewCellsProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F578119BBD7120073E308 /* RBCollectionViewCellsProxy.m */; };
 		1F45D7631915E581005271F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
 		1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7A819160F19005271F1 /* UINavigationBar+RBTouch.m */; };
 		1F45D7AF19161063005271F1 /* RBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AE19161063005271F1 /* RBConstants.m */; };
@@ -24,9 +28,8 @@
 		1F848B4D197BA10D00F0966E /* RBDSLSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F848B4C197BA10D00F0966E /* RBDSLSpec.mm */; };
 		1F848B50197BBCED00F0966E /* RBAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F848B4F197BBCED00F0966E /* RBAccessibility.m */; };
 		1FBA187D19399B8A00EF9E38 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA187C19399B8A00EF9E38 /* main.m */; };
-		1FBA18801939C04300EF9E38 /* RBTableViewCellsProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA187F1939C04300EF9E38 /* RBTableViewCellsProxy.m */; };
 		1FBA18821939C06900EF9E38 /* RBTableViewCellsProxySpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18811939C06900EF9E38 /* RBTableViewCellsProxySpec.mm */; };
-		1FBA18861939CCA600EF9E38 /* RBTableViewCellProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18851939CCA600EF9E38 /* RBTableViewCellProxy.m */; };
+		1FBA18861939CCA600EF9E38 /* RBCellProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18851939CCA600EF9E38 /* RBCellProxy.m */; };
 		1FBA18881939D23200EF9E38 /* RBKeyboardSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18871939D23200EF9E38 /* RBKeyboardSpec.mm */; };
 		1FBA188A1939DB0F00EF9E38 /* RBTouchSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18891939DB0F00EF9E38 /* RBTouchSpec.mm */; };
 		1FBA1890193A821C00EF9E38 /* NSObject+RBExploratory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA188F193A821C00EF9E38 /* NSObject+RBExploratory.m */; };
@@ -65,6 +68,13 @@
 		1510049060B149CFA8226D9E /* Pods-Robot Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Robot Tests.xcconfig"; path = "Pods/Pods-Robot Tests.xcconfig"; sourceTree = "<group>"; };
 		1F2A409719B6CE6900BB6511 /* RBSpecHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBSpecHelper.h; sourceTree = "<group>"; };
 		1F2A409819B6CE6900BB6511 /* RBSpecHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBSpecHelper.m; sourceTree = "<group>"; };
+		1F3F577819BBD43C0073E308 /* RBTableViewCellsProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTableViewCellsProxy.h; sourceTree = "<group>"; };
+		1F3F577919BBD43C0073E308 /* RBTableViewCellsProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTableViewCellsProxy.m; sourceTree = "<group>"; };
+		1F3F577B19BBD55B0073E308 /* SampleCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleCollectionViewCell.h; sourceTree = "<group>"; };
+		1F3F577C19BBD55B0073E308 /* SampleCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleCollectionViewCell.m; sourceTree = "<group>"; };
+		1F3F577E19BBD6C10073E308 /* RBCollectionViewCellsProxySpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBCollectionViewCellsProxySpec.mm; sourceTree = "<group>"; };
+		1F3F578019BBD7120073E308 /* RBCollectionViewCellsProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBCollectionViewCellsProxy.h; sourceTree = "<group>"; };
+		1F3F578119BBD7120073E308 /* RBCollectionViewCellsProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBCollectionViewCellsProxy.m; sourceTree = "<group>"; };
 		1F45D75F1915E581005271F1 /* libRobot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRobot.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F45D7621915E581005271F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F45D7661915E581005271F1 /* Robot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Robot-Prefix.pch"; sourceTree = "<group>"; };
@@ -89,11 +99,9 @@
 		1F848B4E197BBCED00F0966E /* RBAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAccessibility.h; sourceTree = "<group>"; };
 		1F848B4F197BBCED00F0966E /* RBAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAccessibility.m; sourceTree = "<group>"; };
 		1FBA187C19399B8A00EF9E38 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1FBA187E1939C04300EF9E38 /* RBTableViewCellsProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTableViewCellsProxy.h; sourceTree = "<group>"; };
-		1FBA187F1939C04300EF9E38 /* RBTableViewCellsProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTableViewCellsProxy.m; sourceTree = "<group>"; };
 		1FBA18811939C06900EF9E38 /* RBTableViewCellsProxySpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBTableViewCellsProxySpec.mm; sourceTree = "<group>"; };
-		1FBA18841939CCA600EF9E38 /* RBTableViewCellProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTableViewCellProxy.h; sourceTree = "<group>"; };
-		1FBA18851939CCA600EF9E38 /* RBTableViewCellProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTableViewCellProxy.m; sourceTree = "<group>"; };
+		1FBA18841939CCA600EF9E38 /* RBCellProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBCellProxy.h; sourceTree = "<group>"; };
+		1FBA18851939CCA600EF9E38 /* RBCellProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBCellProxy.m; sourceTree = "<group>"; };
 		1FBA18871939D23200EF9E38 /* RBKeyboardSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBKeyboardSpec.mm; sourceTree = "<group>"; };
 		1FBA18891939DB0F00EF9E38 /* RBTouchSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBTouchSpec.mm; sourceTree = "<group>"; };
 		1FBA188E193A821C00EF9E38 /* NSObject+RBExploratory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RBExploratory.h"; sourceTree = "<group>"; };
@@ -146,6 +154,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F3F577719BBD4190073E308 /* Proxies */ = {
+			isa = PBXGroup;
+			children = (
+				1F3F577819BBD43C0073E308 /* RBTableViewCellsProxy.h */,
+				1F3F577919BBD43C0073E308 /* RBTableViewCellsProxy.m */,
+				1F3F578019BBD7120073E308 /* RBCollectionViewCellsProxy.h */,
+				1F3F578119BBD7120073E308 /* RBCollectionViewCellsProxy.m */,
+			);
+			path = Proxies;
+			sourceTree = "<group>";
+		};
 		1F45D7561915E581005271F1 = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +223,7 @@
 		1F45D7891915E59B005271F1 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				1F3F577719BBD4190073E308 /* Proxies */,
 				1F45D7A219160E4B005271F1 /* Extensions */,
 				1F45D7BF191647F2005271F1 /* RBTimeLapse.h */,
 				1F45D7C0191647F2005271F1 /* RBTimeLapse.m */,
@@ -212,8 +232,6 @@
 				1F45D7C1191647F2005271F1 /* RBKeyboard.h */,
 				1F45D7C2191647F2005271F1 /* RBKeyboard.m */,
 				1F45D7B019161092005271F1 /* Robot.h */,
-				1FBA187E1939C04300EF9E38 /* RBTableViewCellsProxy.h */,
-				1FBA187F1939C04300EF9E38 /* RBTableViewCellsProxy.m */,
 				1FBA18A2193AD4CF00EF9E38 /* RBTouch.h */,
 				1FBA18A3193AD4CF00EF9E38 /* RBTouch.m */,
 				1FBA18A8193B111900EF9E38 /* RBDSL.h */,
@@ -241,8 +259,8 @@
 			children = (
 				1F848B4E197BBCED00F0966E /* RBAccessibility.h */,
 				1F848B4F197BBCED00F0966E /* RBAccessibility.m */,
-				1FBA18841939CCA600EF9E38 /* RBTableViewCellProxy.h */,
-				1FBA18851939CCA600EF9E38 /* RBTableViewCellProxy.m */,
+				1FBA18841939CCA600EF9E38 /* RBCellProxy.h */,
+				1FBA18851939CCA600EF9E38 /* RBCellProxy.m */,
 				1FBA188E193A821C00EF9E38 /* NSObject+RBExploratory.h */,
 				1FBA188F193A821C00EF9E38 /* NSObject+RBExploratory.m */,
 				1FC49169193B287700C8087D /* NSObject+RBKVCUndefined.h */,
@@ -282,6 +300,7 @@
 				1FBA18871939D23200EF9E38 /* RBKeyboardSpec.mm */,
 				1FBA18891939DB0F00EF9E38 /* RBTouchSpec.mm */,
 				1F848B4C197BA10D00F0966E /* RBDSLSpec.mm */,
+				1F3F577E19BBD6C10073E308 /* RBCollectionViewCellsProxySpec.mm */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -294,6 +313,8 @@
 				1FEB7DBC193837D2006F7479 /* SampleViewController.xib */,
 				1F2A409719B6CE6900BB6511 /* RBSpecHelper.h */,
 				1F2A409819B6CE6900BB6511 /* RBSpecHelper.m */,
+				1F3F577B19BBD55B0073E308 /* SampleCollectionViewCell.h */,
+				1F3F577C19BBD55B0073E308 /* SampleCollectionViewCell.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -415,15 +436,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FBA18861939CCA600EF9E38 /* RBTableViewCellProxy.m in Sources */,
+				1F3F577A19BBD43C0073E308 /* RBTableViewCellsProxy.m in Sources */,
+				1FBA18861939CCA600EF9E38 /* RBCellProxy.m in Sources */,
 				1F45D7C6191647F2005271F1 /* RBTimeLapse.m in Sources */,
 				1FBA18AA193B111900EF9E38 /* RBDSL.m in Sources */,
 				1FBA18A4193AD4CF00EF9E38 /* RBTouch.m in Sources */,
-				1FBA18801939C04300EF9E38 /* RBTableViewCellsProxy.m in Sources */,
 				1FBA1890193A821C00EF9E38 /* NSObject+RBExploratory.m in Sources */,
 				1FBA18A7193B0B2800EF9E38 /* UIWindow+RB.m in Sources */,
 				1F6A28C719B4BBB100A31E0D /* RBViewQuery.m in Sources */,
 				1F45D7A919160F19005271F1 /* UINavigationBar+RBTouch.m in Sources */,
+				1F3F578219BBD7120073E308 /* RBCollectionViewCellsProxy.m in Sources */,
 				1F45D7AF19161063005271F1 /* RBConstants.m in Sources */,
 				1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */,
 				1F848B50197BBCED00F0966E /* RBAccessibility.m in Sources */,
@@ -439,6 +461,8 @@
 				1F2A409919B6CE6900BB6511 /* RBSpecHelper.m in Sources */,
 				1F7E868F19399A860039400F /* RBAccessibilitySpec.mm in Sources */,
 				1F848B4D197BA10D00F0966E /* RBDSLSpec.mm in Sources */,
+				1F3F577D19BBD55B0073E308 /* SampleCollectionViewCell.m in Sources */,
+				1F3F577F19BBD6C10073E308 /* RBCollectionViewCellsProxySpec.mm in Sources */,
 				1FBA187D19399B8A00EF9E38 /* main.m in Sources */,
 				1F7E868D19399A7D0039400F /* SampleViewController.m in Sources */,
 				1FBA18881939D23200EF9E38 /* RBKeyboardSpec.mm in Sources */,

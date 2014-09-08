@@ -74,6 +74,7 @@ describe(@"RBDSL", ^{
             [view addSubview:invisibleView];
 
             allSubviews(withVisibility(YES)).inside(view) should equal(@[label]);
+            allViews(matching(withVisibility(YES), withoutRootView())).inside(view) should equal(@[label]);
         });
 
         it(@"should be able to find views that have all its parentViews matching the predicate", ^{

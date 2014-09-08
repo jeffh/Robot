@@ -1,5 +1,5 @@
 #import "RBTableViewCellsProxy.h"
-#import "RBTableViewCellProxy.h"
+#import "RBCellProxy.h"
 
 
 @interface RBTableViewCellsProxy ()
@@ -41,9 +41,15 @@
 
 - (id)cellForIndexPath:(NSIndexPath *)indexPath
 {
-    return [[RBTableViewCellProxy alloc] initWithTableView:self.tableView
-                                                 indexPath:indexPath
-                                   preferredScrollPosition:self.preferredScrollPosition];
+    return [[RBCellProxy alloc] initWithGetterBlock:^id{
+        [self.tableView scrollToRowAtIndexPath:indexPath
+                              atScrollPosition:self.preferredScrollPosition
+                                      animated:NO];
+        [self.tableView layoutIfNeeded];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [cell layoutIfNeeded];
+        return cell;
+    }];
 }
 
 - (id)cellAtIndex:(NSUInteger)index

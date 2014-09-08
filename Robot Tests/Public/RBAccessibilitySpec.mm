@@ -21,7 +21,7 @@ describe(@"RBAccessibility", ^{
     });
 
     it(@"should be able to compare subviews", ^{
-        allViews(where(@"subviews[SIZE] > 2")) should_not be_empty;
+        allViews(where(@"subviews[SIZE] == 1")) should_not be_empty;
     });
 
     describe(@"alert views", ^{
