@@ -17,6 +17,7 @@
 		1F45D7AF19161063005271F1 /* RBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7AE19161063005271F1 /* RBConstants.m */; };
 		1F45D7C6191647F2005271F1 /* RBTimeLapse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C0191647F2005271F1 /* RBTimeLapse.m */; };
 		1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C2191647F2005271F1 /* RBKeyboard.m */; };
+		1F5C014F19BD550B00F2A6B6 /* libCedar-StaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5C014219BD550200F2A6B6 /* libCedar-StaticLib.a */; };
 		1F6A28C719B4BBB100A31E0D /* RBViewQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6A28C619B4BBB100A31E0D /* RBViewQuery.m */; };
 		1F7E867419399A690039400F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7731915E581005271F1 /* UIKit.framework */; };
 		1F7E867519399A690039400F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
@@ -39,10 +40,79 @@
 		1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4916A193B287700C8087D /* NSObject+RBKVCUndefined.m */; settings = {COMPILER_FLAGS = "-fobjc-arc-exceptions"; }; };
 		1FC4916D193BA0AD00C8087D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4916C193BA0AD00C8087D /* Default-568h@2x.png */; };
 		1FC49170193BB11B00C8087D /* NSObject+RBSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4916F193BB11B00C8087D /* NSObject+RBSwizzle.m */; };
-		776EF05759954274A1A57DC7 /* libPods-Robot Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E80D5BC713CA4C70B9D8263C /* libPods-Robot Tests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1F5C013B19BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AEEE1FB611DC271300029872;
+			remoteInfo = Cedar;
+		};
+		1F5C013D19BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AEEE218611DC28E200029872;
+			remoteInfo = Specs;
+		};
+		1F5C013F19BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 96A07F0813F276640021974D;
+			remoteInfo = FocusedSpecs;
+		};
+		1F5C014119BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AEEE222911DC2B0600029872;
+			remoteInfo = "Cedar-StaticLib";
+		};
+		1F5C014319BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AEEE227611DC2CF900029872;
+			remoteInfo = iOSSpecs;
+		};
+		1F5C014519BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AE02E7E4184EABCD00414F19;
+			remoteInfo = iOSFrameworkSpecs;
+		};
+		1F5C014719BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 96B5F9F6144A81A7000A6A5D;
+			remoteInfo = OCUnitApp;
+		};
+		1F5C014919BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 96B5FA11144A81A8000A6A5D;
+			remoteInfo = OCUnitAppTests;
+		};
+		1F5C014B19BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F45A3DD180E4796003C1E36;
+			remoteInfo = XCUnitAppTests;
+		};
+		1F5C014D19BD550200F2A6B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 96158A86144A915E005895CE;
+			remoteInfo = OCUnitAppLogicTests;
+		};
 		1F7E868B19399A730039400F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1F45D7571915E581005271F1 /* Project object */;
@@ -65,7 +135,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1510049060B149CFA8226D9E /* Pods-Robot Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Robot Tests.xcconfig"; path = "Pods/Pods-Robot Tests.xcconfig"; sourceTree = "<group>"; };
 		1F2A409719B6CE6900BB6511 /* RBSpecHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBSpecHelper.h; sourceTree = "<group>"; };
 		1F2A409819B6CE6900BB6511 /* RBSpecHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBSpecHelper.m; sourceTree = "<group>"; };
 		1F3F577819BBD43C0073E308 /* RBTableViewCellsProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTableViewCellsProxy.h; sourceTree = "<group>"; };
@@ -89,6 +158,7 @@
 		1F45D7C0191647F2005271F1 /* RBTimeLapse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTimeLapse.m; sourceTree = "<group>"; };
 		1F45D7C1191647F2005271F1 /* RBKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBKeyboard.h; sourceTree = "<group>"; };
 		1F45D7C2191647F2005271F1 /* RBKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBKeyboard.m; sourceTree = "<group>"; };
+		1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Cedar.xcodeproj; path = Cedar/Cedar.xcodeproj; sourceTree = "<group>"; };
 		1F61923219A1986600FFDCA9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1F6A28C519B4BBB100A31E0D /* RBViewQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBViewQuery.h; sourceTree = "<group>"; };
 		1F6A28C619B4BBB100A31E0D /* RBViewQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBViewQuery.m; sourceTree = "<group>"; };
@@ -125,9 +195,6 @@
 		1FEB7DBB193837D2006F7479 /* SampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleViewController.m; sourceTree = "<group>"; };
 		1FEB7DBC193837D2006F7479 /* SampleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleViewController.xib; sourceTree = "<group>"; };
 		1FEB7DBF19383905006F7479 /* RBAccessibilitySpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBAccessibilitySpec.mm; sourceTree = "<group>"; };
-		65EC12DDEAAB419198BF9246 /* libPods-RobotSpecs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RobotSpecs.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6A856A893704CD28CC36EB7 /* Pods-RobotSpecs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RobotSpecs.xcconfig"; path = "Pods/Pods-RobotSpecs.xcconfig"; sourceTree = "<group>"; };
-		E80D5BC713CA4C70B9D8263C /* libPods-Robot Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Robot Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,11 +210,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F5C014F19BD550B00F2A6B6 /* libCedar-StaticLib.a in Frameworks */,
 				1F7E868A19399A700039400F /* libRobot.a in Frameworks */,
 				1F7E867619399A690039400F /* CoreGraphics.framework in Frameworks */,
 				1F7E867419399A690039400F /* UIKit.framework in Frameworks */,
 				1F7E867519399A690039400F /* Foundation.framework in Frameworks */,
-				776EF05759954274A1A57DC7 /* libPods-Robot Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,12 +237,11 @@
 			children = (
 				1F61923219A1986600FFDCA9 /* README.md */,
 				1FC4916C193BA0AD00C8087D /* Default-568h@2x.png */,
-				1F45D7641915E581005271F1 /* Robot */,
-				1FEB7DA6193701FD006F7479 /* Robot Tests */,
+				1F5C012C19BD54F300F2A6B6 /* Externals */,
 				1F45D7611915E581005271F1 /* Frameworks */,
 				1F45D7601915E581005271F1 /* Products */,
-				E6A856A893704CD28CC36EB7 /* Pods-RobotSpecs.xcconfig */,
-				1510049060B149CFA8226D9E /* Pods-Robot Tests.xcconfig */,
+				1F45D7641915E581005271F1 /* Robot */,
+				1FEB7DA6193701FD006F7479 /* Robot Tests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,8 +262,6 @@
 				1F45D7731915E581005271F1 /* UIKit.framework */,
 				1FEB7D821936EB6A006F7479 /* SenTestingKit.framework */,
 				1FEB7D841936EB6A006F7479 /* CoreGraphics.framework */,
-				65EC12DDEAAB419198BF9246 /* libPods-RobotSpecs.a */,
-				E80D5BC713CA4C70B9D8263C /* libPods-Robot Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -252,6 +316,31 @@
 				1FBA18A6193B0B2800EF9E38 /* UIWindow+RB.m */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1F5C012C19BD54F300F2A6B6 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		1F5C012E19BD550100F2A6B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1F5C013C19BD550200F2A6B6 /* Cedar.framework */,
+				1F5C013E19BD550200F2A6B6 /* Specs */,
+				1F5C014019BD550200F2A6B6 /* FocusedSpecs */,
+				1F5C014219BD550200F2A6B6 /* libCedar-StaticLib.a */,
+				1F5C014419BD550200F2A6B6 /* iOSSpecs.app */,
+				1F5C014619BD550200F2A6B6 /* iOSFrameworkSpecs.app */,
+				1F5C014819BD550200F2A6B6 /* OCUnitApp.app */,
+				1F5C014A19BD550200F2A6B6 /* OCUnitAppTests.octest */,
+				1F5C014C19BD550200F2A6B6 /* XCUnitAppTests.xctest */,
+				1F5C014E19BD550200F2A6B6 /* OCUnitAppLogicTests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		1FBA18831939CC7700EF9E38 /* Private */ = {
@@ -343,11 +432,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F7E868719399A6A0039400F /* Build configuration list for PBXNativeTarget "Robot Tests" */;
 			buildPhases = (
-				701F4E5D125A49E2A1D8EBF7 /* Check Pods Manifest.lock */,
 				1F7E866F19399A690039400F /* Sources */,
 				1F7E867019399A690039400F /* Frameworks */,
 				1F7E867119399A690039400F /* Resources */,
-				D3838D629A884100B778672E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -378,6 +465,12 @@
 			mainGroup = 1F45D7561915E581005271F1;
 			productRefGroup = 1F45D7601915E581005271F1 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1F5C012E19BD550100F2A6B6 /* Products */;
+					ProjectRef = 1F5C012D19BD550100F2A6B6 /* Cedar.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1F45D75E1915E581005271F1 /* Robot */,
@@ -385,6 +478,79 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1F5C013C19BD550200F2A6B6 /* Cedar.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Cedar.framework;
+			remoteRef = 1F5C013B19BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F5C013E19BD550200F2A6B6 /* Specs */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = Specs;
+			remoteRef = 1F5C013D19BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F5C014019BD550200F2A6B6 /* FocusedSpecs */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = FocusedSpecs;
+			remoteRef = 1F5C013F19BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F5C014219BD550200F2A6B6 /* libCedar-StaticLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCedar-StaticLib.a";
+			remoteRef = 1F5C014119BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F5C014419BD550200F2A6B6 /* iOSSpecs.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = iOSSpecs.app;
+			remoteRef = 1F5C014319BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F5C014619BD550200F2A6B6 /* iOSFrameworkSpecs.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = iOSFrameworkSpecs.app;
+			remoteRef = 1F5C014519BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F5C014819BD550200F2A6B6 /* OCUnitApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OCUnitApp.app;
+			remoteRef = 1F5C014719BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F5C014A19BD550200F2A6B6 /* OCUnitAppTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCUnitAppTests.octest;
+			remoteRef = 1F5C014919BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F5C014C19BD550200F2A6B6 /* XCUnitAppTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = XCUnitAppTests.xctest;
+			remoteRef = 1F5C014B19BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F5C014E19BD550200F2A6B6 /* OCUnitAppLogicTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCUnitAppLogicTests.octest;
+			remoteRef = 1F5C014D19BD550200F2A6B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1F7E867119399A690039400F /* Resources */ = {
@@ -397,39 +563,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		701F4E5D125A49E2A1D8EBF7 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		D3838D629A884100B778672E /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-Robot Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1F45D75B1915E581005271F1 /* Sources */ = {
@@ -582,7 +715,6 @@
 		};
 		1F7E868819399A6A0039400F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1510049060B149CFA8226D9E /* Pods-Robot Tests.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -597,6 +729,11 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode6-Beta7.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					"$(SRCROOT)/Externals/Cedar/Source/Headers/**",
+				);
 				INFOPLIST_FILE = "Robot Tests/Robot Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
@@ -610,7 +747,6 @@
 		};
 		1F7E868919399A6A0039400F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1510049060B149CFA8226D9E /* Pods-Robot Tests.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -621,6 +757,11 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Robot Tests/Robot Tests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode6-Beta7.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					"$(SRCROOT)/Externals/Cedar/Source/Headers/**",
+				);
 				INFOPLIST_FILE = "Robot Tests/Robot Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";

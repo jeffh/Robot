@@ -20,10 +20,6 @@ describe(@"RBAccessibility", ^{
         isAlertVisible() should be_falsy;
     });
 
-    it(@"should be able to compare subviews", ^{
-        allViews(where(@"subviews[SIZE] == 1")) should_not be_empty;
-    });
-
     describe(@"alert views", ^{
         __block UIAlertView *firstAlert, *secondAlert;
         __block NSObject<UIAlertViewDelegate, CedarDouble> *alertDelegate;

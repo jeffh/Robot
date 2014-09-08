@@ -12,6 +12,8 @@
 	<dict>
 		<key>4D05506B1983134AE4A6CD49A00181057E72A8BE</key>
 		<string>ssh://github.com/jeffh/Robot.git</string>
+		<key>9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D</key>
+		<string>github.com:pivotal/Cedar.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Robot.xcodeproj/project.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>4D05506B1983134AE4A6CD49A00181057E72A8BE</key>
 		<string>../..</string>
+		<key>9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D</key>
+		<string>../../Externals/Cedar/</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/jeffh/Robot.git</string>
@@ -28,6 +32,14 @@
 	<string>4D05506B1983134AE4A6CD49A00181057E72A8BE</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Cedar</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
