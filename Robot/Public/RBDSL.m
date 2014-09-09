@@ -248,7 +248,7 @@ RB_EXPORT_OVERLOADED NSPredicate *RB_where(BOOL(^matcher)(UIView *view)) {
 #pragma mark - View Interaction
 
 RB_EXPORT_OVERLOADED void RB_tapOn(id viewOrViews) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         [RBTimeLapse disableAnimationsInBlock:^{
             [RBTouch tapOnView:view atPoint:[view center]];
         }];
@@ -256,7 +256,7 @@ RB_EXPORT_OVERLOADED void RB_tapOn(id viewOrViews) {
 }
 
 RB_EXPORT_OVERLOADED void RB_tapOn(id viewOrViews, CGPoint pointRelativeToSuperView) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         [RBTimeLapse disableAnimationsInBlock:^{
             [RBTouch tapOnView:view atPoint:pointRelativeToSuperView];
         }];
@@ -266,7 +266,7 @@ RB_EXPORT_OVERLOADED void RB_tapOn(id viewOrViews, CGPoint pointRelativeToSuperV
 RB_EXPORT void RB_touchAndMoveLinearlyOn(id viewOrViews,
                                          CGPoint start, CGPoint end,
                                          NSUInteger numOfIntermediatePoints) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         [RBTouch touchAndMoveOnView:view
                  intermediatePoints:numOfIntermediatePoints
                       startingPoint:start
@@ -280,14 +280,14 @@ RB_EXPORT void RB_touchAndMoveLinearlyAroundPointOn(id viewOrViews,
                                                     NSUInteger numOfIntermediatePoints) {
     CGPoint start = CGPointMake(center.x - delta.x, center.y - delta.y);
     CGPoint end = CGPointMake(center.x + delta.x, center.y + delta.y);
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_touchAndMoveLinearlyOn(view, start, end, numOfIntermediatePoints);
     }
 }
 
 RB_EXPORT void RB_touchAndMoveLinearlyFromCenterOf(id viewOrViews, CGPoint delta,
                                                    NSUInteger numOfIntermediatePoints) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_touchAndMoveLinearlyAroundPointOn(view,
                                              [view center], delta,
                                              numOfIntermediatePoints);
@@ -297,53 +297,53 @@ RB_EXPORT void RB_touchAndMoveLinearlyFromCenterOf(id viewOrViews, CGPoint delta
 const NSUInteger kRBDefaultNumberOfIntermediatePoints = 5;
 
 RB_EXPORT_OVERLOADED void RB_swipeLeftOn(id viewOrViews, CGFloat swipeWidth) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(-swipeWidth / 2, 0),
                                             kRBDefaultNumberOfIntermediatePoints);
     }
 }
 
 RB_EXPORT_OVERLOADED void RB_swipeRightOn(id viewOrViews, CGFloat swipeWidth) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(swipeWidth / 2, 0),
                                             kRBDefaultNumberOfIntermediatePoints);
     }
 }
 
 RB_EXPORT_OVERLOADED void RB_swipeUpOn(id viewOrViews, CGFloat swipeHeight) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(0, -swipeHeight / 2),
                                             kRBDefaultNumberOfIntermediatePoints);
     }
 }
 
 RB_EXPORT_OVERLOADED void RB_swipeDownOn(id viewOrViews, CGFloat swipeHeight) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_touchAndMoveLinearlyFromCenterOf(view, CGPointMake(0, swipeHeight),
                                             kRBDefaultNumberOfIntermediatePoints);
     }
 }
 
 RB_EXPORT_OVERLOADED void RB_swipeLeftOn(id viewOrViews) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_swipeLeftOn(view, CGRectGetWidth([view bounds]) / 4);
     }
 }
 
 RB_EXPORT_OVERLOADED void RB_swipeRightOn(id viewOrViews) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_swipeRightOn(view, CGRectGetWidth([view bounds]) / 4);
     }
 }
 
 RB_EXPORT_OVERLOADED void RB_swipeUpOn(id viewOrViews) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_swipeUpOn(view, CGRectGetHeight([view bounds]) / 4);
     }
 }
 
 RB_EXPORT_OVERLOADED void RB_swipeDownOn(id viewOrViews) {
-    for (UIView *view in RBForceIntoArrayIfNotNil(viewOrViews)) {
+    for (UIView *view in RBForceIntoNonEmptyArray(viewOrViews)) {
         RB_swipeDownOn(view, CGRectGetHeight([view bounds]) / 4);
     }
 }

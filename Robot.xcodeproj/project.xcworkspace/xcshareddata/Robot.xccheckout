@@ -22,7 +22,7 @@
 		<key>4D05506B1983134AE4A6CD49A00181057E72A8BE</key>
 		<string>../..</string>
 		<key>9C17E6AC4A93E78FE05F88AE0011DD4EAD50139D</key>
-		<string>../../Externals/Cedar/</string>
+		<string>../../Externals/Cedar</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/jeffh/Robot.git</string>

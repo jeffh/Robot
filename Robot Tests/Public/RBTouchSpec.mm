@@ -1,6 +1,7 @@
 #import "Robot.h"
 #import "SampleViewController.h"
 #import "RBKeyboard.h"
+#import "RBSpecHelper.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -14,6 +15,17 @@ describe(@"RBTouch", ^{
         controller = [[SampleViewController alloc] init];
         controller.view should_not be_nil;
         [[UIWindow createWindowForTesting] addSubview:controller.view];
+    });
+
+    describe(@"tapping on no views", ^{
+        it(@"should raise an exception", ^{
+            [RBSpecHelper raisesAssertionInBlock:^{
+                tapOn(@[]);
+            }] should be_truthy;
+            [RBSpecHelper raisesAssertionInBlock:^{
+                tapOn(nil);
+            }] should be_truthy;
+        });
     });
 
     describe(@"tapping on views of id", ^{

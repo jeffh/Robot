@@ -1,7 +1,8 @@
 #import "RBMacros.h"
 
-RB_INLINE NSArray *RBForceIntoArrayIfNotNil(id objectOrArray) {
+RB_INLINE NSArray *RBForceIntoNonEmptyArray(id objectOrArray) {
     if ([objectOrArray isKindOfClass:[NSArray class]]) {
+        NSCAssert([objectOrArray count], @"Expected to receive an array with a view, but got nothing");
         return objectOrArray;
     } else if (objectOrArray) {
         return @[objectOrArray];

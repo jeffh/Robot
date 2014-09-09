@@ -2,4 +2,6 @@
 
 @interface RBSpecHelper : NSObject
 
++ (BOOL)raisesAssertionInBlock:(void(^)())block;
+
 @end
