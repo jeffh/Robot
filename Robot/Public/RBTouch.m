@@ -90,9 +90,14 @@
 {
     NSAssert(view, @"A view wasn't given to be tapped on");
     NSAssert(numberOfPoints, @"Expected at least 1 point");
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    RBTouch *touch = [RBTouch touchOnView:view atPoint:points[0] atTimestamp:startTime];
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent() - numberOfPoints * 0.01;
+    __block RBTouch *touch;
+    [RBTimeLapse disableAnimationsInBlock:^{
+        touch = [RBTouch touchOnView:view atPoint:points[0] atTimestamp:startTime];
+    }];
+    UIView *originalView = view;
     for (NSUInteger i = 1; i < numberOfPoints; i++) {
+        [touch setView:originalView];
         [touch updateRelativePoint:points[i]];
         if (i + 1 == numberOfPoints) {
             [touch updatePhase:endingPhase];
@@ -104,7 +109,9 @@
             [touch updatePhase:UITouchPhaseMoved];
         }
         [touch setTimestamp:CFAbsoluteTimeGetCurrent()];
-        [touch sendEvent];
+        [RBTimeLapse disableAnimationsInBlock:^{
+            [touch sendEvent];
+        }];
     }
     return touch;
 }

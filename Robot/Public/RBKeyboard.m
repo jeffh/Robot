@@ -206,7 +206,6 @@
     }
 
     [[keyboardImpl taskQueue] waitUntilAllTasksAreFinished];
-    [RBTimeLapse resetMainRunLoop];
 }
 
 - (BOOL)isKnownSpecialKey:(NSString *)key

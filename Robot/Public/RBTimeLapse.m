@@ -130,6 +130,7 @@ static void CFZeroFireDateOfTimers(CFArrayRef timers) {
         if (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false) == kCFRunLoopRunFinished) {
             break;
         }
+        timers = mode->_timers;
     } while (CFArrayGetCount(timers) && ![(__bridge id)timers isEqual:(__bridge id)previousTimers]);
     CFRelease(previousTimers);
 }

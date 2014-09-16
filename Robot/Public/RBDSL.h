@@ -131,6 +131,16 @@ RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS RBViewQuery *theFirstView(NSArray *pred
     return RB_theFirstView(predicates);
 }
 
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS RBViewQuery *theFirstSubview(void) {
+    return RB_theFirstSubview();
+}
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS RBViewQuery *theFirstSubview(NSPredicate *predicate) {
+    return RB_theFirstSubview(predicate);
+}
+RB_ALIAS_OVERLOADED RB_USES_PRIVATE_APIS RBViewQuery *theFirstSubview(NSArray *predicates) {
+    return RB_theFirstSubview(predicates);
+}
+
 RB_ALIAS RB_USES_PRIVATE_APIS BOOL isAlertVisible(void) {
     return RB_isAlertVisible();
 }
