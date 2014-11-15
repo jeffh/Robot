@@ -19,6 +19,8 @@
 RB_USES_PRIVATE_APIS
 @interface RBKeyboard : NSObject
 
+@property (nonatomic) BOOL debug;
+
 /*! Returns an instance to use UIKit's keyboard
  */
 + (instancetype)mainKeyboard;

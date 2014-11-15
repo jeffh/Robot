@@ -40,8 +40,14 @@
 - (BOOL)visible;
 @end
 
+@interface UIKBKeyView : UIView
+- (void)activateKeys;
+- (void)deactivateKeys;
+@end
+
 @interface UIKBKeyplaneView : UIView
 - (NSArray *)keys;
+- (UIKBKeyView *)viewForKey:(UIKBTree *)key;
 @end
 
 @interface UIKeyboardLayout : UIView
@@ -82,6 +88,12 @@
 - (id)delegateAsResponder;
 - (id)delegate;
 - (void)addInputString:(NSString *)key withFlags:(int)flags;
+- (void)completeAddInputString:(NSString *)key;
+- (void)clearAutocorrectPromptTimer;
+- (void)removeAutocorrectPromptAndCandidateList;
+- (void)_setAutocorrects:(BOOL)enabled;
+- (BOOL)usesAutocorrectionLists;
+- (void)setAutocorrectSpellingEnabled:(BOOL)enabled;
 
 - (UIKeyboardLayoutStar *)_layout;
 
@@ -119,6 +131,7 @@
 
 - (void)clearText
 {
+    [self debugLog:@"%@", NSStringFromSelector(_cmd)];
     NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type. Did you forget to add the views into a UIWindow?");
     UIKeyboardImpl *impl = [self activeKeyboardImpl];
     [impl handleClear];
@@ -127,6 +140,7 @@
 
 - (void)typeString:(NSString *)string
 {
+    [self debugLog:@"%@\"%@\"", NSStringFromSelector(_cmd), string];
     NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type. Did you forget to add the views into a UIWindow?");
     for (NSInteger i = 0; i < string.length; i++) {
         NSString *character = [string substringWithRange:NSMakeRange(i, 1)];
@@ -136,12 +150,14 @@
 
 - (void)typeKey:(NSString *)key
 {
+    [self debugLog:@"%@\"%@\"", NSStringFromSelector(_cmd), key];
     NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type. Did you forget to add the views into a UIWindow?");
     [self typeCharacter:key];
 }
 
 - (void)typeKeys:(NSArray *)keys
 {
+    [self debugLog:@"%@%@", NSStringFromSelector(_cmd), keys];
     NSAssert([self activeKeyboard], @"Keyboard is not active. Cannot type. Did you forget to add the views into a UIWindow?");
     for (NSString *key in keys) {
         if ([self isKnownSpecialKey:key]) {
@@ -154,12 +170,26 @@
 
 - (void)dismiss
 {
+    [self debugLog:@"%@", NSStringFromSelector(_cmd)];
     [RBTimeLapse disableAnimationsInBlock:^{
         [[self activeKeyboardImpl] dismissKeyboard];
     }];
 }
 
 #pragma mark - Private
+
+- (void)debugLog:(NSString *)format, ...
+{
+    if (self.debug) {
+        va_list args;
+        va_start(args, format);
+        NSString *message = [NSString stringWithFormat:@"%@ [RBKeyboard]: %@",
+                             [NSDate date],
+                             [[NSString alloc] initWithFormat:format arguments:args]];
+        printf("%s\n", message.UTF8String);
+        va_end(args);
+    }
+}
 
 - (UIKeyboard *)activeKeyboard
 {
@@ -173,6 +203,7 @@
 
 - (void)typeCharacter:(NSString *)character
 {
+    [self debugLog:@"%@\"%@\"", NSStringFromSelector(_cmd), character];
     UIKeyboardImpl *keyboardImpl = [self activeKeyboardImpl];
     UIKeyboardLayoutStar *layout = [keyboardImpl _layout];
 
@@ -181,31 +212,27 @@
     id keyplane = [[keyboardImpl _layout] keyplaneForKey:key];
     if (keyplane != [layout currentKeyplane]) {
         [layout changeToKeyplane:keyplane];
+        [self debugLog:@" -> Changing Keyplane: %@", [keyplane name]];
         NSAssert([layout currentKeyplane] == keyplane, @"Failed to find key: %@", key);
+    } else {
+        [self debugLog:@" -> Current Keyplane: %@", [keyplane name]];
     }
 
     if ([[key representedString] isEqual:character]) {
         CGRect frame = key.frame;
         CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
-        CGPoint windowPoint = [layout convertPoint:keyCenter toView:nil];
+        CGPoint referencePoint = [layout convertPoint:keyCenter toView:nil];
 
-        UIView *touchedView = [layout.window hitTest:windowPoint withEvent:nil];
-        RBTouch *touch = [[RBTouch alloc] initWithWindowPoint:windowPoint
-                                                        phase:UITouchPhaseBegan
-                                                       inView:touchedView
-                                                  atTimestamp:CFAbsoluteTimeGetCurrent()];
+        [self debugLog:@" -> Tapping Key (%@ -> %@)", NSStringFromCGPoint(keyCenter), NSStringFromCGPoint(referencePoint)];
 
-        // instead of going through UIWindow, pass the touch to the layout directly to be slightly faster
-        // this is the same tactic that UIKit's simulated touches do
-        [layout touchesBegan:[NSSet setWithObject:touch] withEvent:nil];
-        [touch updatePhase:UITouchPhaseEnded];
-        [layout touchesEnded:[NSSet setWithObject:touch] withEvent:nil];
+        [RBTouch tapOnView:layout.window atPoint:referencePoint];
     } else {
-        // accented characters
+        [self debugLog:@" -> Insert Accented Character"];
         [keyboardImpl addInputString:character withFlags:2];
     }
-
     [[keyboardImpl taskQueue] waitUntilAllTasksAreFinished];
+    [keyboardImpl clearAutocorrectPromptTimer];
+    [keyboardImpl removeAutocorrectPromptAndCandidateList];
 }
 
 - (BOOL)isKnownSpecialKey:(NSString *)key

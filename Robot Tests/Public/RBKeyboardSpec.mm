@@ -11,6 +11,7 @@ SPEC_BEGIN(RBKeyboardSpec)
 describe(@"RBKeyboard", ^{
     __block SampleViewController *controller;
     __block id<UITextFieldDelegate> textDelegate;
+    __block UIWindow *window;
 
     beforeEach(^{
         textDelegate = nice_fake_for(@protocol(UITextFieldDelegate));
@@ -22,11 +23,16 @@ describe(@"RBKeyboard", ^{
         controller = [[SampleViewController alloc] init];
         controller.view should_not be_nil;
         controller.textField.delegate = textDelegate;
-        [UIWindow createWindowForTesting].rootViewController = controller;
+        window = [UIWindow createWindowForTesting];
+        window.rootViewController = controller;
     });
 
     afterEach(^{
         [[RBKeyboard mainKeyboard] dismiss];
+        for (UIView *subview in [window.subviews copy]) {
+            [subview removeFromSuperview];
+        }
+        window = nil;
     });
 
     describe(@"becoming first responder", ^{
@@ -42,7 +48,7 @@ describe(@"RBKeyboard", ^{
 
     describe(@"typing in a number text field", ^{
         beforeEach(^{
-            controller.textField.keyboardType = UIKeyboardTypeNumberPad;
+            controller.textField.keyboardType = UIKeyboardTypeDecimalPad;
             tapOn(controller.textField); // sadly logs in iOS 8
             [[RBKeyboard mainKeyboard] typeString:@"123"];
         });

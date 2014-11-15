@@ -19,6 +19,13 @@
 		1F45D7C7191647F2005271F1 /* RBKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F45D7C2191647F2005271F1 /* RBKeyboard.m */; };
 		1F5C014F19BD550B00F2A6B6 /* libCedar-StaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5C014219BD550200F2A6B6 /* libCedar-StaticLib.a */; };
 		1F6A28C719B4BBB100A31E0D /* RBViewQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6A28C619B4BBB100A31E0D /* RBViewQuery.m */; };
+		1F6C41361A171A33003B6C83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C41351A171A33003B6C83 /* main.m */; };
+		1F6C41391A171A33003B6C83 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C41381A171A33003B6C83 /* AppDelegate.m */; };
+		1F6C413C1A171A33003B6C83 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C413B1A171A33003B6C83 /* ViewController.m */; };
+		1F6C413F1A171A33003B6C83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C413D1A171A33003B6C83 /* Main.storyboard */; };
+		1F6C41411A171A33003B6C83 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C41401A171A33003B6C83 /* Images.xcassets */; };
+		1F6C41441A171A33003B6C83 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C41421A171A33003B6C83 /* LaunchScreen.xib */; };
+		1F6C41641A171A86003B6C83 /* libRobot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D75F1915E581005271F1 /* libRobot.a */; };
 		1F7E867419399A690039400F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7731915E581005271F1 /* UIKit.framework */; };
 		1F7E867519399A690039400F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F45D7621915E581005271F1 /* Foundation.framework */; };
 		1F7E867619399A690039400F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FEB7D841936EB6A006F7479 /* CoreGraphics.framework */; };
@@ -114,6 +121,13 @@
 			remoteGlobalIDString = 96158A86144A915E005895CE;
 			remoteInfo = OCUnitAppLogicTests;
 		};
+		1F6C41621A171A82003B6C83 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F45D7571915E581005271F1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F45D75E1915E581005271F1;
+			remoteInfo = Robot;
+		};
 		1F7E868B19399A730039400F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1F45D7571915E581005271F1 /* Project object */;
@@ -163,6 +177,18 @@
 		1F61923219A1986600FFDCA9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1F6A28C519B4BBB100A31E0D /* RBViewQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBViewQuery.h; sourceTree = "<group>"; };
 		1F6A28C619B4BBB100A31E0D /* RBViewQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBViewQuery.m; sourceTree = "<group>"; };
+		1F6C41311A171A33003B6C83 /* Robot Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Robot Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F6C41341A171A33003B6C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F6C41351A171A33003B6C83 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1F6C41371A171A33003B6C83 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1F6C41381A171A33003B6C83 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1F6C413A1A171A33003B6C83 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1F6C413B1A171A33003B6C83 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1F6C413E1A171A33003B6C83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1F6C41401A171A33003B6C83 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1F6C41431A171A33003B6C83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		1F6C414E1A171A33003B6C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F6C414F1A171A33003B6C83 /* Robot_SampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Robot_SampleTests.m; sourceTree = "<group>"; };
 		1F6F701319B6B2F90021CBA5 /* RBUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUtils.h; sourceTree = "<group>"; };
 		1F6F701619B6B3050021CBA5 /* RBMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBMacros.h; sourceTree = "<group>"; };
 		1F7E867319399A690039400F /* Robot Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Robot Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,6 +235,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1F6C412E1A171A33003B6C83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F6C41641A171A86003B6C83 /* libRobot.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1F7E867019399A690039400F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -241,6 +275,8 @@
 				1F61923219A1986600FFDCA9 /* README.md */,
 				1FC4916C193BA0AD00C8087D /* Default-568h@2x.png */,
 				1F5C012C19BD54F300F2A6B6 /* Externals */,
+				1F6C41321A171A33003B6C83 /* Robot Sample */,
+				1F6C414C1A171A33003B6C83 /* Robot SampleTests */,
 				1F45D7611915E581005271F1 /* Frameworks */,
 				1F45D7601915E581005271F1 /* Products */,
 				1F45D7641915E581005271F1 /* Robot */,
@@ -253,6 +289,7 @@
 			children = (
 				1F45D75F1915E581005271F1 /* libRobot.a */,
 				1F7E867319399A690039400F /* Robot Tests.app */,
+				1F6C41311A171A33003B6C83 /* Robot Sample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -346,6 +383,47 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1F6C41321A171A33003B6C83 /* Robot Sample */ = {
+			isa = PBXGroup;
+			children = (
+				1F6C41371A171A33003B6C83 /* AppDelegate.h */,
+				1F6C41381A171A33003B6C83 /* AppDelegate.m */,
+				1F6C413A1A171A33003B6C83 /* ViewController.h */,
+				1F6C413B1A171A33003B6C83 /* ViewController.m */,
+				1F6C413D1A171A33003B6C83 /* Main.storyboard */,
+				1F6C41401A171A33003B6C83 /* Images.xcassets */,
+				1F6C41421A171A33003B6C83 /* LaunchScreen.xib */,
+				1F6C41331A171A33003B6C83 /* Supporting Files */,
+			);
+			path = "Robot Sample";
+			sourceTree = "<group>";
+		};
+		1F6C41331A171A33003B6C83 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1F6C41341A171A33003B6C83 /* Info.plist */,
+				1F6C41351A171A33003B6C83 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1F6C414C1A171A33003B6C83 /* Robot SampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				1F6C414F1A171A33003B6C83 /* Robot_SampleTests.m */,
+				1F6C414D1A171A33003B6C83 /* Supporting Files */,
+			);
+			path = "Robot SampleTests";
+			sourceTree = "<group>";
+		};
+		1F6C414D1A171A33003B6C83 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1F6C414E1A171A33003B6C83 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		1FBA18831939CC7700EF9E38 /* Private */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,6 +511,24 @@
 			productReference = 1F45D75F1915E581005271F1 /* libRobot.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		1F6C41301A171A33003B6C83 /* Robot Sample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F6C41601A171A33003B6C83 /* Build configuration list for PBXNativeTarget "Robot Sample" */;
+			buildPhases = (
+				1F6C412D1A171A33003B6C83 /* Sources */,
+				1F6C412E1A171A33003B6C83 /* Frameworks */,
+				1F6C412F1A171A33003B6C83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F6C41631A171A82003B6C83 /* PBXTargetDependency */,
+			);
+			name = "Robot Sample";
+			productName = "Robot Sample";
+			productReference = 1F6C41311A171A33003B6C83 /* Robot Sample.app */;
+			productType = "com.apple.product-type.application";
+		};
 		1F7E867219399A690039400F /* Robot Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F7E868719399A6A0039400F /* Build configuration list for PBXNativeTarget "Robot Tests" */;
@@ -459,6 +555,11 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Jeff Hui";
+				TargetAttributes = {
+					1F6C41301A171A33003B6C83 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
 			};
 			buildConfigurationList = 1F45D75A1915E581005271F1 /* Build configuration list for PBXProject "Robot" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -466,6 +567,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 1F45D7561915E581005271F1;
 			productRefGroup = 1F45D7601915E581005271F1 /* Products */;
@@ -480,6 +582,7 @@
 			targets = (
 				1F45D75E1915E581005271F1 /* Robot */,
 				1F7E867219399A690039400F /* Robot Tests */,
+				1F6C41301A171A33003B6C83 /* Robot Sample */,
 			);
 		};
 /* End PBXProject section */
@@ -558,6 +661,16 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1F6C412F1A171A33003B6C83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F6C413F1A171A33003B6C83 /* Main.storyboard in Resources */,
+				1F6C41441A171A33003B6C83 /* LaunchScreen.xib in Resources */,
+				1F6C41411A171A33003B6C83 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1F7E867119399A690039400F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -592,6 +705,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1F6C412D1A171A33003B6C83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F6C413C1A171A33003B6C83 /* ViewController.m in Sources */,
+				1F6C41391A171A33003B6C83 /* AppDelegate.m in Sources */,
+				1F6C41361A171A33003B6C83 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1F7E866F19399A690039400F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -613,12 +736,36 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1F6C41631A171A82003B6C83 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F45D75E1915E581005271F1 /* Robot */;
+			targetProxy = 1F6C41621A171A82003B6C83 /* PBXContainerItemProxy */;
+		};
 		1F7E868C19399A730039400F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1F45D75E1915E581005271F1 /* Robot */;
 			targetProxy = 1F7E868B19399A730039400F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1F6C413D1A171A33003B6C83 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1F6C413E1A171A33003B6C83 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1F6C41421A171A33003B6C83 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1F6C41431A171A33003B6C83 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1F45D7801915E581005271F1 /* Debug */ = {
@@ -719,6 +866,42 @@
 			};
 			name = Release;
 		};
+		1F6C41511A171A33003B6C83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Robot Sample/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1F6C41521A171A33003B6C83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Robot Sample/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		1F7E868819399A6A0039400F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -800,6 +983,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		1F6C41601A171A33003B6C83 /* Build configuration list for PBXNativeTarget "Robot Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F6C41511A171A33003B6C83 /* Debug */,
+				1F6C41521A171A33003B6C83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		1F7E868719399A6A0039400F /* Build configuration list for PBXNativeTarget "Robot Tests" */ = {
 			isa = XCConfigurationList;

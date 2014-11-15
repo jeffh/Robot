@@ -55,10 +55,11 @@
                 atTimestamp:(CFAbsoluteTime)timestamp
 {
     NSAssert(view, @"Received a nil view. Needs to be a view inside a UIWindow.");
-    NSAssert(view.superview, @"Touched view does not have a superview. Needs to be under a visible UIWindow");
-    NSAssert(view.window, @"Touch events require views to be under a visible UIWindow");
-    CGPoint windowPoint = [view.window convertPoint:point fromView:view.superview];
-    NSAssert([view.window hitTest:windowPoint withEvent:nil],
+    NSAssert([view isKindOfClass:[UIWindow class]] || view.superview, @"Touched view does not have a superview. Needs to be under a visible UIWindow");
+    NSAssert([view isKindOfClass:[UIWindow class]] || view.window, @"Touch events require views to be under a visible UIWindow");
+    UIWindow *window = view.window ?: (UIWindow *)view;
+    CGPoint windowPoint = [window convertPoint:point fromView:view.superview];
+    NSAssert([window hitTest:windowPoint withEvent:nil],
              @"Attempted to touch an untouchable view at screen point %@:\n"
              @"\t%@\n"
              @"\n"
@@ -69,8 +70,8 @@
              @" - The view you're trying to touch is hidden\n"
              @" - The view you're trying to touch is not accepting touches (userInteraction disabled; disabled control, etc.)\n"
              @" - The UIWindow this view resides in is not the key window and visible; call [window makeKeyAndVisible]\n",
-             NSStringFromCGPoint(windowPoint), view, [view.window hitTest:point withEvent:nil]);
-    RBTouch *touch = [self touchAtPoint:windowPoint inWindow:view.window atTimestamp:timestamp];
+             NSStringFromCGPoint(windowPoint), view, [window hitTest:point withEvent:nil]);
+    RBTouch *touch = [self touchAtPoint:windowPoint inWindow:window atTimestamp:timestamp];
     return touch;
 }
 
