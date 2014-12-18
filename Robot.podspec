@@ -1,14 +1,4 @@
-#  Be sure to run `pod spec lint Robot.podspec' to ensure this is a
-
 Pod::Spec.new do |s|
-
-  # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  #
-  #  These will help people to find your library, and whilst it
-  #  can feel like a chore to fill in it's definitely to your advantage. The
-  #  summary should be tweet-length, and the description more in depth.
-  #
-
   s.name         = "Robot"
   s.version      = "0.0.1"
   s.summary      = "An experimental reliable, fast UIKit test driver"
@@ -29,11 +19,12 @@ Pod::Spec.new do |s|
 				*Kiwi
                    DESC
 
-  s.homepage     = "https://github.com/jeffh/Robot"
-  s.author             = { "Jeff H" => "jeff@jeffhui.net" }
-  s.platform     = :ios
+  s.homepage              = "https://github.com/jeffh/Robot"
+  s.license               = { :type => 'Apache 2.0', :file => 'LICENSE' }
+  s.author                = { "Jeff Hui" => "jeff@jeffhui.net" }
+  s.platform              = :ios
   s.ios.deployment_target = "7.1"
-  s.source       = { :git => "https://github.com/jeffh/robot.git", :commit => "3efdcd47a156260abf920dcc24669e6cb2b989e8" }
-  s.source_files  = "Robot", "Robot/**/*.{h,m}"
-
+  s.source                = { :git => "https://github.com/jeffh/robot.git", :tag => "v0.0.1" }
+  s.source_files          = "Robot", "Robot/**/*.{h,m}"
+  s.public_header_files   = 'Robot/Public/**/*.h'
 end
