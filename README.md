@@ -152,7 +152,7 @@ allViews(withText(@"Hello")).insideOneOf(@[myView1, myView2]);
 
 Sorting can also be applied with an array of ``NSSortDescriptors``:
 
-```
+```objc
 // sort all the views by smallest origin first. Smallest is by y first, then x.
 allViews(...).sortedBy(@[smallestOrigin()]);
 // reverse sort
@@ -166,7 +166,7 @@ allViews(...).sortedBy(@[largestSize()]);
 
 All these can be chained:
 
-```
+```objc
 allViews(...).inside(myView).sortedBy(@[smallestOrigin()]);
 ```
 
@@ -176,7 +176,7 @@ Table Views
 Verifying behavior of table views would still be cumbersome without some model to inspect
 the table without explicitly scrolling. Use ``RBTableViewCellsProxy``:
 
-```
+```objc
 RBTableViewCellsProxy *cells = [RBTableViewCellsProxy cellsFromTableView:tableView];
 cells[0] // -> Returns proxy to the first table view's cell
 [cells[0] textLabel].text // works as expected
@@ -191,7 +191,7 @@ Keyboard
 Robot wraps UIKit's keyboard with a basic interface to control it. The
 interface is on ``RBKeyboard``:
 
-```
+```objc
 // focus a text field to get keyboard focus
 tapOn(textField);
 
@@ -205,7 +205,7 @@ tapOn(textField);
 
 To type special characters on the keyboard use ``-[typeKey:]`` instead:
 
-```
+```objc
 // press delete key
 [[RBKeyboard mainKeyboard] typeKey:RBKeyDelete];
 ```
@@ -221,14 +221,14 @@ Along with ``RBTouch`` there are DSL functions that can keep you syntax concise 
 
 The most common action are to tap elements:
 
-```
+```objc
 tapOn(myButton);
 tapOn(myViewQuery);
 ```
 
 But more complex gestures are supported:
 
-```
+```objc
 swipeLeftOn(myView);
 swipeUpOn(myView);
 swipeDownOn(myView);
@@ -241,7 +241,7 @@ Time Lapse
 Robot can optionally speed up specific operations as needed. To disable animations under
 test and call any completion blocks, use the ``-[disableAnimationsInBlock:]`` API:
 
-```
+```objc
 [RBTimeLapse disableAnimationsInBlock:^{
     [UIView animateWithDuration:2 animations:^{
         view.x = 200;        
@@ -258,7 +258,7 @@ and set timer delays to zero.
 
 If you just want the latter without disabling animations, you can do:
 
-```
+```objc
 [logger performSelector:@selector(logMessage:) withObject:@"hello" afterDelay:1];
 [RBTimeLapse advanceMainRunLoop]; // calls [logger logMessage:@"hello"]
 ```
