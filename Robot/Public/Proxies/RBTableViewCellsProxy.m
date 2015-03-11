@@ -26,12 +26,6 @@
     return self;
 }
 
-- (instancetype)init
-{
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
 #pragma mark - Public
 
 - (id)cellForRow:(NSUInteger)row inSection:(NSUInteger)section
