@@ -121,7 +121,10 @@
     if ([predicate evaluateWithObject:object substitutionVariables:substitutionVariables]) {
         [filteredViews addObject:object];
     }
-    id children = objc_msgSend(object, selector);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    id children = [object performSelector:selector withObject:nil];
+#pragma clang diagnostic pop
     for (id childObject in children) {
         NSArray *matches = [self objectsSatisfyingPredicate:predicate
                                                    inObject:childObject
