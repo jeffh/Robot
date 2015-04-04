@@ -991,6 +991,7 @@
 				1F6C41521A171A33003B6C83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1F7E868719399A6A0039400F /* Build configuration list for PBXNativeTarget "Robot Tests" */ = {
 			isa = XCConfigurationList;

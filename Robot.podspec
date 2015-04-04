@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Robot"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "An experimental reliable, fast UIKit test driver"
 
   s.description  = <<-DESC
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.author                = { "Jeff Hui" => "jeff@jeffhui.net" }
   s.platform              = :ios
   s.ios.deployment_target = "7.1"
-  s.source                = { :git => "https://github.com/jeffh/robot.git", :tag => "v0.0.1" }
+  s.source                = { :git => "https://github.com/jeffh/robot.git", :tag => "v0.0.2" }
   s.source_files          = "Robot", "Robot/**/*.{h,m}"
   s.public_header_files   = 'Robot/Public/**/*.h'
   s.requires_arc          = true
