@@ -1,4 +1,4 @@
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 
 /*! A lazily evaluated array specifically design for gather views. Usually instances are created
