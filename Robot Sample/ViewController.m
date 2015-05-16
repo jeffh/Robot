@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "RBKeyboard.h"
 
-@interface ViewController ()
+@interface ViewController () <UITextFieldDelegate>
 
 @end
 
@@ -20,13 +20,46 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSLog(@"Msg: %@", NSStringFromSelector(_cmd));
+    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    NSLog(@"Msg: %@", NSStringFromSelector(_cmd));
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    NSLog(@"Msg: %@", NSStringFromSelector(_cmd));
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    NSLog(@"Msg: %@", NSStringFromSelector(_cmd));
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    NSLog(@"Msg: %@", NSStringFromSelector(_cmd));
+    return YES;
+}
+
+- (void)logNotification:(NSNotification *)notification {
+    NSLog(@"Notification: %@", notification.name);
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logNotification:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logNotification:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logNotification:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logNotification:) name:UIKeyboardDidChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logNotification:) name:UIKeyboardDidHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logNotification:) name:UIKeyboardDidShowNotification object:nil];
+    self.alphaText.delegate = self;
     [self.alphaText becomeFirstResponder];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[RBKeyboard mainKeyboard] typeString:@"hello world!"];
-    });
+    [[RBKeyboard mainKeyboard] typeString:@"hello world!"];
+    [[RBKeyboard mainKeyboard] dismiss];
 }
 
 - (void)didReceiveMemoryWarning {

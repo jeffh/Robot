@@ -11,6 +11,8 @@
  *  Other non-English keyboard are not tested and may or may not work.
  *  Custom keyboard are not tested with this and will probably NOT work with this.
  *
+ *  Currently, Robot triggers NSNotification events only trigger for iOS 8+.
+ *
  *  Uses private APIs.
  *
  *  @warning be sure to dismiss the keyboard after usage to avoid

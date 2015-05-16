@@ -1,6 +1,7 @@
 #import "Robot.h"
 #import "SampleViewController.h"
 #import "RBTimeLapse.h"
+#import "NotificationRecorder.h"
 
 
 using namespace Cedar::Matchers;
@@ -12,6 +13,7 @@ describe(@"RBKeyboard", ^{
     __block SampleViewController *controller;
     __block id<UITextFieldDelegate> textDelegate;
     __block UIWindow *window;
+    __block NotificationRecorder *notificationRecorder;
 
     beforeEach(^{
         textDelegate = nice_fake_for(@protocol(UITextFieldDelegate));
@@ -20,9 +22,18 @@ describe(@"RBKeyboard", ^{
         textDelegate stub_method(@selector(textFieldShouldClear:)).and_return(YES);
         textDelegate stub_method(@selector(textField:shouldChangeCharactersInRange:replacementString:)).and_return(YES);
 
+        notificationRecorder = [[NotificationRecorder alloc] init];
+        [notificationRecorder observeNotificationName:UIKeyboardWillChangeFrameNotification];
+        [notificationRecorder observeNotificationName:UIKeyboardDidChangeFrameNotification];
+        [notificationRecorder observeNotificationName:UIKeyboardWillHideNotification];
+        [notificationRecorder observeNotificationName:UIKeyboardDidHideNotification];
+        [notificationRecorder observeNotificationName:UIKeyboardWillShowNotification];
+        [notificationRecorder observeNotificationName:UIKeyboardDidShowNotification];
+
         controller = [[SampleViewController alloc] init];
         controller.view should_not be_nil;
         controller.textField.delegate = textDelegate;
+
         window = [UIWindow createWindowForTesting];
         window.rootViewController = controller;
     });
@@ -33,16 +44,36 @@ describe(@"RBKeyboard", ^{
             [subview removeFromSuperview];
         }
         window = nil;
+        notificationRecorder = nil;
+    });
+
+    it(@"should be hidden", ^{
+        [[RBKeyboard mainKeyboard] isVisible] should be_falsy;
     });
 
     describe(@"becoming first responder", ^{
         beforeEach(^{
             [controller.textField isFirstResponder] should be_falsy;
-            [controller.textField becomeFirstResponder];
+            [RBTimeLapse disableAnimationsInBlock:^{
+                [controller.textField becomeFirstResponder];
+            }];
         });
 
         it(@"should become focused", ^{
             controller.textField.isFirstResponder should be_truthy;
+        });
+
+        it(@"should be visible", ^{
+            [[RBKeyboard mainKeyboard] isVisible] should be_truthy;
+        });
+
+        it(@"should trigger NSNotifications", ^{
+            notificationRecorder.notificationNames should contain(UIKeyboardWillShowNotification);
+            notificationRecorder.notificationNames should contain(UIKeyboardWillChangeFrameNotification);
+            notificationRecorder.notificationNames should contain(UIKeyboardDidChangeFrameNotification);
+            notificationRecorder.notificationNames should contain(UIKeyboardDidShowNotification);
+            notificationRecorder.notificationNames should_not contain(UIKeyboardWillHideNotification);
+            notificationRecorder.notificationNames should_not contain(UIKeyboardDidHideNotification);
         });
     });
 
@@ -116,16 +147,29 @@ describe(@"RBKeyboard", ^{
     describe(@"dismissing a keyboard", ^{
         beforeEach(^{
             tapOn(controller.textField);
+            [notificationRecorder.notifications removeAllObjects];
+
             [[RBKeyboard mainKeyboard] dismiss];
         });
 
-        it(@"should tell the delegate", ^{
-            textDelegate should have_received(@selector(textFieldDidEndEditing:));
+        it(@"should not tell the delegate", ^{
+            // dismissing a keyboard does not remove it's firstResponder status
+            textDelegate should_not have_received(@selector(textFieldDidEndEditing:));
         });
 
         it(@"should indicate the keyboard is invisible", ^{
             [[RBKeyboard mainKeyboard] isVisible] should be_falsy;
         });
+
+        it(@"should trigger NSNotifications", ^{
+            notificationRecorder.notificationNames should_not contain(UIKeyboardWillShowNotification);
+            notificationRecorder.notificationNames should_not contain(UIKeyboardDidShowNotification);
+            notificationRecorder.notificationNames should contain(UIKeyboardWillChangeFrameNotification);
+            notificationRecorder.notificationNames should contain(UIKeyboardDidChangeFrameNotification);
+            notificationRecorder.notificationNames should contain(UIKeyboardWillHideNotification);
+            notificationRecorder.notificationNames should contain(UIKeyboardDidHideNotification);
+        });
+
     });
 });
 

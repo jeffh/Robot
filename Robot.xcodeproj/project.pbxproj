@@ -33,6 +33,7 @@
 		1F7E868D19399A7D0039400F /* SampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FEB7DBB193837D2006F7479 /* SampleViewController.m */; };
 		1F7E868E19399A840039400F /* SampleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FEB7DBC193837D2006F7479 /* SampleViewController.xib */; };
 		1F7E868F19399A860039400F /* RBAccessibilitySpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FEB7DBF19383905006F7479 /* RBAccessibilitySpec.mm */; };
+		1F7F55E51B073C7700487350 /* NotificationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7F55E41B073C7700487350 /* NotificationRecorder.m */; };
 		1F82A22F19BEB7BA0034D4BA /* RBAssertionRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F82A22E19BEB7BA0034D4BA /* RBAssertionRecorder.m */; };
 		1F848B4D197BA10D00F0966E /* RBDSLSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F848B4C197BA10D00F0966E /* RBDSLSpec.mm */; };
 		1F848B50197BBCED00F0966E /* RBAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F848B4F197BBCED00F0966E /* RBAccessibility.m */; };
@@ -48,6 +49,9 @@
 		1FC4916B193B287700C8087D /* NSObject+RBKVCUndefined.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4916A193B287700C8087D /* NSObject+RBKVCUndefined.m */; settings = {COMPILER_FLAGS = "-fobjc-arc-exceptions"; }; };
 		1FC4916D193BA0AD00C8087D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4916C193BA0AD00C8087D /* Default-568h@2x.png */; };
 		1FC49170193BB11B00C8087D /* NSObject+RBSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4916F193BB11B00C8087D /* NSObject+RBSwizzle.m */; };
+		1FD34AD61B0705DA00DB7D0B /* UIEvent+RBKIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FD34AD41B0705DA00DB7D0B /* UIEvent+RBKIF.h */; };
+		1FD34AD71B0705DA00DB7D0B /* UIEvent+RBKIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD34AD51B0705DA00DB7D0B /* UIEvent+RBKIF.m */; };
+		1FD34AD81B0705DA00DB7D0B /* UIEvent+RBKIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD34AD51B0705DA00DB7D0B /* UIEvent+RBKIF.m */; };
 		AE4865FF1B069C66005DB302 /* Robot Framework.h in Headers */ = {isa = PBXBuildFile; fileRef = AE4865FE1B069C66005DB302 /* Robot Framework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE4866131B069CA2005DB302 /* RBAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F848B4F197BBCED00F0966E /* RBAccessibility.m */; };
 		AE4866141B069CA2005DB302 /* RBCellProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA18851939CCA600EF9E38 /* RBCellProxy.m */; };
@@ -226,6 +230,8 @@
 		1F6F701319B6B2F90021CBA5 /* RBUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBUtils.h; sourceTree = "<group>"; };
 		1F6F701619B6B3050021CBA5 /* RBMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBMacros.h; sourceTree = "<group>"; };
 		1F7E867319399A690039400F /* Robot Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Robot Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F7F55E31B073C7700487350 /* NotificationRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationRecorder.h; sourceTree = "<group>"; };
+		1F7F55E41B073C7700487350 /* NotificationRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationRecorder.m; sourceTree = "<group>"; };
 		1F82A22D19BEB7BA0034D4BA /* RBAssertionRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAssertionRecorder.h; sourceTree = "<group>"; };
 		1F82A22E19BEB7BA0034D4BA /* RBAssertionRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAssertionRecorder.m; sourceTree = "<group>"; };
 		1F848B4C197BA10D00F0966E /* RBDSLSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RBDSLSpec.mm; sourceTree = "<group>"; };
@@ -250,6 +256,8 @@
 		1FC4916C193BA0AD00C8087D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1FC4916E193BB11B00C8087D /* NSObject+RBSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RBSwizzle.h"; sourceTree = "<group>"; };
 		1FC4916F193BB11B00C8087D /* NSObject+RBSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RBSwizzle.m"; sourceTree = "<group>"; };
+		1FD34AD41B0705DA00DB7D0B /* UIEvent+RBKIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIEvent+RBKIF.h"; sourceTree = "<group>"; };
+		1FD34AD51B0705DA00DB7D0B /* UIEvent+RBKIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIEvent+RBKIF.m"; sourceTree = "<group>"; };
 		1FEB7D821936EB6A006F7479 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		1FEB7D841936EB6A006F7479 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		1FEB7DA8193701FD006F7479 /* Robot Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Robot Tests-Info.plist"; sourceTree = "<group>"; };
@@ -484,6 +492,8 @@
 				1FC4916E193BB11B00C8087D /* NSObject+RBSwizzle.h */,
 				1FC4916F193BB11B00C8087D /* NSObject+RBSwizzle.m */,
 				1F6F701319B6B2F90021CBA5 /* RBUtils.h */,
+				1FD34AD41B0705DA00DB7D0B /* UIEvent+RBKIF.h */,
+				1FD34AD51B0705DA00DB7D0B /* UIEvent+RBKIF.m */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -533,6 +543,8 @@
 				1F3F577C19BBD55B0073E308 /* SampleCollectionViewCell.m */,
 				1F82A22D19BEB7BA0034D4BA /* RBAssertionRecorder.h */,
 				1F82A22E19BEB7BA0034D4BA /* RBAssertionRecorder.m */,
+				1F7F55E31B073C7700487350 /* NotificationRecorder.h */,
+				1F7F55E41B073C7700487350 /* NotificationRecorder.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -572,6 +584,7 @@
 				AE48662E1B069D07005DB302 /* RBKeyboard.h in Headers */,
 				AE4866301B069D07005DB302 /* RBTouch.h in Headers */,
 				AE4866311B069D07005DB302 /* RBDSL.h in Headers */,
+				1FD34AD61B0705DA00DB7D0B /* UIEvent+RBKIF.h in Headers */,
 				AE4866321B069D07005DB302 /* RBViewQuery.h in Headers */,
 				AE4866331B069D07005DB302 /* RBMacros.h in Headers */,
 				AE4866221B069CF7005DB302 /* RBAccessibility.h in Headers */,
@@ -812,6 +825,7 @@
 				1FBA18861939CCA600EF9E38 /* RBCellProxy.m in Sources */,
 				1F45D7C6191647F2005271F1 /* RBTimeLapse.m in Sources */,
 				1FBA18AA193B111900EF9E38 /* RBDSL.m in Sources */,
+				1FD34AD71B0705DA00DB7D0B /* UIEvent+RBKIF.m in Sources */,
 				1FBA18A4193AD4CF00EF9E38 /* RBTouch.m in Sources */,
 				1FBA1890193A821C00EF9E38 /* NSObject+RBExploratory.m in Sources */,
 				1FBA18A7193B0B2800EF9E38 /* UIWindow+RB.m in Sources */,
@@ -850,6 +864,7 @@
 				1FBA18881939D23200EF9E38 /* RBKeyboardSpec.mm in Sources */,
 				1F82A22F19BEB7BA0034D4BA /* RBAssertionRecorder.m in Sources */,
 				1FBA188A1939DB0F00EF9E38 /* RBTouchSpec.mm in Sources */,
+				1F7F55E51B073C7700487350 /* NotificationRecorder.m in Sources */,
 				1FBA18821939C06900EF9E38 /* RBTableViewCellsProxySpec.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -862,6 +877,7 @@
 				AE4866141B069CA2005DB302 /* RBCellProxy.m in Sources */,
 				AE4866151B069CA2005DB302 /* NSObject+RBExploratory.m in Sources */,
 				AE4866161B069CA2005DB302 /* NSObject+RBKVCUndefined.m in Sources */,
+				1FD34AD81B0705DA00DB7D0B /* UIEvent+RBKIF.m in Sources */,
 				AE4866171B069CA2005DB302 /* NSObject+RBSwizzle.m in Sources */,
 				AE4866181B069CA2005DB302 /* RBTableViewCellsProxy.m in Sources */,
 				AE4866191B069CA2005DB302 /* RBCollectionViewCellsProxy.m in Sources */,
@@ -1021,7 +1037,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Robot Sample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1037,7 +1053,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = "Robot Sample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1071,6 +1087,8 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
+					"-framework",
+					IOKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1100,6 +1118,8 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
+					"-framework",
+					IOKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1209,6 +1229,7 @@
 				AE48660E1B069C66005DB302 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

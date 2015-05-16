@@ -90,7 +90,7 @@ static void CFZeroFireDateOfTimers(CFArrayRef timers) {
     // We want both delegate methods to fire, so we need to figure out how to trigger this.
     //
     // Since CoreAnimation's callbacks attach to the runloop to run on the next iteration,
-    // we must advance the run loop to advance.
+    // we must advance the run loop to invoke callbacks.
 
     // Disable UIView animations
     [UIView setAnimationsEnabled:NO];
