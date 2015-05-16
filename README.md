@@ -24,6 +24,22 @@ And like KIF, this uses private APIs.
 tapOn(theFirstView(withLabel(@"Cancel")));
 ```
 
+Installation
+============
+
+Use cocoapods:
+
+```
+pod 'Robot'
+```
+
+Or pull this in as a subproject and link `IOKit`. The easiest way is to add it to your "Other Linker Flags" build settings:
+
+```
+-framework IOKit
+```
+
+
 Components
 ==========
 
