@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AE4865F91B069C66005DB302"
-               BuildableName = "Robot Framework.framework"
+               BuildableName = "Robot.framework"
                BlueprintName = "Robot Framework"
                ReferencedContainer = "container:Robot.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AE4865F91B069C66005DB302"
-            BuildableName = "Robot Framework.framework"
+            BuildableName = "Robot.framework"
             BlueprintName = "Robot Framework"
             ReferencedContainer = "container:Robot.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AE4865F91B069C66005DB302"
-            BuildableName = "Robot Framework.framework"
+            BuildableName = "Robot.framework"
             BlueprintName = "Robot Framework"
             ReferencedContainer = "container:Robot.xcodeproj">
          </BuildableReference>
@@ -94,7 +94,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AE4865F91B069C66005DB302"
-            BuildableName = "Robot Framework.framework"
+            BuildableName = "Robot.framework"
             BlueprintName = "Robot Framework"
             ReferencedContainer = "container:Robot.xcodeproj">
          </BuildableReference>

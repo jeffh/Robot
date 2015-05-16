@@ -1,5 +1,6 @@
 #import "RBTouch.h"
 #import "RBTimeLapse.h"
+#import "UIEvent+RBKIF.h"
 
 
 @interface UITouch (PrivateAPIs)
@@ -147,12 +148,12 @@
     NSAssert(view.window, @"Touch events require views to be under a visible UIWindow");
     self = [super init];
     if (self) {
+        [self setWindow:view.window];
         [self setPhase:phase];
         [self setTimestamp:timestamp];
         [self setTapCount:1];
         [self setIsTap:YES];
         [self setView:view];
-        [self setWindow:view.window];
         [self _setIsFirstTouchForView:YES];
         [self _setLocationInWindow:windowPoint resetPrevious:YES];
     }
@@ -183,6 +184,7 @@
 {
     UITouchesEvent *event = [[UIApplication sharedApplication] _touchesEvent];
     [event _setTimestamp:[self timestamp]];
+    [event RB_setEventWithTouches:@[self]];
     if (![[event allTouches] containsObject:self]) {
         [event _addTouch:self forDelayedDelivery:NO];
     }

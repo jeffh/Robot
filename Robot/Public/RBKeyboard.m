@@ -5,6 +5,53 @@
 
 
 /////////////////////////// START Private APIs /////////////////////////
+@interface UIPeripheralHost : NSObject
++ (instancetype)sharedInstance;
+-(void)createHostViewIfNeeded;
+-(BOOL)isOnScreen;
+-(BOOL)isOffScreen;
+-(void)manualKeyboardWasOrderedIn:(id)anIn;
+-(void)orderInAutomatic;
+-(void)orderInAutomaticSkippingAnimation;
+-(void)orderInAutomaticFromDirection:(int)direction withDuration:(double)duration;
+-(void)orderOutAutomatic;
+-(void)orderOutAutomaticSkippingAnimation;
+-(void)orderOutAutomaticToDirection:(int)direction withDuration:(double)duration;
+-(void)prepareForRotationToOrientation:(int)orientation;
+-(void)rotateToOrientation:(int)orientation;
+-(void)finishRotation;
+-(void)prepareForRotationOfKeyboard:(id)keyboard toOrientation:(int)orientation;
+-(void)rotateKeyboard:(id)keyboard toOrientation:(int)orientation;
+-(void)finishRotationOfKeyboard:(id)keyboard;
+-(void)completeCurrentTransitionIfNeeded;
+
+-(void)setAutomaticAppearanceEnabledForMail:(BOOL)mail;
+-(void)forceOrderInAutomatic;
+-(void)forceOrderOutAutomatic;
+-(void)forceOrderInAutomaticAnimated:(BOOL)automaticAnimated;
+-(void)forceOrderOutAutomaticAnimated:(BOOL)animated;
+-(void)forceOrderInAutomaticFromDirection:(int)direction withDuration:(double)duration;
+-(void)forceOrderOutAutomaticToDirection:(int)direction withDuration:(double)duration;
+-(id)containerWindow;
+-(id)automaticKeyboard;
+-(BOOL)hasCustomInputView;
+-(BOOL)isHostingActiveImpl;
+-(void)setPeripheralToolbarFrameForHostWidth:(float)hostWidth;
+-(void)setPeripheralFrameForHostBounds:(CGRect)hostBounds;
+-(CGSize)totalPeripheralSizeForOrientation:(int)orientation;
+-(void)orderInWithAnimation:(BOOL)animation;
+-(void)orderInWithAnimation:(BOOL)animation fromDirection:(int)direction duration:(double)duration;
+-(void)orderOutWithAnimation:(BOOL)animation;
+-(void)syncToExistingAnimations;
+-(void)resetOrderOutDuration:(double)duration;
+-(void)resetOrderOutDuration:(double)duration toCenter:(CGPoint)center;
+-(BOOL)_isSuppressedByManualKeyboard;
+-(void)orderOutWithAnimation:(BOOL)animation toDirection:(int)direction duration:(double)duration;
+-(void)keyboardAutomaticWillOrderIn:(id)keyboardAutomatic context:(void*)context;
+-(void)keyboardAutomaticOrderIn:(id)anIn finished:(id)finished;
+-(void)keyboardAutomaticOrderOut:(id)anOut finished:(id)finished;
+@end
+
 @interface UIKeyboard : UIView
 
 + (instancetype)activeKeyboard;
@@ -119,14 +166,8 @@
 }
 
 - (BOOL)isVisible {
-    UIKeyboardImpl *impl = [self activeKeyboardImpl];
-    if ([impl respondsToSelector:@selector(delegateAsResponder)]) {
-        return [impl delegateAsResponder] != nil;
-    }
-    if ([impl respondsToSelector:@selector(delegate)]) {
-        return [impl delegate] != nil;
-    }
-    return [[self activeKeyboardImpl] delegate] != nil;
+    [[UIPeripheralHost sharedInstance] syncToExistingAnimations];
+    return [[UIPeripheralHost sharedInstance] isOnScreen];
 }
 
 - (void)clearText
@@ -171,9 +212,7 @@
 - (void)dismiss
 {
     [self debugLog:@"%@", NSStringFromSelector(_cmd)];
-    [RBTimeLapse disableAnimationsInBlock:^{
-        [[self activeKeyboardImpl] dismissKeyboard];
-    }];
+    [[UIPeripheralHost sharedInstance] orderOutAutomaticSkippingAnimation];
 }
 
 #pragma mark - Private
@@ -203,6 +242,7 @@
 
 - (void)typeCharacter:(NSString *)character
 {
+    [[UIPeripheralHost sharedInstance] syncToExistingAnimations];
     [self debugLog:@"%@\"%@\"", NSStringFromSelector(_cmd), character];
     UIKeyboardImpl *keyboardImpl = [self activeKeyboardImpl];
     UIKeyboardLayoutStar *layout = [keyboardImpl _layout];
@@ -218,21 +258,25 @@
         [self debugLog:@" -> Current Keyplane: %@", [keyplane name]];
     }
 
-    if ([[key representedString] isEqual:character]) {
-        CGRect frame = key.frame;
-        CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
-        CGPoint referencePoint = [layout convertPoint:keyCenter toView:nil];
-
-        [self debugLog:@" -> Tapping Key (%@ -> %@)", NSStringFromCGPoint(keyCenter), NSStringFromCGPoint(referencePoint)];
-
-        [RBTouch tapOnView:layout.window atPoint:referencePoint];
-    } else {
-        [self debugLog:@" -> Insert Accented Character"];
-        [keyboardImpl addInputString:character withFlags:2];
-    }
+    [keyboardImpl addInputString:character withFlags:2];
+//    if ([[key representedString] isEqual:character]) {
+//        CGRect frame = key.frame;
+//        CGPoint keyCenter = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
+//        CGPoint referencePoint = [layout convertPoint:keyCenter toView:nil];
+//
+//        [self debugLog:@" -> Tapping Key (%@ -> %@)", NSStringFromCGPoint(keyCenter), NSStringFromCGPoint(referencePoint)];
+//
+//        [RBTouch tapOnView:layout.window atPoint:referencePoint];
+//    } else {
+//        [self debugLog:@" -> Insert Accented Character"];
+//        [keyboardImpl addInputString:character withFlags:2];
+//    }
     [[keyboardImpl taskQueue] waitUntilAllTasksAreFinished];
     [keyboardImpl clearAutocorrectPromptTimer];
-    [keyboardImpl removeAutocorrectPromptAndCandidateList];
+    // iOS 8+
+    if ([keyboardImpl respondsToSelector:@selector(removeAutocorrectPromptAndCandidateList)]) {
+        [keyboardImpl removeAutocorrectPromptAndCandidateList];
+    }
 }
 
 - (BOOL)isKnownSpecialKey:(NSString *)key
