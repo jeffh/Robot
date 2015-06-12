@@ -21,6 +21,8 @@
 @property (nonatomic) UITableViewScrollPosition preferredScrollPosition;
 
 + (instancetype)cellsFromTableView:(UITableView *)tableView;
+
+- (instancetype)init __attribute__((unavailable("Must use -initWithTableView:")));
 - (instancetype)initWithTableView:(UITableView *)tableView;
 
 /*! Returns a table view cell at the given index path
